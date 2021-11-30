@@ -7,23 +7,27 @@
 
 <script>
 export default {
-    name: 'my-button'
+    name: 'button-blue'
 };
 </script>
 
 
 <style scoped lang="scss">
-@import "@/assets/variables.scss";
+    @import "@/assets/variables.scss";
 
 .btn {
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
     font-size: 14px;
-    background-color: $btn-color;
-    color: $main-text;
+    background-color: $btn-blue;
+    color: $white;
     padding: 6px 16px;
     border-radius: 5px;
     border: none;
+
+    &:hover {
+        background-color: $btn-blue-hover;
+    }
 }
 
 </style>

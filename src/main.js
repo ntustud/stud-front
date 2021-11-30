@@ -5,6 +5,7 @@ import router from './router/router';
 import store from './store';
 import "@/assets/styles.scss"
 import "@/assets/variables.scss"
+import "@/assets/reset.scss"
 
 const app = createApp(App);
 

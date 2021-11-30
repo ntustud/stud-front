@@ -1,7 +1,9 @@
-import MyButton from "./MyButton";
-import MySelect from "./MySelect";
+import ButtonBlue from "./ButtonBlue";
+import ButtonGray from "./ButtonGray";
+import Select from "./Select";
 
 export default [
-    MyButton,
-    MySelect
+    ButtonBlue,
+    ButtonGray,
+    Select
 ]
