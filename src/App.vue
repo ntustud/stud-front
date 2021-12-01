@@ -21,8 +21,4 @@ import MyHeader from './components/MyHeader.vue'
     height: 100%;
     background-color: $main-backg;
   }
-
-  .app {
-    height: 100%;
-  }
 </style>

@@ -16,7 +16,7 @@
                 <p class="main-title2 main-symbol">β</p>
             </div>
             <p class="main-text-bottom">Переглядайте актуальний розклад своєї групи</p>
-            <button-blue class="main-btn">Перейти</button-blue>
+            <button-blue class="main-btn" @click="$router.push('/faculty')">Перейти</button-blue>
         </div>
     </section>
 </template> 
