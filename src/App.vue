@@ -1,15 +1,35 @@
 <template>
-  <my-header></my-header>
+  <my-header> {{ headerText }} </my-header>
   <div class="app">
-    <router-view></router-view>
+    <router-view @update:model-value="setHeaderText"></router-view>
   </div>
 </template>
 
 
 <script>
 import MyHeader from './components/MyHeader.vue'
+import { mapState, mapMutations } from "vuex"
+
     export default {
       components: { MyHeader },
+      methods: {
+      ...mapMutations({
+          // setPage: 'post/setPage',
+          // setSearchQuery: 'post/setSearchQuery',
+          setHeaderText: 'timeTable/setHeaderText'
+      }),
+
+      // createPost(post) {
+      //   this.posts.push(post);
+      //   this.dialogVisible = false;
+      // },
+    },
+
+    computed: {
+        ...mapState({
+          headerText: state => state.timeTable.headerText,
+        }),
+      },
     };
 </script>
 

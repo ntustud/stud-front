@@ -12,19 +12,21 @@
         </div>
         <div class="wrapper-bottom">
             <div class="wrapper-title2">
-                <h4 class="main-title2">Розклад </h4>
-                <p class="main-title2 main-symbol">β</p>
+                <h4 class="main-title2">Розклад <span class="main-symbol">β</span></h4>
             </div>
             <p class="main-text-bottom">Переглядайте актуальний розклад своєї групи</p>
-            <button-blue class="main-btn" @click="$router.push('/faculty')">Перейти</button-blue>
+            <button-blue class="main-btn" @click="$router.push('/faculty');">Перейти</button-blue>
         </div>
     </section>
 </template> 
 
 
 <script> 
-export default {
 
+export default {
+    methods: {
+
+    }
 }
 </script>
 
@@ -112,11 +114,7 @@ export default {
 
                 .main-symbol {
                     font-family: 'Open Sans', sans-serif;
-                    font-weight: 400;
-
                     opacity: 0.5;
-
-                    padding-left: 6px;
                 }
             }
 

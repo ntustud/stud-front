@@ -6,7 +6,7 @@
                     <img src="@/assets/img/logo.png" alt="logo-img">
                 </a>
                 <div class="verical-line"></div>
-                <p class="logo-text">Студ</p>
+                <p class="logo-text"><slot></slot></p>
             </div>
             <div class="wrapper-burger">
                 <img src="@/assets/img/burger.png" alt="gurger-image">

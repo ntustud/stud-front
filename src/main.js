@@ -13,6 +13,11 @@ components.forEach(component => {
     app.component(component.name, component)
 });
 
+// router.beforeEach((to, from, next) => {
+//     if (to.name !== '/') console.log(store.timeTable)
+//     else console.log(store.timeTable)
+// })
+
 app
     .use(router)
     .use(store)
