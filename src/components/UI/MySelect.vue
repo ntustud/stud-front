@@ -1,5 +1,5 @@
 <template>
-    <select v-model="modelValue" @change="changeOption" class="my-select">
+    <select v-model="modelValue" @change="changeOption" class="my-select" :class="{'opacity-select': !isSelect}">
         <option disabled value="" class="first-select"> {{ nameSelect }} </option>
         <option v-for="option in options" :key="option.value" :value="option.value" class="my-option"> {{ option.name }} </option>
     </select>
@@ -22,8 +22,15 @@
             }
         },
 
+        data() {
+            return {
+                isSelect: false
+            }
+        },
+
         methods: {
             changeOption(event) {
+                this.isSelect = true;
                 this.$emit('update:modelValue', event.target.value);
             }
         }
@@ -54,7 +61,6 @@
             font-size: 12px;
             line-height: 16px;
 
-            opacity: 50%;
             background: $black;
         }
         .my-option {
@@ -65,5 +71,9 @@
 
     option {
         background: transparent;
+    }
+
+    .opacity-select {
+        opacity: 0.5;
     }
 </style>

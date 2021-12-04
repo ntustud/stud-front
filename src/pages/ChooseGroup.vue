@@ -1,12 +1,12 @@
 <template>
     <section class="faculty-section">
       <div class="wrapper-faculty">
-        <h4 class="faculty-title">Оберіть факультет</h4>
-        <p class="fucylty-subtitle">Кодова назва вашого факультету</p>
-        <my-select :model-value="selectedFaculty" @update:model-value="setSelectedFaculty" :options="fucultyOptions" :nameSelect="'Факультет'"></my-select>
+        <h4 class="faculty-title">Оберіть групу</h4>
+        <p class="fucylty-subtitle">Кодова назва вашої групи</p>
+        <my-select :model-value="selectedGroup" @update:model-value="setsSelectedGroup" :options="groupOptions" :nameSelect="'Група'"></my-select>
         <div class="wrapper-btn">
-          <button-blue class="btn-blue" @click="$router.push('/course');" :disabled="!selectedFaculty" :class="{'btn-disabled': !selectedFaculty}">Далі</button-blue>
-          <button-gray @click="$router.push('/');">Назад</button-gray>
+          <button-blue class="btn-blue" @click="addOptions(); $router.push('');" :disabled="!selectedGroup" :class="{'btn-disabled': !selectedGroup}">Зберегти</button-blue>
+          <button-gray @click="$router.push('/course');">Назад</button-gray>
         </div>
       </div>
     </section>
@@ -19,8 +19,7 @@ import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 export default {
   methods: {
     ...mapMutations({
-    //   setPage: "post/setPage",
-      setSelectedFaculty: "timeTable/setSelectedFaculty",
+        setsSelectedGroup: "timeTable/setsSelectedGroup",
     }),
 
     ...mapActions({
@@ -34,8 +33,9 @@ export default {
   computed: {
       ...mapState({
         // posts: state => state.post.posts,
-        selectedFaculty: state => state.timeTable.selectedFaculty,
-        fucultyOptions: state => state.timeTable.fucultyOptions
+        selectedGroup: state => state.timeTable.selectedGroup,
+        groupOptions: state => state.timeTable.groupOptions,
+        selectedOptions: state => state.timeTable.selectedOptions
       }),
 
      ...mapGetters({
@@ -56,7 +56,6 @@ export default {
 
 <style scoped lang="scss">
 @import "@/assets/variables.scss";
-
 .faculty-section {
   display: flex;
   flex-direction: column;

@@ -1,12 +1,12 @@
 <template>
     <section class="faculty-section">
       <div class="wrapper-faculty">
-        <h4 class="faculty-title">Оберіть факультет</h4>
-        <p class="fucylty-subtitle">Кодова назва вашого факультету</p>
-        <my-select :model-value="selectedFaculty" @update:model-value="setSelectedFaculty" :options="fucultyOptions" :nameSelect="'Факультет'"></my-select>
+        <h4 class="faculty-title">Оберіть курс</h4>
+        <p class="fucylty-subtitle">Номер вашого курсу на факультеті</p>
+        <my-select :model-value="selectedCourse" @update:model-value="setSelectedCourse" :options="courseOptions" :nameSelect="'Курс'"></my-select>
         <div class="wrapper-btn">
-          <button-blue class="btn-blue" @click="$router.push('/course');" :disabled="!selectedFaculty" :class="{'btn-disabled': !selectedFaculty}">Далі</button-blue>
-          <button-gray @click="$router.push('/');">Назад</button-gray>
+          <button-blue class="btn-blue" @click="$router.push('/group');" :disabled="!selectedCourse" :class="{'btn-disabled': !selectedCourse}">Далі</button-blue>
+          <button-gray @click="$router.push('/faculty');">Назад</button-gray>
         </div>
       </div>
     </section>
@@ -19,8 +19,7 @@ import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 export default {
   methods: {
     ...mapMutations({
-    //   setPage: "post/setPage",
-      setSelectedFaculty: "timeTable/setSelectedFaculty",
+        setSelectedCourse: "timeTable/setSelectedCourse",
     }),
 
     ...mapActions({
@@ -30,12 +29,16 @@ export default {
     changeHeaderTitle(text) {
       this.$emit('update:modelValue', text);
     },
+
+    changeDisable() {
+
+    }
   },
   computed: {
       ...mapState({
         // posts: state => state.post.posts,
-        selectedFaculty: state => state.timeTable.selectedFaculty,
-        fucultyOptions: state => state.timeTable.fucultyOptions
+        selectedCourse: state => state.timeTable.selectedCourse,
+        courseOptions: state => state.timeTable.courseOptions
       }),
 
      ...mapGetters({
@@ -56,7 +59,6 @@ export default {
 
 <style scoped lang="scss">
 @import "@/assets/variables.scss";
-
 .faculty-section {
   display: flex;
   flex-direction: column;

@@ -28,6 +28,10 @@ export default {
     &:hover {
         background-color: $btn-blue-hover;
     }
+
+    &:active {
+        background-color: $btn-blue-active;
+    }
 }
 
 </style>

@@ -24,6 +24,14 @@ export default {
     padding: 6px 16px;
     border-radius: 5px;
     border: none;
+
+    &:hover {
+        background: $btn-gray-hover;
+    }
+
+    &:active {
+        background: $btn-gray-active;
+    }
 }
 
 </style>

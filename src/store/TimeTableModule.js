@@ -1,6 +1,9 @@
 export const TimeTableModule = {
     state: () => ({
-        selectedOption: '',
+        selectedFaculty: '',
+        selectedCourse: '',
+        selectedGroup: '',
+        selectedOptions: [],
         headerText: 'Студ',
         fucultyOptions: [
           { value: 'FEIT', name: "ФЭИТ"},
@@ -33,9 +36,17 @@ export const TimeTableModule = {
             state.headerText = headerText;
         },
 
-        // setPage(state, page) {
-        //     state.page = page;
-        // },
+        setSelectedFaculty(state, selectedFaculty) {
+            state.selectedFaculty = selectedFaculty;
+        },
+
+        setSelectedCourse(state, selectedCourse) {
+            state.selectedCourse = selectedCourse;
+        },
+
+        setsSelectedGroup(state, selectedGroup) {
+            state.selectedGroup = selectedGroup;
+        }
     },
 
     actions: {
