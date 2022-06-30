@@ -1,56 +1,125 @@
+import axios from 'axios'
+const ax = axios.create({
+    baseURL: 'http://176.100.13.234:8080',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+});
+
 export const TimeTableModule = {
     state: () => ({
-        selectedFaculty: '',
-        selectedCourse: '',
-        selectedGroup: '',
-        selectedOptions: [],
-        headerText: 'Студ',
-        fucultyOptions: [
-          { value: 'FEIT', name: "ФЭИТ"},
-          { value: 'FPU', name: "ФПУ"},
-          { value: 'IPNY', name: "ИПНУ"},
-          { value: 'NTCH', name: "НТЧ"},
-        ],
-        courseOptions: [
-            { value: 'course1', name: "1"},
-            { value: 'course2', name: "2"},
-            { value: 'course3', name: "3"},
-            { value: 'course4', name: "4"},
-            { value: 'course5', name: "5"},
-            { value: 'course6', name: "6"},
-        ],
-        groupOptions: [
-            { value: 'KI-192', name: "KI-192"},
-            { value: 'BiA-2-1', name: "БіА-2-1"},
-            { value: 'PI-172', name: "ПІ-172"},
-            { value: 'RA-211', name: "РА-211"},
-        ]
+        faculties: [],
     }),
 
     getters: {
-      
+
     },
 
     mutations: {
-        setHeaderText(state, headerText) {
-            state.headerText = headerText;
+        setFaculties(state, data) {
+            state.faculties = data;
         },
-
-        setSelectedFaculty(state, selectedFaculty) {
-            state.selectedFaculty = selectedFaculty;
-        },
-
-        setSelectedCourse(state, selectedCourse) {
-            state.selectedCourse = selectedCourse;
-        },
-
-        setsSelectedGroup(state, selectedGroup) {
-            state.selectedGroup = selectedGroup;
-        }
     },
 
     actions: {
+        async getFaculties({ commit }, university_id) {
+            try {
+                const res = await ax.get(`/university/${university_id}/faculties`);
 
+                commit('setFaculties', res.data.result);
+
+                return res;
+            } catch (error) {
+                throw error;
+            }
+        },
+
+        async getGroupsWhereFacultyAndCourse({ }, { faculty_id, num_course }) {
+            try {
+                const res = await ax.get(`/faculty/${faculty_id}/course/${num_course}/groups`);
+
+                return res;
+            } catch (error) {
+                throw error;
+            }
+        },
+
+        async getLessonSchedulesForDayWhereGroup({ }, { semester_id, group_id, even, day_of_week }) {
+            try {
+                console.log(semester_id, group_id, even, day_of_week);
+                const res = await ax.post(`/semester/${semester_id}/group/${group_id}/lesson/schedules/day`, { even, day_of_week });
+
+                return res;
+            } catch (error) {
+                throw error;
+            }
+        },
+
+        async getCurrentSemester() {
+            try {
+                const res = await ax.get(`/semester/current`);
+
+                return res;
+            } catch (error) {
+                throw error;
+            }
+        },
+
+        async getGroup({ }, group_id) {
+            try {
+                const res = await ax.get(`/group/${group_id}`);
+
+                return res;
+            } catch (error) {
+                throw error;
+            }
+        },
+
+        async getLessonPlan({ }, lesson_plan_id) {
+            try {
+                const res = await ax.get(`/lesson/plan/${lesson_plan_id}`);
+
+                return res;
+            } catch (error) {
+                throw error;
+            }
+        },
+
+        async getLecturer({ }, lecturer_id) {
+            try {
+                const res = await ax.get(`/lecturer/${lecturer_id}`);
+
+                return res;
+            } catch (error) {
+                throw error;
+            }
+        },
+
+        async getCabinet({ }, cabinet_id) {
+            const res = await ax.get(`/cabinet/${cabinet_id}`);
+
+            return res;
+        },
+
+        async getSubject({ }, subject_id) {
+            try {
+                const res = await ax.get(`/subject/${subject_id}`);
+
+                return res;
+            } catch (error) {
+                throw error;
+            }
+        },
+
+        async getBuilding({ }, building_id) {
+            try {
+                const res = await ax.get(`/building/${building_id}`);
+
+                return res;
+            } catch (error) {
+                throw error;
+            }
+        },
     },
     namespaced: true
 }

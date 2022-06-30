@@ -1,58 +1,59 @@
 <template>
-    <section class="faculty-section">
-      <div class="wrapper-faculty">
-        <h4 class="faculty-title">Оберіть курс</h4>
-        <p class="fucylty-subtitle">Номер вашого курсу на факультеті</p>
-        <my-select :model-value="selectedCourse" @update:model-value="setSelectedCourse" :options="courseOptions" :nameSelect="'Курс'"></my-select>
-        <div class="wrapper-btn">
-          <button-blue class="btn-blue" @click="$router.push('/group');" :disabled="!selectedCourse" :class="{'btn-disabled': !selectedCourse}">Далі</button-blue>
-          <button-gray @click="$router.push('/faculty');">Назад</button-gray>
-        </div>
+  <section class="faculty-section">
+    <div class="wrapper-faculty">
+      <h4 class="faculty-title">Оберіть курс</h4>
+      <p class="fucylty-subtitle">Номер вашого курсу на факультеті</p>
+      <select v-model.number="num_course" class="my-select">
+        <option
+          v-for="option in arrCourse"
+          :key="option"
+          :value="option"
+          class="my-option"
+        >
+          {{ option }}
+        </option>
+      </select>
+      <div class="wrapper-btn">
+        <router-link
+          :to="{
+            name: 'group',
+            params: { idFaculty: faculty_id, numCourse: num_course },
+          }"
+        >
+          <button-blue class="btn-blue">Далі</button-blue>
+        </router-link>
+        <router-link :to="{ name: 'faculty' }">
+          <button-gray>Назад</button-gray>
+        </router-link>
       </div>
-    </section>
+    </div>
+  </section>
 </template> 
 
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
-  methods: {
-    ...mapMutations({
-        setSelectedCourse: "timeTable/setSelectedCourse",
-    }),
+  data() {
+    return {
+      selectCourse: 0,
 
-    ...mapActions({
-    //   loadMorePosts: "post/loadMorePosts",
-    }),
+      faculty_id: this.$route.params.idFaculty,
+      num_course: 1,
 
-    changeHeaderTitle(text) {
-      this.$emit('update:modelValue', text);
-    },
-
-    changeDisable() {
-
-    }
+      arrCourse: [1, 2, 3, 4, 5],
+    };
   },
+
   computed: {
-      ...mapState({
-        // posts: state => state.post.posts,
-        selectedCourse: state => state.timeTable.selectedCourse,
-        courseOptions: state => state.timeTable.courseOptions
-      }),
-
-     ...mapGetters({
-        // sortedPost: 'post/sortedPost',
-      }),
+    ...mapState({
+      faculties: (state) => state.timeTable.faculties,
+    }),
   },
 
-  beforeMount(){
-    this.changeHeaderTitle('Розклад');
- },
-
-  beforeUnmount(){
-    this.changeHeaderTitle('Студ');
- },
+  methods: {
+  },
 };
 </script>
 
@@ -73,9 +74,9 @@ export default {
     flex-wrap: nowrap;
     max-width: 300px;
     width: 100%;
-    
+
     .faculty-title {
-      font-family: 'Montserrat', sans-serif;
+      font-family: "Montserrat", sans-serif;
       font-weight: 500;
       font-size: 18px;
 
@@ -83,16 +84,16 @@ export default {
 
       color: $white;
     }
-    
+
     .fucylty-subtitle {
-      font-family: 'Open Sans', sans-serif;
+      font-family: "Open Sans", sans-serif;
       font-size: 14px;
       color: $white;
       opacity: 50%;
 
       margin-bottom: 16px;
     }
-    
+
     .wrapper-btn {
       display: flex;
       margin-top: 16px;
@@ -106,5 +107,37 @@ export default {
 
 .btn-disabled {
   background-color: $d_btn-blue;
+}
+
+.my-select {
+  border: 1px solid $border-gray;
+  box-sizing: border-box;
+  border-radius: 5px;
+
+  padding: 12px 0px 12px 12px;
+
+  width: 100%;
+
+  background: transparent;
+
+  color: $white;
+
+  .first-select {
+    font-family: "Open Sans", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+
+    background: $black;
+  }
+  .my-option {
+    color: $white;
+    background-color: $black;
+  }
+}
+
+option {
+  background: transparent;
 }
 </style>

@@ -1,55 +1,82 @@
 <template>
-    <section class="faculty-section">
-      <div class="wrapper-faculty">
-        <h4 class="faculty-title">Оберіть групу</h4>
-        <p class="fucylty-subtitle">Кодова назва вашої групи</p>
-        <my-select :model-value="selectedGroup" @update:model-value="setsSelectedGroup" :options="groupOptions" :nameSelect="'Група'"></my-select>
-        <div class="wrapper-btn">
-          <button-blue class="btn-blue" @click="addOptions(); $router.push('');" :disabled="!selectedGroup" :class="{'btn-disabled': !selectedGroup}">Зберегти</button-blue>
-          <button-gray @click="$router.push('/course');">Назад</button-gray>
-        </div>
+  <section class="faculty-section">
+    <div class="wrapper-faculty">
+      <h4 class="faculty-title">Оберіть групу</h4>
+      <p class="fucylty-subtitle">Кодова назва вашої групи</p>
+      <select v-model.number="selectGroup" class="my-select">
+        <option
+          v-for="option in groups"
+          :key="option.id"
+          :value="option.id"
+          class="my-option"
+        >
+          {{ option.name }}
+        </option>
+      </select>
+      <div class="wrapper-btn">
+        <router-link
+          :to="{
+            name: 'schedule',
+            params: {
+              idFaculty: payload.faculty_id,
+              numCourse: payload.num_course,
+              idGroup: selectGroup,
+            },
+          }"
+        >
+          <button-blue class="btn-blue">Далі</button-blue>
+        </router-link>
+        <router-link
+          :to="{ name: 'course', params: { idFaculty: payload.faculty_id } }"
+        >
+          <button-gray>Назад</button-gray>
+        </router-link>
       </div>
-    </section>
+    </div>
+  </section>
 </template> 
 
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
+  data() {
+    return {
+      selectGroup: 0,
+      payload: {
+        faculty_id: this.$route.params.idFaculty,
+        num_course: this.$route.params.numCourse,
+      },
+      groups: {},
+    };
+  },
+
+  computed: {
+    ...mapState({
+      faculties: (state) => state.timeTable.faculties,
+    }),
+  },
+
   methods: {
-    ...mapMutations({
-        setsSelectedGroup: "timeTable/setsSelectedGroup",
-    }),
+    ...mapActions("timeTable", ["getGroupsWhereFacultyAndCourse"]),
 
-    ...mapActions({
-    //   loadMorePosts: "post/loadMorePosts",
-    }),
+    async setGroup() {
+      try {
+        const response = await this.getGroupsWhereFacultyAndCourse(
+          this.payload
+        );
 
-    changeHeaderTitle(text) {
-      this.$emit('update:modelValue', text);
+        this.groups = response.data.result;
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
-  computed: {
-      ...mapState({
-        // posts: state => state.post.posts,
-        selectedGroup: state => state.timeTable.selectedGroup,
-        groupOptions: state => state.timeTable.groupOptions,
-        selectedOptions: state => state.timeTable.selectedOptions
-      }),
 
-     ...mapGetters({
-        // sortedPost: 'post/sortedPost',
-      }),
+  mounted() {
+    this.setGroup();
   },
-
-  beforeMount(){
-    this.changeHeaderTitle('Розклад');
- },
-
-  beforeUnmount(){
-    this.changeHeaderTitle('Студ');
- },
 };
 </script>
 
@@ -70,9 +97,9 @@ export default {
     flex-wrap: nowrap;
     max-width: 300px;
     width: 100%;
-    
+
     .faculty-title {
-      font-family: 'Montserrat', sans-serif;
+      font-family: "Montserrat", sans-serif;
       font-weight: 500;
       font-size: 18px;
 
@@ -80,16 +107,16 @@ export default {
 
       color: $white;
     }
-    
+
     .fucylty-subtitle {
-      font-family: 'Open Sans', sans-serif;
+      font-family: "Open Sans", sans-serif;
       font-size: 14px;
       color: $white;
       opacity: 50%;
 
       margin-bottom: 16px;
     }
-    
+
     .wrapper-btn {
       display: flex;
       margin-top: 16px;
@@ -103,5 +130,37 @@ export default {
 
 .btn-disabled {
   background-color: $d_btn-blue;
+}
+
+.my-select {
+  border: 1px solid $border-gray;
+  box-sizing: border-box;
+  border-radius: 5px;
+
+  padding: 12px 0px 12px 12px;
+
+  width: 100%;
+
+  background: transparent;
+
+  color: $white;
+
+  .first-select {
+    font-family: "Open Sans", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+
+    background: $black;
+  }
+  .my-option {
+    color: $white;
+    background-color: $black;
+  }
+}
+
+option {
+  background: transparent;
 }
 </style>

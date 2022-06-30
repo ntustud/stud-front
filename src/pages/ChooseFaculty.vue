@@ -1,55 +1,57 @@
 <template>
-    <section class="faculty-section">
-      <div class="wrapper-faculty">
-        <h4 class="faculty-title">Оберіть факультет</h4>
-        <p class="fucylty-subtitle">Кодова назва вашого факультету</p>
-        <my-select :model-value="selectedFaculty" @update:model-value="setSelectedFaculty" :options="fucultyOptions" :nameSelect="'Факультет'"></my-select>
-        <div class="wrapper-btn">
-          <button-blue class="btn-blue" @click="$router.push('/course');" :disabled="!selectedFaculty" :class="{'btn-disabled': !selectedFaculty}">Далі</button-blue>
-          <button-gray @click="$router.push('/');">Назад</button-gray>
-        </div>
+  <section class="faculty-section">
+    <div class="wrapper-faculty">
+      <h4 class="faculty-title">Оберіть факультет</h4>
+      <p class="fucylty-subtitle">Кодова назва вашого факультету</p>
+      <select
+        v-model.number="selectFaculty"
+        class="my-select"
+      >
+        <option
+          v-for="option in faculties"
+          :key="option.id"
+          :value="option.id"
+          class="my-option"
+        >
+          {{ option.name }}
+        </option>
+      </select>
+      <div class="wrapper-btn">
+        <router-link :to="{ name: 'course', params: { idFaculty: selectFaculty } }">
+          <button-blue class="btn-blue">Далі</button-blue>
+        </router-link>
+        <router-link :to="{name: 'main'}">
+          <button-gray>Назад</button-gray>
+        </router-link>
       </div>
-    </section>
+    </div>
+  </section>
 </template> 
 
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
-  methods: {
-    ...mapMutations({
-    //   setPage: "post/setPage",
-      setSelectedFaculty: "timeTable/setSelectedFaculty",
-    }),
-
-    ...mapActions({
-    //   loadMorePosts: "post/loadMorePosts",
-    }),
-
-    changeHeaderTitle(text) {
-      this.$emit('update:modelValue', text);
-    },
+  data() {
+    return {
+      selectFaculty: 0,
+    };
   },
+
   computed: {
-      ...mapState({
-        // posts: state => state.post.posts,
-        selectedFaculty: state => state.timeTable.selectedFaculty,
-        fucultyOptions: state => state.timeTable.fucultyOptions
-      }),
-
-     ...mapGetters({
-        // sortedPost: 'post/sortedPost',
-      }),
+    ...mapState({
+      faculties: (state) => state.timeTable.faculties,
+    }),
   },
 
-  beforeMount(){
-    this.changeHeaderTitle('Розклад');
- },
+  methods: {
+    ...mapActions("timeTable", ["getFaculties"]),
+  },
 
-  beforeUnmount(){
-    this.changeHeaderTitle('Студ');
- },
+  mounted() {
+    this.getFaculties(1);
+  },
 };
 </script>
 
@@ -71,9 +73,9 @@ export default {
     flex-wrap: nowrap;
     max-width: 300px;
     width: 100%;
-    
+
     .faculty-title {
-      font-family: 'Montserrat', sans-serif;
+      font-family: "Montserrat", sans-serif;
       font-weight: 500;
       font-size: 18px;
 
@@ -81,16 +83,16 @@ export default {
 
       color: $white;
     }
-    
+
     .fucylty-subtitle {
-      font-family: 'Open Sans', sans-serif;
+      font-family: "Open Sans", sans-serif;
       font-size: 14px;
       color: $white;
       opacity: 50%;
 
       margin-bottom: 16px;
     }
-    
+
     .wrapper-btn {
       display: flex;
       margin-top: 16px;
@@ -104,5 +106,37 @@ export default {
 
 .btn-disabled {
   background-color: $d_btn-blue;
+}
+
+.my-select {
+  border: 1px solid $border-gray;
+  box-sizing: border-box;
+  border-radius: 5px;
+
+  padding: 12px 0px 12px 12px;
+
+  width: 100%;
+
+  background: transparent;
+
+  color: $white;
+
+  .first-select {
+    font-family: "Open Sans", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+
+    background: $black;
+  }
+  .my-option {
+    color: $white;
+    background-color: $black;
+  }
+}
+
+option {
+  background: transparent;
 }
 </style>
