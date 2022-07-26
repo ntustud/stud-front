@@ -39,7 +39,7 @@
 
 
 <style scoped lang="scss">
-@import "@/assets/variables.scss";
+@import "@/style";
 
     .my-select {
         border: 1px solid $border-gray;

@@ -8,7 +8,6 @@
 
 <script>
 import MyHeader from "./components/MyHeader.vue";
-import { mapState, mapMutations } from "vuex";
 
 export default {
   components: { MyHeader },
@@ -18,7 +17,9 @@ export default {
 
 
 <style lang="scss">
-@import "@/assets/variables.scss";
+@import '@/style/global.scss';
+@import "@/style";
+
 #app {
   width: 100%;
   height: 100%;

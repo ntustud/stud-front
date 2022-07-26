@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Main from "../pages/Main";
-import ChooseFaculty from "../pages/ChooseFaculty";
-import ChooseCourse from "../pages/ChooseCourse";
-import ChooseGroup from "../pages/ChooseGroup";
+import SelectFaculty from "../pages/SelectFaculty";
+import SelectCourse from "../pages/SelectCourse";
+import SelectGroup from "../pages/SelectGroup";
 import Schedule from "../pages/Schedule";
 
 const routes = [
@@ -14,17 +14,17 @@ const routes = [
     {
         path: '/faculty',
         name: 'faculty',
-        component: ChooseFaculty
+        component: SelectFaculty
     },
     {
         path: '/faculty/:idFaculty/course',
         name: 'course',
-        component: ChooseCourse
+        component: SelectCourse
     },
     {
         path: '/faculty/:idFaculty/course/:numCourse/group',
         name: 'group',
-        component: ChooseGroup
+        component: SelectGroup
     },
     {
         path: '/faculty/:idFaculty/course/:numCourse/group/:idGroup/schedule',

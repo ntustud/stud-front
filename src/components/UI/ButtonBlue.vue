@@ -13,7 +13,7 @@ export default {
 
 
 <style scoped lang="scss">
-    @import "@/assets/variables.scss";
+@import "@/style";
 
 .btn {
     font-family: 'Open Sans', sans-serif;

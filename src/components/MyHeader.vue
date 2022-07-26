@@ -24,7 +24,7 @@
 
 
 <style scoped lang="scss">
-    @import "@/assets/variables.scss";
+@import "@/style";
 
     .header {
         background-color: $header-bcg;
