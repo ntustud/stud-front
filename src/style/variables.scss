@@ -1,3 +1,5 @@
+$main-color: #1E8EFF;
+
 //---   Buttons    ---//
 $btn-blue: #62B0FF;
 $btn-gray: #555555;
@@ -6,24 +8,36 @@ $btn-gray: #555555;
 //---   Hover    ---//
 $btn-blue-hover: #3d94eb;
 $btn-gray-hover: #474545;
+$btn-white-hover: #f8f2f2;
 //--- \\ Hover \\---//
 
 //---   Active    ---//
 $btn-blue-active: #046bd3;
 $btn-gray-active: #363131;
+$btn-white-active: #cecece;
 //--- \\ Active \\---//
 
 //---   Disable    ---//
 $d_btn-blue:#355F89;
 //--- \\ Disable \\---//
 
-
-
-$black: #000;
+//---   Borders    ---//
 $border-gray:#7B7D8E;
-$txt-gray: #DDDDDD;
-$bg-gray: #212124;
-$header-color: #909091;
-$white: #FFFFFF;
+//--- \\ Borders \\---//
+
+
+//---   Background    ---//
 $header-bcg: #212124;
 $main-backg: #1A1A1D;
+$bg-gray: #212124;
+//--- \\ Background \\---//
+
+
+//---   Colors    ---//
+$black: #000;
+$red: #ff0000;
+$txt-gray: #DDDDDD;
+$header-color: #909091;
+$white: #FFFFFF;
+$translucent-gray: #525252;
+//--- \\ Colors \\---//

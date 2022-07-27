@@ -20,10 +20,10 @@
             params: { idFaculty: faculty_id, numCourse: num_course },
           }"
         >
-          <button-blue class="btn-blue">Далі</button-blue>
+          <MyButton class="btn-blue">Далі</MyButton>
         </router-link>
         <router-link :to="{ name: 'faculty' }">
-          <button-gray>Назад</button-gray>
+          <MyButton color="gray">Назад</MyButton>
         </router-link>
       </div>
     </div>

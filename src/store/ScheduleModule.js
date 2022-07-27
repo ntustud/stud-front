@@ -6,7 +6,7 @@ const ax = axios.create({
     },
 });
 
-export const TimeTableModule = {
+export const ScheduleModule = {
     state: () => ({
         faculties: [],
     }),

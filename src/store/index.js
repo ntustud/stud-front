@@ -1,8 +1,8 @@
 import { createStore } from "vuex";
-import { TimeTableModule } from "./TimeTableModule";
+import { ScheduleModule } from "./ScheduleModule";
 
 export default createStore ({
     modules: {
-        timeTable: TimeTableModule
+        timeTable: ScheduleModule
     }
 })

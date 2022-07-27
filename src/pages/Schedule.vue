@@ -1,8 +1,8 @@
 <template>
-  <section class="faculty-section">
-    <div class="wrapper-faculty">
-      <h4 class="faculty-title">Розклад</h4>
-      <p class="fucylty-subtitle">{{ group.name }}</p>
+  <section class="main-section">
+    <div class="wrapper-main">
+      <h4 class="main-title">Розклад</h4>
+      <p class="main-subtitle">{{ group.name }}</p>
       <div class="mb-3">
         <input
           type="radio"
@@ -67,6 +67,7 @@
             {{ schedule.cabinet_number }}
           </div>
           <div class="wrapper-building">
+            <span>вул.</span>
             {{ schedule.building_name }}
           </div>
         </div>
@@ -103,13 +104,13 @@ export default {
       cabinet: {},
       subject: {},
       arrLabels: [
-        { label: "8:30 — 9:50", index: 1 },
-        { label: "10:00 — 11:20", index: 2 },
-        { label: "11:30 — 12:50", index: 3 },
-        { label: "13:10 — 14:30", index: 4 },
-        { label: "14:40 — 16:00", index: 5 },
-        { label: "16:10 — 17:30", index: 6 },
-        { label: "17:40 — 19:00", index: 7 },
+        { label: "8:30 - 9:50", index: 1 },
+        { label: "10:00 - 11:20", index: 2 },
+        { label: "11:30 - 12:50", index: 3 },
+        { label: "13:10 - 14:30", index: 4 },
+        { label: "14:40 - 16:00", index: 5 },
+        { label: "16:10 - 17:30", index: 6 },
+        { label: "17:40 - 19:00", index: 7 },
       ],
     };
   },
@@ -222,8 +223,10 @@ export default {
     border-radius: 5px;
 }
 
-.faculty-section {
+.main-section {
     font-family: 'Open Sans', sans-serif;
+    max-height: 680px;
+    overflow-y: scroll;
 }
 .img-lecturer {
   margin-right: 10px;
@@ -247,84 +250,51 @@ export default {
   display: flex;
   color: white;
 }
-.faculty-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 
-  padding: 70px 16px 16px;
+.wrapper-pair {
+  font-size: 14px;
+  line-height: 19px;
+}
 
-  .wrapper-faculty {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    flex-wrap: nowrap;
-    max-width: 300px;
+.wrapper-lesson {
+  font-weight: 600;
+  line-height: 22px;
+}
+
+.wrapper-lecturer {
+  font-size: 14px;
+  line-height: 19px;
+  opacity: 0.85;
+}
+
+.wrapper-building {
+  font-size: 14px;
+  line-height: 19px;
+  opacity: 0.5;
+}
+
+.wrapper-number {
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+@media only screen and (max-width: 414px) {
+  .main-section {
+    max-height: 660px;
+    overflow: scroll;
+  }
+
+  .wrapper-schedule {
     width: 100%;
+  }
 
-    .faculty-title {
-      font-family: "Montserrat", sans-serif;
-      font-weight: 500;
-      font-size: 18px;
+  .wrapper-main {
+    max-width: 100%;
 
-      margin-bottom: 8px;
-
-      color: $white;
-    }
-
-    .fucylty-subtitle {
-      font-family: "Open Sans", sans-serif;
-      font-size: 14px;
-      color: $white;
-      opacity: 50%;
-
-      margin-bottom: 16px;
-    }
-
-    .wrapper-btn {
-      display: flex;
-      margin-top: 16px;
-
-      .btn-blue {
-        margin-right: 12px;
-      }
+    .line {
+      max-width: 100%;
     }
   }
-}
-
-.btn-disabled {
-  background-color: $d_btn-blue;
-}
-
-.my-select {
-  border: 1px solid $border-gray;
-  box-sizing: border-box;
-  border-radius: 5px;
-
-  padding: 12px 0px 12px 12px;
-
-  width: 100%;
-
-  background: transparent;
-
-  color: $white;
-
-  .first-select {
-    font-family: "Open Sans", sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 16px;
-
-    background: $black;
-  }
-  .my-option {
-    color: $white;
-    background-color: $black;
-  }
-}
-
-option {
-  background: transparent;
 }
 </style>

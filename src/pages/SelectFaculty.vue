@@ -10,10 +10,10 @@
       </select>
       <div class="wrapper-btn">
         <router-link :to="{ name: 'course', params: { idFaculty: selectFaculty } }" :class="{ disabled: selectFaculty === 0}">
-          <button-blue class="btn-blue">Далі</button-blue>
+          <MyButton class="btn-blue">Далі</MyButton>
         </router-link>
         <router-link :to="{ name: 'main' }">
-          <button-gray>Назад</button-gray>
+          <MyButton color="gray">Назад</MyButton>
         </router-link>
       </div>
     </div>
@@ -52,6 +52,4 @@ export default {
 
 <style scoped lang="scss">
 @import "@/style";
-
-
 </style>

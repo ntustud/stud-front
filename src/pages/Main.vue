@@ -15,15 +15,17 @@
                 <h4 class="main-title2">Розклад <span class="main-symbol">β</span></h4>
             </div>
             <p class="main-text-bottom">Переглядайте актуальний розклад своєї групи</p>
-            <button-blue class="main-btn" @click="$router.push('/faculty');">Перейти</button-blue>
+            <MyButton class="main-btn" @click="$router.push('/faculty');">Перейти</MyButton>
         </div>
     </section>
 </template> 
 
 
 <script> 
+import MyButton from '../components/UI/MyButton.vue'
 
 export default {
+  components: { MyButton },
     methods: {
 
     }

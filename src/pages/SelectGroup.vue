@@ -25,12 +25,12 @@
           }"
           :class="{ disabled: selectGroup === 0}"
         >
-          <button-blue class="btn-blue">Далі</button-blue>
+          <MyButton class="btn-blue">Далі</MyButton>
         </router-link>
         <router-link
           :to="{ name: 'course', params: { idFaculty: payload.faculty_id } }"
         >
-          <button-gray>Назад</button-gray>
+          <MyButton color="gray">Назад</MyButton>
         </router-link>
       </div>
     </div>
