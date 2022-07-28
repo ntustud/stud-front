@@ -29,7 +29,7 @@ export default {
 @import "@/style";
 
 .header {
-    background-color: $header-bcg;
+    background-color: $main-gray;
     padding: 20px 16px;
 
     .wrapper-header {

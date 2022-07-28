@@ -1,53 +1,27 @@
 <template>
+  <div class="wrapper-head">
+    <div class="wrapper-naming-group">
+      <p class="main-title">{{ group.name }}</p>
+      <router-link :to="{ name: 'faculty' }">
+        <img src="../assets/img/edit-group.png" alt="edit-group" class="img-edit">
+      </router-link>
+    </div>
+    <div class="wrapper-even">
+      <span class="title-even">{{ titleEven }}</span>
+      <div class="wrapper-arrow">
+        <img src="../assets/img/arrows-change.png" alt="change-even-icon" @click="changeEven">
+      </div>
+    </div>
+    <div class="wrapper-radio-section">
+      <div class="wrapper-radio" v-for="day in days" :key="day.id">
+        <input type="radio" :id="day.id" :value="day.id" v-model="selectDay" @change="getSchedule" class="my-radio" />
+        <label :for="day.id" class="my-label">{{ day.name }}</label>
+      </div>
+    </div>
+  </div>
   <section class="main-section">
     <div class="wrapper-main">
-      <h4 class="main-title">Розклад</h4>
-      <p class="main-subtitle">{{ group.name }}</p>
-      <div class="mb-3">
-        <input
-          type="radio"
-          id="one"
-          class="input-radio"
-          :value="true"
-          v-model="even"
-          @change="getSchedule"
-        />
-        <label for="one" style="margin-right: 16px">Парна</label>
-
-        <input
-          type="radio"
-          id="two"
-          class="input-radio"
-          :value="false"
-          v-model="even"
-          @change="getSchedule"
-        />
-        <label for="two" style="margin-right: 16px">Не парна</label>
-      </div>
-      <label for="one" style="color: white; margin-top: 15px"
-        >Оберіть день тижня</label
-      >
-      <select
-        v-model="selectDay"
-        class="my-select"
-        style="margin-top: 20px"
-        @change="getSchedule"
-      >
-        <option
-          v-for="day in days"
-          :key="day.id"
-          :value="day.id"
-          class="my-option"
-        >
-          {{ day.name }}
-        </option>
-      </select>
-
-      <div
-        class="wrapper-schedule"
-        v-for="schedule in newSchedule"
-        :key="schedule.id"
-      >
+      <div class="wrapper-schedule" v-for="schedule in newSchedule" :key="schedule.id">
         <div class="wrapper-pair">
           {{ arrLabels[schedule.index].label }}
         </div>
@@ -55,12 +29,8 @@
           {{ schedule.subject_name }}
         </div>
         <div class="wrapper-lecturer">
-          <img
-            src="../assets/img/lecturer.png"
-            alt="icon"
-            class="img-lecturer"
-          />
-          {{ schedule.lecturer_name }}
+          <img src="../assets/img/lecturer-icon.png" alt="icon" class="img-lecturer" />
+          <span>{{ schedule.lecturer_name }}</span>
         </div>
         <div class="wrapper-bottom">
           <div class="wrapper-number">
@@ -71,7 +41,6 @@
             {{ schedule.building_name }}
           </div>
         </div>
-
         <div class="line"></div>
       </div>
     </div>
@@ -86,7 +55,8 @@ export default {
     return {
       group_id: parseInt(this.$route.params.idGroup),
       group: {},
-      even: false,
+      even: true,
+      titleEven: "Парний тиждень",
       selectDay: "",
       days: [
         { id: 1, name: "Понеділок" },
@@ -137,6 +107,7 @@ export default {
 
     async getSchedule() {
       try {
+        console.log('клац');
         this.newSchedule = [];
 
         if (this.selectDay == "") {
@@ -158,6 +129,17 @@ export default {
         this.lessonSchedules = response.data.result;
 
         this.getPairs();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async changeEven() {
+      try {
+        this.even = this.even === true ? false : true;
+        this.titleEven = this.even === true ? 'Парний тиждень' : 'Непарний тиждень';
+
+        await this.getSchedule();
       } catch (error) {
         console.log(error);
       }
@@ -204,37 +186,43 @@ export default {
 
 <style scoped lang="scss">
 @import "@/style";
+
 .wrapper-bottom {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .line {
-    margin-top: 20px;
-    max-width: 288px;
-    width: 100%;
-    height: 1px;
-    background: #3D3D41;
+  margin-top: 20px;
+  max-width: 288px;
+  width: 100%;
+  height: 1px;
+  background: #3D3D41;
 }
+
 .wrapper-number {
-    margin-right: 8px;
-    padding: 4px 8px;
-    background: #5FB7D1;
-    border-radius: 5px;
+  margin-right: 8px;
+  padding: 4px 8px;
+  background: #5FB7D1;
+  border-radius: 5px;
 }
 
 .main-section {
-    font-family: 'Open Sans', sans-serif;
-    max-height: 680px;
-    overflow-y: scroll;
+  padding-top: 10px;
+  font-family: 'Open Sans', sans-serif;
+  max-height: 680px;
+  overflow-y: scroll;
 }
+
 .img-lecturer {
   margin-right: 10px;
 }
 
 .wrapper-lecturer {
-    margin-bottom: 12px;
+  display: flex;
+  margin-bottom: 12px;
 }
+
 .wrapper-schedule {
   display: flex;
   flex-direction: column;
@@ -246,6 +234,7 @@ export default {
   margin: 15px 0px 12px 0px;
   font-weight: 400;
 }
+
 .mb-3 {
   display: flex;
   color: white;
@@ -279,9 +268,118 @@ export default {
   line-height: 16px;
 }
 
+.wrapper-head {
+  padding: 10px 16px 20px 16px;
+  font-family: "Open Sans", sans-serif;
+  max-width: 100%;
+  background: $main-gray;
+
+  .wrapper-naming-group {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    margin-bottom: 16px;
+
+    .main-title {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 22px;
+      color: $white;
+      opacity: 0.85;
+      margin-right: 8px;
+    }
+
+    .img-edit {
+      &:hover {
+        transform: scale(1.1);
+      }
+
+      &:active {
+        transform: scale(0.9);
+      }
+    }
+  }
+
+  .wrapper-even {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    color: $white;
+
+    .wrapper-arrow {
+      padding: 5px;
+      background: $btn-arrows;
+      border-radius: 5px;
+
+      &:active {
+        animation: rotation-arrows 0.3s;
+      }
+
+      &:hover {
+        
+      }
+    }
+  }
+
+  .wrapper-radio-section {
+    color: wheat;
+    overflow: hidden;
+    overflow-x: auto;
+    display: flex;
+    max-width: 100%;
+    margin: 16px 0px 0px;
+
+    .wrapper-radio {
+      padding: 6px 0px;
+      margin-right: 12px;
+
+      .my-radio {}
+
+      .my-label {
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 19px;
+        border-radius: 5px;
+        padding: 6px 16px;
+        color: $white;
+
+        &:hover {
+          background: $btn-green-hover;
+        }
+
+        &:active {
+          background: $btn-green-active ;
+        }
+      }
+    }
+  }
+}
+
+input[type=radio] {
+  display: none;
+}
+
+.wrapper-radio input[type="radio"]:checked+label {
+  background: $btn-green;
+}
+
+.title-even::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  background-color: $btn-green;
+  margin-right: 8px;
+}
+
 @media only screen and (max-width: 414px) {
   .main-section {
-    max-height: 660px;
     overflow: scroll;
   }
 
@@ -295,6 +393,33 @@ export default {
     .line {
       max-width: 100%;
     }
+  }
+}
+
+@media only screen and (max-height: 896px) {
+  .main-section {
+    max-height: 70vh !important;
+  }
+}
+
+@media only screen and (max-height: 667px) {
+  .main-section {
+    max-height: 60vh !important;
+  }
+}
+
+@keyframes rotation-arrows {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: scale(3);
+    transform: rotate(160deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
   }
 }
 </style>

@@ -98,7 +98,7 @@ export default {
             max-width: 500px;
             width: 100%;
 
-            background-color: $bg-gray;
+            background-color: $main-gray;
             border-radius: 5px;
             line-height: 19px;
 
