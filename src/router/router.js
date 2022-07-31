@@ -3,7 +3,9 @@ import Main from "../pages/Main";
 import SelectFaculty from "../pages/SelectFaculty";
 import SelectCourse from "../pages/SelectCourse";
 import SelectGroup from "../pages/SelectGroup";
+import SelectLecturer from "../pages/SelectLecturer";
 import Schedule from "../pages/Schedule";
+import ScheduleLecturer from "../pages/ScheduleLecturer";
 
 const routes = [
     {
@@ -27,9 +29,19 @@ const routes = [
         component: SelectGroup
     },
     {
+        path: '/lecturer',
+        name: 'lecturer',
+        component: SelectLecturer
+    },
+    {
         path: '/faculty/:idFaculty/course/:numCourse/group/:idGroup/schedule',
         name: 'schedule',
         component: Schedule
+    },
+    {
+        path: '/lecturer/:idLecturer/schedule',
+        name: 'schedule-lecturer',
+        component: ScheduleLecturer
     }
 ]
 

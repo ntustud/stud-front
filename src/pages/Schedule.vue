@@ -23,10 +23,11 @@
     <div class="wrapper-main">
       <div class="wrapper-schedule" v-for="schedule in newSchedule" :key="schedule.id">
         <div class="wrapper-pair">
-          {{ arrLabels[schedule.index].label }}
+          {{ arrLabels[schedule.index - 1].label }}
         </div>
         <div class="wrapper-lesson">
           {{ schedule.subject_name }}
+          <span class="type-lesson">({{ typeLesson[schedule.type_lesson - 1].name }})</span>
         </div>
         <div class="wrapper-lecturer">
           <img src="../assets/img/lecturer-icon.png" alt="icon" class="img-lecturer" />
@@ -70,9 +71,13 @@ export default {
       currentSemester: "",
       lessonSchedules: "",
       lessonPlan: {},
-      lecturer: {},
       cabinet: {},
       subject: {},
+      typeLesson: [
+        { id: 1, name: 'Лекція' },
+        { id: 2, name: 'Практична' },
+        { id: 3, name: 'Лабораторна' },
+      ],
       arrLabels: [
         { label: "8:30 - 9:50", index: 1 },
         { label: "10:00 - 11:20", index: 2 },
@@ -321,6 +326,7 @@ export default {
       background: $btn-arrows;
       border-radius: 5px;
       transition: 0.4s;
+
       &:active {
         animation: rotation-arrows 0.3s;
       }
@@ -343,8 +349,6 @@ export default {
     .wrapper-radio {
       padding: 6px 0px;
       margin-right: 12px;
-
-      .my-radio {}
 
       .my-label {
         font-weight: 600;
@@ -382,6 +386,13 @@ input[type=radio] {
   border-radius: 100%;
   background-color: $btn-green;
   margin-right: 8px;
+}
+
+.type-lesson {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  opacity: 0.5;
 }
 
 @media only screen and (max-width: 414px) {

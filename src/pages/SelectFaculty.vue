@@ -20,7 +20,7 @@
       <div class="wrapper-bottom">
         <div class="line"></div>
         <p class="bottom-title">Розклад для викладачів</p>
-        <router-link :to="{ name: 'main' }">
+        <router-link :to="{ name: 'lecturer' }">
           <MyButton>Перейти</MyButton>
         </router-link>
       </div>
