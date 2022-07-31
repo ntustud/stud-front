@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { UNIVERSITY_ID } from '../../constant';
+
 const ax = axios.create({
     baseURL: 'http://176.100.13.234:8080',
     headers: {
@@ -88,6 +90,16 @@ export const ScheduleModule = {
         async getLecturer({ }, lecturer_id) {
             try {
                 const res = await ax.get(`/lecturer/${lecturer_id}`);
+
+                return res;
+            } catch (error) {
+                throw error;
+            }
+        },
+
+        async searchLecturers({ }, name) {    
+            try {
+                const res = await ax.post(`/university/${UNIVERSITY_ID}/lecturers/search`, { name });
 
                 return res;
             } catch (error) {

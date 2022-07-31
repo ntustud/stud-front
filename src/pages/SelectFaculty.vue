@@ -9,11 +9,19 @@
         </option>
       </select>
       <div class="wrapper-btn">
-        <router-link :to="{ name: 'course', params: { idFaculty: selectFaculty } }" :class="{ disabled: selectFaculty === 0}">
+        <router-link :to="{ name: 'course', params: { idFaculty: selectFaculty } }"
+          :class="{ disabled: selectFaculty === 0 }">
           <MyButton class="btn-blue">Далі</MyButton>
         </router-link>
         <router-link :to="{ name: 'main' }">
           <MyButton color="gray">Назад</MyButton>
+        </router-link>
+      </div>
+      <div class="wrapper-bottom">
+        <div class="line"></div>
+        <p class="bottom-title">Розклад для викладачів</p>
+        <router-link :to="{ name: 'main' }">
+          <MyButton>Перейти</MyButton>
         </router-link>
       </div>
     </div>
@@ -52,4 +60,27 @@ export default {
 
 <style scoped lang="scss">
 @import "@/style";
+
+.wrapper-bottom {
+  width: 100%;
+
+  .line {
+    margin: 20px 0px;
+    max-width: 288px;
+    width: 100%;
+    height: 1px;
+    background: #3D3D41;
+  }
+
+
+  .bottom-title {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px;
+    color: $white;
+    opacity: 0.75;
+    margin-bottom: 16px;
+  }
+}
 </style>

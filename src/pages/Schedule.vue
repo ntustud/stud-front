@@ -48,7 +48,7 @@
 </template> 
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   data() {
@@ -125,6 +125,11 @@ export default {
         };
 
         const response = await this.getLessonSchedulesForDayWhereGroup(payload);
+
+        if (response.data.result == null) {
+          console.log('Error! Array of result is empty!');
+          return;
+        }
 
         this.lessonSchedules = response.data.result;
 
@@ -315,13 +320,14 @@ export default {
       padding: 5px;
       background: $btn-arrows;
       border-radius: 5px;
-
+      transition: 0.4s;
       &:active {
         animation: rotation-arrows 0.3s;
       }
 
       &:hover {
-        
+        transform: scale(1.05);
+        transform: rotate(180deg);
       }
     }
   }
