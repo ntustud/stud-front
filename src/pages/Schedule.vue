@@ -21,7 +21,7 @@
   </div>
   <section class="main-section">
     <div class="wrapper-main">
-      <div class="wrapper-schedule" v-for="schedule in newSchedule" :key="schedule.id">
+      <div class="wrapper-schedule" v-for="schedule in newSchedule" :key="schedule.id" :id="schedule.id">
         <div class="wrapper-pair">
           {{ arrLabels[schedule.index - 1].label }}
         </div>
@@ -179,6 +179,66 @@ export default {
           schedule.subject_name = res_subj.data.result.name;
           schedule.cabinet_number = res_cab.data.result.number;
           schedule.building_name = res_building.data.result.name;
+
+          if (this.newSchedule.length > 0) {
+            if (schedule.index - 1 > this.newSchedule.at(-1).index) {
+              const wrapperOldSchedule = document.getElementById(`${this.newSchedule.at(-1).id}`)
+
+              const wrapperAddition = document.createElement('div');
+              const wrapperPair = document.createElement('div');
+              const wrapperWindow = document.createElement('div');
+              const imgWrapper = document.createElement('div');
+              const text = document.createElement('p');
+              const line = document.createElement('div');
+
+              wrapperPair.textContent = this.arrLabels[schedule.index - 2].label
+              text.textContent = 'Вікно';
+
+              wrapperAddition.classList.add('wrapper-addition');
+              wrapperAddition.classList.add('penis');
+              wrapperPair.classList.add('wrapper-pair');
+              wrapperWindow.classList.add('wrapper-window');
+              text.classList.add('text-window');
+              line.classList.add('line');
+
+              wrapperWindow.append(imgWrapper);
+              wrapperWindow.append(text);
+              wrapperAddition.append(wrapperPair);
+              wrapperAddition.append(wrapperWindow);
+              wrapperAddition.append(line);
+
+              wrapperAddition.style.display = 'flex';
+              wrapperAddition.style.flexDirection = 'column';
+              wrapperAddition.style.alignItems = 'flex-start';
+              wrapperAddition.style.margin = '20px 0px 5px 0px';
+
+              wrapperWindow.style.display = 'flex';
+              wrapperWindow.style.flexDirection = 'row';
+              wrapperWindow.style.alignItems = 'center';
+              wrapperWindow.style.padding = '4px 8px';
+              wrapperWindow.style.marginTop = '8px';
+              wrapperWindow.style.background = '#7B7D8E';
+              wrapperWindow.style.borderRadius = '5px';
+
+              line.style.marginTop = '20px';
+              line.style.maxWidth = '100%';
+              line.style.width = '100%';
+              line.style.height = '1px';
+              line.style.background = '#3D3D41';
+
+              wrapperPair.style.fontSize = '14px';
+              wrapperPair.style.lineHeight = '19px';
+
+              text.style.fontWeight = '600';
+              text.style.fontSize = '12px';
+              text.style.lineHeight = '16px';
+
+              imgWrapper.innerHTML = "<img src='../assets/img/lecturer-icon.png' alt='icon' class='img-lecturer' />";
+              wrapperOldSchedule.append(wrapperAddition);
+              console.log(wrapperOldSchedule);
+            }
+          }
+
           this.newSchedule.push(schedule);
         }
       } catch (error) {
@@ -197,6 +257,10 @@ export default {
 <style scoped lang="scss">
 @import "@/style";
 
+.penis {
+  width: 900px !important;
+  height: 500px !important;
+}
 .wrapper-bottom {
   display: flex;
   align-items: center;
@@ -220,7 +284,7 @@ export default {
 .main-section {
   padding-top: 10px;
   font-family: 'Open Sans', sans-serif;
-  max-height: 680px;
+  max-height: 650px;
   overflow-y: scroll;
 }
 
@@ -395,6 +459,21 @@ input[type=radio] {
   opacity: 0.5;
 }
 
+.wrapper-window {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 8px;
+  background: $border-gray;
+}
+
+.text-window {
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  color: $white;
+}
+
 @media only screen and (max-width: 414px) {
   .main-section {
     overflow: scroll;
@@ -415,7 +494,7 @@ input[type=radio] {
 
 @media only screen and (max-height: 896px) {
   .main-section {
-    max-height: 70vh !important;
+    max-height: 65vh !important;
   }
 }
 
