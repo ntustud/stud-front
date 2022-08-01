@@ -176,14 +176,83 @@ export default {
                     schedule.subject_name = res_subj.data.result.name;
                     schedule.cabinet_number = res_cab.data.result.number;
                     schedule.building_name = res_building.data.result.name;
-
+                    
+                    let isPush = false;
+                    // merging groups in one card
                     if (this.newSchedule.length > 0) {
                         if (this.newSchedule.at(-1).index === schedule.index) {
                             this.newSchedule.at(-1).group_name += ', ' + schedule.group_name;
                         } else {
-                            this.newSchedule.push(schedule);
+                            //this.newSchedule.push(schedule);
+                            isPush = true;
                         }
                     } else {
+                        isPush = true;
+                        //this.newSchedule.push(schedule);
+                    }
+                    // merging groups in one card
+
+                    // if (this.newSchedule.length > 0) {
+                    //     console.log('YES',schedule.index,this.newSchedule.at(-1).index);
+                    //     if (schedule.index - 1 > this.newSchedule.at(-1).index) {
+                    //         console.log('YES2');
+                    //         const wrapperOldSchedule = document.getElementById(`${this.newSchedule.at(-1).id}`)
+
+                    //         const wrapperAddition = document.createElement('div');
+                    //         const wrapperPair = document.createElement('div');
+                    //         const wrapperWindow = document.createElement('div');
+                    //         const imgWrapper = document.createElement('div');
+                    //         const text = document.createElement('p');
+                    //         const line = document.createElement('div');
+
+                    //         wrapperPair.textContent = this.arrLabels[schedule.index - 2].label
+                    //         text.textContent = 'Вікно';
+
+                    //         wrapperAddition.classList.add('wrapper-addition');
+                    //         wrapperPair.classList.add('wrapper-pair');
+                    //         wrapperWindow.classList.add('wrapper-window');
+                    //         text.classList.add('text-window');
+                    //         line.classList.add('line');
+
+                    //         //wrapperWindow.append(imgWrapper);
+                    //         wrapperWindow.append(text);
+                    //         wrapperAddition.append(wrapperPair);
+                    //         wrapperAddition.append(wrapperWindow);
+                    //         wrapperAddition.append(line);
+
+                    //         wrapperAddition.style.display = 'flex';
+                    //         wrapperAddition.style.flexDirection = 'column';
+                    //         wrapperAddition.style.alignItems = 'flex-start';
+                    //         wrapperAddition.style.margin = '20px 0px 5px 0px';
+
+                    //         wrapperWindow.style.display = 'flex';
+                    //         wrapperWindow.style.flexDirection = 'row';
+                    //         wrapperWindow.style.alignItems = 'center';
+                    //         wrapperWindow.style.padding = '4px 8px';
+                    //         wrapperWindow.style.marginTop = '8px';
+                    //         wrapperWindow.style.background = '#7B7D8E';
+                    //         wrapperWindow.style.borderRadius = '5px';
+
+                    //         line.style.marginTop = '20px';
+                    //         line.style.maxWidth = '100%';
+                    //         line.style.width = '100%';
+                    //         line.style.height = '1px';
+                    //         line.style.background = '#3D3D41';
+
+                    //         wrapperPair.style.fontSize = '14px';
+                    //         wrapperPair.style.lineHeight = '19px';
+
+                    //         text.style.fontWeight = '600';
+                    //         text.style.fontSize = '12px';
+                    //         text.style.lineHeight = '16px';
+
+                    //         //imgWrapper.innerHTML = "<img src='../assets/img/lecturer-icon.png' alt='icon' class='img-lecturer' />";
+                    //         wrapperOldSchedule.append(wrapperAddition);
+                    //         console.log(wrapperOldSchedule);
+                    //     }
+                    // }
+
+                    if (isPush) {
                         this.newSchedule.push(schedule);
                     }
                 }

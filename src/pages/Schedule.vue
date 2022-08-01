@@ -14,7 +14,7 @@
     </div>
     <div class="wrapper-radio-section">
       <div class="wrapper-radio" v-for="day in days" :key="day.id">
-        <input type="radio" :id="day.id" :value="day.id" v-model="selectDay" @change="getSchedule" class="my-radio" />
+        <input type="radio" :id="day.id" :value="day.id" v-model="selectDay" @change="getSchedule" class="my-radio"/>
         <label :for="day.id" class="my-label">{{ day.name }}</label>
       </div>
     </div>
@@ -195,13 +195,12 @@ export default {
               text.textContent = 'Вікно';
 
               wrapperAddition.classList.add('wrapper-addition');
-              wrapperAddition.classList.add('penis');
               wrapperPair.classList.add('wrapper-pair');
               wrapperWindow.classList.add('wrapper-window');
               text.classList.add('text-window');
               line.classList.add('line');
 
-              wrapperWindow.append(imgWrapper);
+              //wrapperWindow.append(imgWrapper);
               wrapperWindow.append(text);
               wrapperAddition.append(wrapperPair);
               wrapperAddition.append(wrapperWindow);
@@ -233,7 +232,7 @@ export default {
               text.style.fontSize = '12px';
               text.style.lineHeight = '16px';
 
-              imgWrapper.innerHTML = "<img src='../assets/img/lecturer-icon.png' alt='icon' class='img-lecturer' />";
+              //imgWrapper.innerHTML = "<img src='../assets/img/lecturer-icon.png' alt='icon' class='img-lecturer' />";
               wrapperOldSchedule.append(wrapperAddition);
               console.log(wrapperOldSchedule);
             }
@@ -245,10 +244,17 @@ export default {
         console.log(error);
       }
     },
+
+    async activeElement() {
+      document.getElementById('1').checked = true;
+      this.selectDay = 1;
+      await this.getSchedule(); 
+    }
   },
 
   mounted() {
     this.getNameGroup();
+    this.activeElement();
   },
 };
 </script>
@@ -256,11 +262,6 @@ export default {
 
 <style scoped lang="scss">
 @import "@/style";
-
-.penis {
-  width: 900px !important;
-  height: 500px !important;
-}
 .wrapper-bottom {
   display: flex;
   align-items: center;
@@ -442,6 +443,10 @@ input[type=radio] {
   background: $btn-green;
 }
 
+.active {
+
+}
+
 .title-even::before {
   content: '';
   display: inline-block;
@@ -459,20 +464,20 @@ input[type=radio] {
   opacity: 0.5;
 }
 
-.wrapper-window {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 4px 8px;
-  background: $border-gray;
-}
+// .wrapper-window {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   padding: 4px 8px;
+//   background: $border-gray;
+// }
 
-.text-window {
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 16px;
-  color: $white;
-}
+// .text-window {
+//   font-weight: 600;
+//   font-size: 12px;
+//   line-height: 16px;
+//   color: $white;
+// }
 
 @media only screen and (max-width: 414px) {
   .main-section {

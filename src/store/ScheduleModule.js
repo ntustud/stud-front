@@ -1,8 +1,10 @@
 import axios from 'axios'
 import { UNIVERSITY_ID } from '../../constant';
 
+const API_URL = process.env.VUE_APP_API_URL;
+
 const ax = axios.create({
-    baseURL: 'http://176.100.13.234:8080',
+    baseURL: API_URL,
     headers: {
         'Content-Type': 'application/json',
     },
