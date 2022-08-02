@@ -1,0 +1,10 @@
+version: "3.7"
+services:
+  stud-front:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: stud-front
+    restart: always
+    ports:
+      - '8082:8080'
