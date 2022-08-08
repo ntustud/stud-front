@@ -14,7 +14,7 @@
     </div>
     <div class="wrapper-radio-section">
       <div class="wrapper-radio" v-for="day in days" :key="day.id">
-        <input type="radio" :id="day.id" :value="day.id" v-model="selectDay" @change="getSchedule" class="my-radio"/>
+        <input type="radio" :id="day.id" :value="day.id" v-model="selectDay" @change="getSchedule" class="my-radio" />
         <label :for="day.id" class="my-label">{{ day.name }}</label>
       </div>
     </div>
@@ -30,7 +30,7 @@
           <span class="type-lesson">({{ typeLesson[schedule.type_lesson - 1].name }})</span>
         </div>
         <div class="wrapper-lecturer">
-          <img src="../assets/img/lecturer-icon.png" alt="icon" class="img-lecturer" />
+          <img src="../assets/img/lecturer-icon.png" alt="icon" class="img-lecturer"/>
           <span>{{ schedule.lecturer_name }}</span>
         </div>
         <div class="wrapper-bottom">
@@ -43,6 +43,20 @@
           </div>
         </div>
         <div class="line"></div>
+        <!-- Not working -->
+        <!-- <div class="wrapper-addition" v-if="schedule.index + 1 < newSchedule.at(-1).index">
+          <div class="wrapper-pair">
+            {{ this.arrLabels[schedule.index - 2].label }}
+          </div>
+          <div class="wrapper-window">
+            <img src="../assets/img/union.png" alt="icon">
+            <p class="text-window">
+              Вікно
+            </p>
+          </div>
+          <div class="line"></div>
+        </div> -->
+        <!-- Not working -->
       </div>
     </div>
   </section>
@@ -68,6 +82,8 @@ export default {
         { id: 6, name: "Субота" },
       ],
       newSchedule: [],
+      tempSchedule: {},
+      isWindow: false,
       currentSemester: "",
       lessonSchedules: "",
       lessonPlan: {},
@@ -158,87 +174,60 @@ export default {
     async getPairs() {
       try {
         for (const schedule of this.lessonSchedules) {
-          const res_lesson_plan = await this.getLessonPlan(
-            schedule.lesson_plan_id
-          );
-          const res_subj = await this.getSubject(
-            res_lesson_plan.data.result.subject_id
-          );
+          this.isWindow = false;
+          this.tempSchedule = schedule;
+
+          const res_lesson_plan = await this.getLessonPlan(schedule.lesson_plan_id);
+
+          const res_subj = await this.getSubject(res_lesson_plan.data.result.subject_id);
+
           const res_lecturer = await this.getLecturer(schedule.lecturer_id);
           const res_cab = await this.getCabinet(schedule.cabinet_id);
-          const res_building = await this.getBuilding(
-            res_cab.data.result.building_id
-          );
+          const res_building = await this.getBuilding(res_cab.data.result.building_id);
 
-          schedule.lecturer_name =
+          this.tempSchedule.lecturer_name =
             res_lecturer.data.result.first_name +
             " " +
             res_lecturer.data.result.last_name +
             " " +
             res_lecturer.data.result.second_name;
-          schedule.subject_name = res_subj.data.result.name;
-          schedule.cabinet_number = res_cab.data.result.number;
-          schedule.building_name = res_building.data.result.name;
+          this.tempSchedule.subject_name = res_subj.data.result.name;
+          this.tempSchedule.cabinet_number = res_cab.data.result.number;
+          this.tempSchedule.building_name = res_building.data.result.name;
 
           if (this.newSchedule.length > 0) {
             if (schedule.index - 1 > this.newSchedule.at(-1).index) {
-              const wrapperOldSchedule = document.getElementById(`${this.newSchedule.at(-1).id}`)
+              this.isWindow = true;
+                  const wrapperOldSchedule = document.getElementById(`${this.newSchedule.at(-1).id}`)
 
-              const wrapperAddition = document.createElement('div');
-              const wrapperPair = document.createElement('div');
-              const wrapperWindow = document.createElement('div');
-              const imgWrapper = document.createElement('div');
-              const text = document.createElement('p');
-              const line = document.createElement('div');
+                  const wrapperAddition = document.createElement('div');
+                  const wrapperPair = document.createElement('div');
+                  const wrapperWindow = document.createElement('div');
+                  const imgWrapper = document.createElement('div');
+                  const text = document.createElement('p');
+                  const line = document.createElement('div');
 
-              wrapperPair.textContent = this.arrLabels[schedule.index - 2].label
-              text.textContent = 'Вікно';
+                  wrapperPair.textContent = this.arrLabels[schedule.index - 2].label
+                  text.textContent = 'Вікно';
 
-              wrapperAddition.classList.add('wrapper-addition');
-              wrapperPair.classList.add('wrapper-pair');
-              wrapperWindow.classList.add('wrapper-window');
-              text.classList.add('text-window');
-              line.classList.add('line');
+                  wrapperAddition.classList.add('wrapper-addition');
+                  wrapperPair.classList.add('wrapper-pair');
+                  wrapperWindow.classList.add('wrapper-window');
+                  text.classList.add('text-window');
+                  line.classList.add('line');
 
-              //wrapperWindow.append(imgWrapper);
-              wrapperWindow.append(text);
-              wrapperAddition.append(wrapperPair);
-              wrapperAddition.append(wrapperWindow);
-              wrapperAddition.append(line);
+                  wrapperWindow.append(imgWrapper);
+                  wrapperWindow.append(text);
+                  wrapperAddition.append(wrapperPair);
+                  wrapperAddition.append(wrapperWindow);
+                  wrapperAddition.append(line);
 
-              wrapperAddition.style.display = 'flex';
-              wrapperAddition.style.flexDirection = 'column';
-              wrapperAddition.style.alignItems = 'flex-start';
-              wrapperAddition.style.margin = '20px 0px 5px 0px';
-
-              wrapperWindow.style.display = 'flex';
-              wrapperWindow.style.flexDirection = 'row';
-              wrapperWindow.style.alignItems = 'center';
-              wrapperWindow.style.padding = '4px 8px';
-              wrapperWindow.style.marginTop = '8px';
-              wrapperWindow.style.background = '#7B7D8E';
-              wrapperWindow.style.borderRadius = '5px';
-
-              line.style.marginTop = '20px';
-              line.style.maxWidth = '100%';
-              line.style.width = '100%';
-              line.style.height = '1px';
-              line.style.background = '#3D3D41';
-
-              wrapperPair.style.fontSize = '14px';
-              wrapperPair.style.lineHeight = '19px';
-
-              text.style.fontWeight = '600';
-              text.style.fontSize = '12px';
-              text.style.lineHeight = '16px';
-
-              //imgWrapper.innerHTML = "<img src='../assets/img/lecturer-icon.png' alt='icon' class='img-lecturer' />";
-              wrapperOldSchedule.append(wrapperAddition);
-              console.log(wrapperOldSchedule);
+                  imgWrapper.innerHTML = "<img src='../assets/img/lecturer-icon.png' alt='icon' class='img-lecturer' />";
+                  wrapperOldSchedule.append(wrapperAddition);
             }
           }
 
-          this.newSchedule.push(schedule);
+          this.newSchedule.push(this.tempSchedule);
         }
       } catch (error) {
         console.log(error);
@@ -248,7 +237,7 @@ export default {
     async activeElement() {
       document.getElementById('1').checked = true;
       this.selectDay = 1;
-      await this.getSchedule(); 
+      await this.getSchedule();
     }
   },
 
@@ -262,6 +251,7 @@ export default {
 
 <style scoped lang="scss">
 @import "@/style";
+
 .wrapper-bottom {
   display: flex;
   align-items: center;
@@ -443,9 +433,7 @@ input[type=radio] {
   background: $btn-green;
 }
 
-.active {
-
-}
+.active {}
 
 .title-even::before {
   content: '';
@@ -463,21 +451,6 @@ input[type=radio] {
   line-height: 19px;
   opacity: 0.5;
 }
-
-// .wrapper-window {
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   padding: 4px 8px;
-//   background: $border-gray;
-// }
-
-// .text-window {
-//   font-weight: 600;
-//   font-size: 12px;
-//   line-height: 16px;
-//   color: $white;
-// }
 
 @media only screen and (max-width: 414px) {
   .main-section {

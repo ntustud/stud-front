@@ -176,7 +176,7 @@ export default {
                     schedule.subject_name = res_subj.data.result.name;
                     schedule.cabinet_number = res_cab.data.result.number;
                     schedule.building_name = res_building.data.result.name;
-                    
+
                     let isPush = false;
                     // merging groups in one card
                     if (this.newSchedule.length > 0) {
@@ -260,10 +260,17 @@ export default {
                 console.log(error);
             }
         },
+
+        async activeElement() {
+            document.getElementById('1').checked = true;
+            this.selectDay = 1;
+            await this.getSchedule();
+        }
     },
 
     mounted() {
         this.getNameLecturer();
+        this.activeElement();
     },
 };
 </script>
