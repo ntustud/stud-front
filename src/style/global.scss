@@ -138,3 +138,13 @@ option {
     background: #3d3d41;
   }
 }
+
+@media only screen and (max-width: 414px) {
+  .wrapper-main {
+    max-width: 100%;
+
+    .line {
+      max-width: 100%;
+    }
+  }
+}

@@ -222,7 +222,7 @@ export default {
                   wrapperAddition.append(wrapperWindow);
                   wrapperAddition.append(line);
 
-                  imgWrapper.innerHTML = "<img src='../assets/img/lecturer-icon.png' alt='icon' class='img-lecturer' />";
+                  //imgWrapper.innerHTML = "<img src='../assets/img/lecturer-icon.png' alt='icon' class='img-lecturer' />";
                   wrapperOldSchedule.append(wrapperAddition);
             }
           }
