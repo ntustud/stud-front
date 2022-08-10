@@ -183,7 +183,7 @@ export default {
                             this.newSchedule.at(-1).group_name += ', ' + schedule.group_name;
                         } else {
                             console.log('YES', schedule.index, this.newSchedule.at(-1).index);
-                            if (schedule.index - 1 > this.newSchedule.at(-1).index) {
+                            if (schedule.index - 1 > this.newSchedule.at(-1).index && schedule.index - 2 === this.newSchedule.at(-1).index) {
                                 const wrapperOldSchedule = document.getElementById(`${this.newSchedule.at(-1).id}`);
                                 const wrapperAddition = document.createElement('div');
                                 const wrapperPair = document.createElement('div');
