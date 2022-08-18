@@ -47,7 +47,7 @@
             </div>
         </div>
     </section>
-</template> 
+</template>
 
 <script>
 import { mapActions } from "vuex";
