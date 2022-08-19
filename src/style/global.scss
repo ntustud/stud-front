@@ -102,3 +102,21 @@ option {
   opacity: 0.5;
   pointer-events: none;
 }
+
+.wrapper-window {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 4px 8px;
+  background: $border-gray;
+  margin-top: 8px;
+  border-radius: 5px;
+}
+
+.text-window {
+  margin-left: 8px;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  color: $white;
+}

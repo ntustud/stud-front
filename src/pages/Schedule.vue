@@ -14,7 +14,7 @@
     </div>
     <div class="wrapper-radio-section">
       <div class="wrapper-radio" v-for="day in days" :key="day.id">
-        <input type="radio" :id="day.id" :value="day.id" v-model="selectDay" @change="getSchedule" class="my-radio"/>
+        <input type="radio" :id="day.id" :value="day.id" v-model="selectDay" @change="getSchedule" class="my-radio" />
         <label :for="day.id" class="my-label">{{ day.name }}</label>
       </div>
     </div>
@@ -23,18 +23,16 @@
     <div class="wrapper-main">
       <div class="wrapper-schedule" v-for="schedule in newSchedule" :key="schedule.id" :id="schedule.id">
         <template v-if="schedule.isWindow">
-          <div class="wrapper-addition">
-            <div class="wrapper-pair">
-              {{ schedule.label }}
-            </div>
-            <div class="wrapper-window">
-              <img src="../assets/img/union.png" alt="icon">
-              <p class="text-window">
-                Вікно
-              </p>
-            </div>
-            <div class="line"></div>
+          <div class="wrapper-pair">
+            {{ schedule.label }}
           </div>
+          <div class="wrapper-window">
+            <img src="../assets/img/union.png" alt="icon">
+            <p class="text-window">
+              Вікно
+            </p>
+          </div>
+          <div class="line"></div>
         </template>
 
         <template v-else>
@@ -46,7 +44,7 @@
             <span class="type-lesson">({{ typeLesson[schedule.type_lesson - 1].name }})</span>
           </div>
           <div class="wrapper-lecturer">
-            <img src="../assets/img/lecturer-icon.png" alt="icon" class="img-lecturer"/>
+            <img src="../assets/img/lecturer-icon.png" alt="icon" class="img-lecturer" />
             <span>{{ schedule.lecturer_name }}</span>
           </div>
           <div class="wrapper-bottom">
@@ -198,7 +196,7 @@ export default {
           schedule.building_name = res_building.data.result.name;
 
           if (this.newSchedule.length > 0) {
-            if (schedule.index - 1 > this.newSchedule.at(-1).index) {
+            if (schedule.index - 2 === this.newSchedule.at(-1).index) {
               this.newSchedule.push({
                 isWindow: true,
                 label: this.arrLabels[schedule.index - 2].label,
@@ -230,6 +228,7 @@ export default {
 
 <style scoped lang="scss">
 @import "@/style";
+
 .wrapper-bottom {
   display: flex;
   align-items: center;
@@ -269,8 +268,10 @@ export default {
 .wrapper-schedule {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   color: white;
   margin-top: 15px;
+  width: 100%;
 }
 
 .wrapper-lesson {
@@ -411,9 +412,7 @@ input[type=radio] {
   background: $btn-green;
 }
 
-.active {
-
-}
+.active {}
 
 .title-even::before {
   content: '';
@@ -431,21 +430,6 @@ input[type=radio] {
   line-height: 19px;
   opacity: 0.5;
 }
-
-// .wrapper-window {
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   padding: 4px 8px;
-//   background: $border-gray;
-// }
-
-// .text-window {
-//   font-weight: 600;
-//   font-size: 12px;
-//   line-height: 16px;
-//   color: $white;
-// }
 
 @media only screen and (max-width: 414px) {
   .main-section {
