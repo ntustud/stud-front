@@ -14,7 +14,7 @@
     </div>
     <div class="wrapper-radio-section">
       <div class="wrapper-radio" v-for="day in days" :key="day.id">
-        <input type="radio" :id="day.id" :value="day.id" v-model="selectDay" @change="getSchedule" class="my-radio"/>
+        <input type="radio" :id="day.id" :value="day.id" v-model="selectDay" @change="getSchedule" class="my-radio" />
         <label :for="day.id" class="my-label">{{ day.name }}</label>
       </div>
     </div>
@@ -22,31 +22,46 @@
   <section class="main-section">
     <div class="wrapper-main">
       <div class="wrapper-schedule" v-for="schedule in newSchedule" :key="schedule.id" :id="schedule.id">
-        <div class="wrapper-pair">
-          {{ arrLabels[schedule.index - 1].label }}
-        </div>
-        <div class="wrapper-lesson">
-          {{ schedule.subject_name }}
-          <span class="type-lesson">({{ typeLesson[schedule.type_lesson - 1].name }})</span>
-        </div>
-        <div class="wrapper-lecturer">
-          <img src="../assets/img/lecturer-icon.png" alt="icon" class="img-lecturer" />
-          <span>{{ schedule.lecturer_name }}</span>
-        </div>
-        <div class="wrapper-bottom">
-          <div class="wrapper-number">
-            {{ schedule.cabinet_number }}
+        <template v-if="schedule.isWindow">
+          <div class="wrapper-pair">
+            {{ schedule.label }}
           </div>
-          <div class="wrapper-building">
-            <span>вул.</span>
-            {{ schedule.building_name }}
+          <div class="wrapper-window">
+            <img src="../assets/img/union.png" alt="icon">
+            <p class="text-window">
+              Вікно
+            </p>
           </div>
-        </div>
-        <div class="line"></div>
+          <div class="line"></div>
+        </template>
+
+        <template v-else>
+          <div class="wrapper-pair">
+            {{ this.arrLabels[schedule.index - 1].label }}
+          </div>
+          <div class="wrapper-lesson">
+            {{ schedule.subject_name }}
+            <span class="type-lesson">({{ typeLesson[schedule.type_lesson - 1].name }})</span>
+          </div>
+          <div class="wrapper-lecturer">
+            <img src="../assets/img/lecturer-icon.png" alt="icon" class="img-lecturer" />
+            <span>{{ schedule.lecturer_name }}</span>
+          </div>
+          <div class="wrapper-bottom">
+            <div class="wrapper-number">
+              {{ schedule.cabinet_number }}
+            </div>
+            <div class="wrapper-building">
+              <span>вул.</span>
+              {{ schedule.building_name }}
+            </div>
+          </div>
+          <div class="line"></div>
+        </template>
       </div>
     </div>
   </section>
-</template> 
+</template>
 
 <script>
 import { mapActions } from "vuex";
@@ -181,60 +196,11 @@ export default {
           schedule.building_name = res_building.data.result.name;
 
           if (this.newSchedule.length > 0) {
-            if (schedule.index - 1 > this.newSchedule.at(-1).index) {
-              const wrapperOldSchedule = document.getElementById(`${this.newSchedule.at(-1).id}`)
-
-              const wrapperAddition = document.createElement('div');
-              const wrapperPair = document.createElement('div');
-              const wrapperWindow = document.createElement('div');
-              const imgWrapper = document.createElement('div');
-              const text = document.createElement('p');
-              const line = document.createElement('div');
-
-              wrapperPair.textContent = this.arrLabels[schedule.index - 2].label
-              text.textContent = 'Вікно';
-
-              wrapperAddition.classList.add('wrapper-addition');
-              wrapperPair.classList.add('wrapper-pair');
-              wrapperWindow.classList.add('wrapper-window');
-              text.classList.add('text-window');
-              line.classList.add('line');
-
-              //wrapperWindow.append(imgWrapper);
-              wrapperWindow.append(text);
-              wrapperAddition.append(wrapperPair);
-              wrapperAddition.append(wrapperWindow);
-              wrapperAddition.append(line);
-
-              wrapperAddition.style.display = 'flex';
-              wrapperAddition.style.flexDirection = 'column';
-              wrapperAddition.style.alignItems = 'flex-start';
-              wrapperAddition.style.margin = '20px 0px 5px 0px';
-
-              wrapperWindow.style.display = 'flex';
-              wrapperWindow.style.flexDirection = 'row';
-              wrapperWindow.style.alignItems = 'center';
-              wrapperWindow.style.padding = '4px 8px';
-              wrapperWindow.style.marginTop = '8px';
-              wrapperWindow.style.background = '#7B7D8E';
-              wrapperWindow.style.borderRadius = '5px';
-
-              line.style.marginTop = '20px';
-              line.style.maxWidth = '100%';
-              line.style.width = '100%';
-              line.style.height = '1px';
-              line.style.background = '#3D3D41';
-
-              wrapperPair.style.fontSize = '14px';
-              wrapperPair.style.lineHeight = '19px';
-
-              text.style.fontWeight = '600';
-              text.style.fontSize = '12px';
-              text.style.lineHeight = '16px';
-
-              //imgWrapper.innerHTML = "<img src='../assets/img/lecturer-icon.png' alt='icon' class='img-lecturer' />";
-              wrapperOldSchedule.append(wrapperAddition);
-              console.log(wrapperOldSchedule);
+            if (schedule.index - 2 === this.newSchedule.at(-1).index) {
+              this.newSchedule.push({
+                isWindow: true,
+                label: this.arrLabels[schedule.index - 2].label,
+              });
             }
           }
 
@@ -248,7 +214,7 @@ export default {
     async activeElement() {
       document.getElementById('1').checked = true;
       this.selectDay = 1;
-      await this.getSchedule(); 
+      await this.getSchedule();
     }
   },
 
@@ -262,6 +228,7 @@ export default {
 
 <style scoped lang="scss">
 @import "@/style";
+
 .wrapper-bottom {
   display: flex;
   align-items: center;
@@ -301,8 +268,10 @@ export default {
 .wrapper-schedule {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   color: white;
   margin-top: 15px;
+  width: 100%;
 }
 
 .wrapper-lesson {
@@ -443,9 +412,7 @@ input[type=radio] {
   background: $btn-green;
 }
 
-.active {
-
-}
+.active {}
 
 .title-even::before {
   content: '';
@@ -463,21 +430,6 @@ input[type=radio] {
   line-height: 19px;
   opacity: 0.5;
 }
-
-// .wrapper-window {
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   padding: 4px 8px;
-//   background: $border-gray;
-// }
-
-// .text-window {
-//   font-weight: 600;
-//   font-size: 12px;
-//   line-height: 16px;
-//   color: $white;
-// }
 
 @media only screen and (max-width: 414px) {
   .main-section {
