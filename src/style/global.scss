@@ -92,12 +92,6 @@ option {
   background: transparent;
 }
 
-@media only screen and (max-width: 414px) {
-  .main-section {
-    align-items: flex-start !important;
-  }
-}
-
 .disabled {
   opacity: 0.5;
   pointer-events: none;
@@ -119,4 +113,10 @@ option {
   font-size: 12px;
   line-height: 16px;
   color: $white;
+}
+
+@media only screen and (max-width: 414px) {
+  .main-section {
+    align-items: flex-start !important;
+  }
 }

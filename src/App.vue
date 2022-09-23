@@ -1,20 +1,13 @@
 <template>
-  <my-header> Студ </my-header>
+  <MyHeader> Студ </MyHeader>
   <div class="app">
     <router-view></router-view>
   </div>
 </template>
 
-
-<script>
+<script setup>
 import MyHeader from "./components/MyHeader.vue";
-
-export default {
-  components: { MyHeader },
-  methods: {},
-};
 </script>
-
 
 <style lang="scss">
 @import '@/style/global.scss';

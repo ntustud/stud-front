@@ -28,33 +28,31 @@
   </section>
 </template> 
 
+<script setup>
+  import { useStore } from "vuex";
+  import { ref, computed, onMounted } from 'vue';
+  import { UNIVERSITY_ID } from '../../constant';
+  import MyButton from '../components/UI/MyButton.vue';
 
-<script>
-import { mapActions, mapState } from "vuex";
-import { UNIVERSITY_ID } from '../../constant';
+  const store = useStore();
 
-export default {
-  data() {
-    return {
-      selectFaculty: 0,
-      university_id: UNIVERSITY_ID,
-    };
-  },
+  const selectFaculty = ref(0);
+  const universityID = ref(UNIVERSITY_ID);
 
-  computed: {
-    ...mapState({
-      faculties: (state) => state.timeTable.faculties,
-    }),
-  },
+  const faculties = computed(() => store.state.timeTable.faculties);
+  const getFaculties = (universityID) => store.dispatch('timeTable/getFaculties', universityID);
+  // computed(() => {
+  //   mapState({
+  //     faculties: () => store.timeTable.faculties,
+  //   })
+  // });
 
-  methods: {
-    ...mapActions("timeTable", ["getFaculties"]),
-  },
+  // mapActions("timeTable", ["getFaculties"]),
 
-  mounted() {
-    this.getFaculties(this.university_id);
-  },
-};
+  onMounted(() => {
+    getFaculties(universityID.value);
+  });
+
 </script>
 
 
