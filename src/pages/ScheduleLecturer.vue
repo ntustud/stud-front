@@ -54,7 +54,7 @@
                         </div>
                         <div class="wrapper-building">
                             <span>вул.</span>
-                            {{ schedule.building_name }}
+                            {{ schedule.building_street }}
                         </div>
                     </div>
                     <div class="line"></div>
@@ -190,7 +190,7 @@ export default {
                     schedule.group_name = res_group.data.result.name;
                     schedule.subject_name = res_subj.data.result.name;
                     schedule.cabinet_number = res_cab.data.result.number;
-                    schedule.building_name = res_building.data.result.name;
+                    schedule.building_street = res_building.data.result.street;
 
                     let isPush = true;
 

@@ -18,65 +18,59 @@
     </section>
 </template> 
 
-
-<script>
-import { mapActions } from "vuex";
+<script setup>
+import { ref, reactive, onMounted } from 'vue';
+import MyButton from '../components/UI/MyButton.vue';
 import vSelect from "vue-select";
+import { useStore } from "vuex";
 
-export default {
-    data() {
-        return {
-            optionsLecturer: [],
-            selectedLecturer: {id: 0},
-        };
-    },
+const store = useStore();
 
-    components: {
-        "v-select": vSelect,
-    },
+let optionsLecturer = ref([]);
+let selectedLecturer = reactive({ id: 0 });
 
-    methods: {
-        ...mapActions("timeTable", ["searchLecturers"]),
+// components: {
+//     "v-select": vSelect,
+// },
 
-        async search(loading, search, vm) {
-            try {
-                const response = await this.searchLecturers(search);
+const searchLecturers = (searchInfo) => store.dispatch('timeTable/searchLecturers', searchInfo);
 
-                if (response.data.result == null) {
-                    return;
-                }
+async function search(loading, searchInfo) {
+    try {
+        const response = await searchLecturers(searchInfo);
 
-                let arrLecturers = response.data.result;
+        if (response.data.result == null) {
+            return;
+        }
 
-                for (const lecturer in arrLecturers) {
-                    arrLecturers[lecturer]['name'] = arrLecturers[lecturer].first_name + ' ' + arrLecturers[lecturer].last_name + ' ' + arrLecturers[lecturer].second_name;
-                }
+        let arrLecturers = response.data.result;
 
-                vm.optionsLecturer = arrLecturers;
-                loading(false);
-            } catch (error) {
-                console.log(error);
-            }
-        },
-
-        onSearch(search, loading) {
-            if (search.length) {
-                loading(true);
-                this.search(loading, search, this);
-            }
-        },
-
-        selectOptionLecturer(val) {
-            this.selectedLecturer.id = val.id;
-        },
-    },
-
-    mounted() {
-
-    },
+        for (const lecturer in arrLecturers) {
+            arrLecturers[lecturer]['name'] = arrLecturers[lecturer].first_name + ' ' + arrLecturers[lecturer].last_name + ' ' + arrLecturers[lecturer].second_name;
+        }
+        optionsLecturer.value = arrLecturers;
+        loading(false);
+    } catch (error) {
+        console.log(error);
+    }
 };
-</script>
 
+async function onSearch(searchInfo, loading) {
+    if (searchInfo.length) {
+        loading(true);
+        await search(loading, searchInfo);
+    }
+};
+
+function selectOptionLecturer(val) {
+    selectedLecturer.id = val.id;
+    console.log('selectedLecturer', selectedLecturer);
+};
+
+onMounted(() => {
+    console.log('selectedLecturer.id', selectedLecturer.id);
+});
+</script>
 
 <style scoped lang="scss">
 @import "@/style";
@@ -89,7 +83,7 @@ export default {
     font-weight: 400;
     font-size: 12px;
     line-height: 16px;
-    color: $black  !important;
+    color: $black !important;
     border: 1px solid $black;
     border-radius: 4px;
     background: $white;

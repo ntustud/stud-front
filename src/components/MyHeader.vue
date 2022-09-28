@@ -17,13 +17,8 @@
     </header>
 </template> 
 
-
-<script>
-export default {
-
-};
+<script setup>
 </script>
-
 
 <style scoped lang="scss">
 @import "@/style";
