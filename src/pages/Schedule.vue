@@ -102,14 +102,15 @@ let arrLabels = [
   { label: "17:40 - 19:00", index: 7 },
 ];
 
-let getGroup = (group_id) => store.dispatch('timeTable/getGroup', group_id.value);
-let getCurrentSemester = () => store.dispatch('timeTable/getCurrentSemester');
-let getLessonSchedulesForDayWhereGroup = (info) => store.dispatch('timeTable/getLessonSchedulesForDayWhereGroup', info);
-let getLessonPlan = (lesson_plan_id) => store.dispatch('timeTable/getLessonPlan', lesson_plan_id);
-let getLecturer = (lecturer_id) => store.dispatch('timeTable/getLecturer', lecturer_id);
-let getCabinet = (cabinet_id) => store.dispatch('timeTable/getCabinet', cabinet_id);
-let getSubject = (subject_id) => store.dispatch('timeTable/getSubject', subject_id);
-let getBuilding = (building_id) => store.dispatch('timeTable/getBuilding', building_id);
+const getGroup = (group_id) => store.dispatch('timeTable/getGroup', group_id.value);
+const getCurrentSemester = () => store.dispatch('timeTable/getCurrentSemester');
+const getLessonSchedulesForDayWhereGroup = (info) => store.dispatch('timeTable/getLessonSchedulesForDayWhereGroup', info);
+const getLessonPlan = (lesson_plan_id) => store.dispatch('timeTable/getLessonPlan', lesson_plan_id);
+const getLecturer = (lecturer_id) => store.dispatch('timeTable/getLecturer', lecturer_id);
+const getCabinet = (cabinet_id) => store.dispatch('timeTable/getCabinet', cabinet_id);
+const getSubject = (subject_id) => store.dispatch('timeTable/getSubject', subject_id);
+const getBuilding = (building_id) => store.dispatch('timeTable/getBuilding', building_id);
+const getToday = () => store.dispatch('timeTable/getToday');
 
 async function getNameGroup() {
   try {
@@ -125,19 +126,19 @@ async function getSchedule() {
   try {
     newSchedule.value = [];
 
-    if (selectDay == "") {
+    if (selectDay.value == "") {
       return;
     }
 
     const resp_semester = await getCurrentSemester();
 
-    currentSemester = resp_semester.data.result;
+    currentSemester.value = resp_semester.data.result;
 
     const payload = reactive({
-      semester_id: currentSemester.id,
-      group_id: group_id,
+      semester_id: currentSemester.value.id,
+      group_id: group_id.value,
       even: even.value,
-      day_of_week: selectDay,
+      day_of_week: selectDay.value,
     });
 
     const response = await getLessonSchedulesForDayWhereGroup(payload);
@@ -147,7 +148,7 @@ async function getSchedule() {
       return;
     }
 
-    lessonSchedules = response.data.result;
+    lessonSchedules.value = response.data.result;
 
     getPairs();
   } catch (error) {
@@ -168,7 +169,7 @@ async function changeEven() {
 
 async function getPairs() {
   try {
-    for (const schedule of lessonSchedules) {
+    for (const schedule of lessonSchedules.value) {
       const res_lesson_plan = await getLessonPlan(
         schedule.lesson_plan_id
       );
@@ -207,15 +208,30 @@ async function getPairs() {
   }
 };
 
-async function activeElement() {
-  document.getElementById('1').checked = true;
-  selectDay = 1;
-  await getSchedule();
+// async function activeElement() {
+//   document.getElementById('1').checked = true;
+//   selectDay = 1;
+//   await getSchedule();
+// };
+
+async function updateCurrentWeek() {
+  try {
+    const res = await getToday();
+
+    selectDay.value = res.data.result.day_of_week;
+    even.value = res.data.result.even;
+    titleEven.value = even.value === true ? 'Парний тиждень' : 'Непарний тиждень';
+
+    await getSchedule();
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 onMounted(() => {
   getNameGroup();
-  activeElement();
+  updateCurrentWeek();
+  //activeElement();
 });
 </script>
 

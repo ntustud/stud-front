@@ -64,172 +64,179 @@
     </section>
 </template>
 
-<script>
-import { mapActions } from "vuex";
+<script setup>
+import { ref, reactive, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import { useStore } from "vuex";
 
-export default {
-    data() {
-        return {
-            group_id: parseInt(this.$route.params.idGroup),
-            lecturer_id: parseInt(this.$route.params.idLecturer),
-            lecturer: {},
-            even: true,
-            titleEven: "Парний тиждень",
-            selectDay: "",
-            days: [
-                { id: 1, name: "Понеділок" },
-                { id: 2, name: "Вівторок" },
-                { id: 3, name: "Середа" },
-                { id: 4, name: "Четвер" },
-                { id: 5, name: "П'ятниця" },
-                { id: 6, name: "Субота" },
-            ],
-            typeLesson: [
-                { id: 1, name: 'Лекція' },
-                { id: 2, name: 'Практична' },
-                { id: 3, name: 'Лабораторна' },
-            ],
-            newSchedule: [],
-            currentSemester: "",
-            lessonSchedules: "",
-            lessonPlan: {},
-            cabinet: {},
-            subject: {},
-            arrLabels: [
-                { label: "8:30 - 9:50", index: 1 },
-                { label: "10:00 - 11:20", index: 2 },
-                { label: "11:30 - 12:50", index: 3 },
-                { label: "13:10 - 14:30", index: 4 },
-                { label: "14:40 - 16:00", index: 5 },
-                { label: "16:10 - 17:30", index: 6 },
-                { label: "17:40 - 19:00", index: 7 },
-            ],
-        };
-    },
+const store = useStore();
+const route = useRoute();
 
-    methods: {
-        ...mapActions("timeTable", ["getGroup"]),
-        ...mapActions("timeTable", ["getCurrentSemester"]),
-        ...mapActions("timeTable", ["getLessonSchedulesForDayWhereLecturer"]),
-        ...mapActions("timeTable", ["getLessonPlan"]),
-        ...mapActions("timeTable", ["getLecturer"]),
-        ...mapActions("timeTable", ["getCabinet"]),
-        ...mapActions("timeTable", ["getSubject"]),
-        ...mapActions("timeTable", ["getBuilding"]),
+// let group_id = ref(parseInt(route.params.idGroup));
+let lecturer_id = ref(parseInt(route.params.idLecturer));
+let lecturer = ref({});
+let even = ref(true);
+let titleEven = ref("Парний тиждень");
+let selectDay = ref("");
+let newSchedule = ref([]);
+let currentSemester = ref("");
+let lessonSchedules = ref("");
+let days = [
+    { id: 1, name: "Понеділок" },
+    { id: 2, name: "Вівторок" },
+    { id: 3, name: "Середа" },
+    { id: 4, name: "Четвер" },
+    { id: 5, name: "П'ятниця" },
+    { id: 6, name: "Субота" },
+];
+let typeLesson = [
+    { id: 1, name: 'Лекція' },
+    { id: 2, name: 'Практична' },
+    { id: 3, name: 'Лабораторна' }
+];
+let arrLabels = [
+    { label: "8:30 - 9:50", index: 1 },
+    { label: "10:00 - 11:20", index: 2 },
+    { label: "11:30 - 12:50", index: 3 },
+    { label: "13:10 - 14:30", index: 4 },
+    { label: "14:40 - 16:00", index: 5 },
+    { label: "16:10 - 17:30", index: 6 },
+    { label: "17:40 - 19:00", index: 7 }
+];
 
-        async getNameLecturer() {
-            try {
-                const response = await this.getLecturer(this.lecturer_id);
+const getGroup = (group_id) => store.dispatch('timeTable/getGroup', group_id);
+const getCurrentSemester = () => store.dispatch('timeTable/getCurrentSemester');
+const getLessonSchedulesForDayWhereLecturer = (info) => store.dispatch('timeTable/getLessonSchedulesForDayWhereLecturer', info);
+const getLessonPlan = (lesson_plan_id) => store.dispatch('timeTable/getLessonPlan', lesson_plan_id);
+const getLecturer = (lecturer_id) => store.dispatch('timeTable/getLecturer', lecturer_id);
+const getCabinet = (cabinet_id) => store.dispatch('timeTable/getCabinet', cabinet_id);
+const getSubject = (subject_id) => store.dispatch('timeTable/getSubject', subject_id);
+const getBuilding = (building_id) => store.dispatch('timeTable/getBuilding', building_id);
+const getToday = () => store.dispatch('timeTable/getToday');
 
-                this.lecturer = response.data.result;
-            } catch (error) {
-                console.log(error);
-            }
-        },
+async function getNameLecturer() {
+    try {
+        const response = await getLecturer(lecturer_id.value);
 
-        async getSchedule() {
-            try {
-                console.log('клац');
-                this.newSchedule = [];
-
-                if (this.selectDay == "") {
-                    return;
-                }
-
-                const resp_semester = await this.getCurrentSemester();
-                this.currentSemester = resp_semester.data.result;
-
-                const payload = {
-                    semester_id: this.currentSemester.id,
-                    lecturer_id: this.lecturer_id,
-                    even: this.even,
-                    day_of_week: this.selectDay,
-                };
-
-                const response = await this.getLessonSchedulesForDayWhereLecturer(payload);
-
-                if (response.data.result == null) {
-                    console.log('Error! Array of result is empty!');
-                    return;
-                }
-
-                this.lessonSchedules = response.data.result;
-
-                this.getPairs();
-            } catch (error) {
-                console.log(error);
-            }
-        },
-
-        async changeEven() {
-            try {
-                this.even = this.even === true ? false : true;
-                this.titleEven = this.even === true ? 'Парний тиждень' : 'Непарний тиждень';
-
-                await this.getSchedule();
-            } catch (error) {
-                console.log(error);
-            }
-        },
-
-        async getPairs() {
-            try {
-                for (const schedule of this.lessonSchedules) {
-                    const res_lesson_plan = await this.getLessonPlan(
-                        schedule.lesson_plan_id
-                    );
-                    const res_subj = await this.getSubject(
-                        res_lesson_plan.data.result.subject_id
-                    );
-                    const res_group = await this.getGroup(schedule.group_id);
-                    const res_cab = await this.getCabinet(schedule.cabinet_id);
-                    const res_building = await this.getBuilding(
-                        res_cab.data.result.building_id
-                    );
-
-                    schedule.group_name = res_group.data.result.name;
-                    schedule.subject_name = res_subj.data.result.name;
-                    schedule.cabinet_number = res_cab.data.result.number;
-                    schedule.building_street = res_building.data.result.street;
-
-                    let isPush = true;
-
-                    // merging groups in one card
-                    if (this.newSchedule.length > 0) {
-                        if (this.newSchedule.at(-1).index === schedule.index) {
-                            this.newSchedule.at(-1).group_name += ', ' + schedule.group_name;
-                            isPush = false;
-                        }
-
-                        if (schedule.index - 2 === this.newSchedule.at(-1).index) {
-                            console.log('schedule index:', schedule.index);
-                            console.log('newSchedule index:', this.newSchedule.at(-1).index);
-
-                            this.newSchedule.push({
-                                isWindow: true,
-                                label: this.arrLabels[schedule.index - 2].label,
-                            });
-                        }
-                    }
-
-                    if (isPush) {
-                        this.newSchedule.push(schedule);
-                    }
-
-                    // merging groups in one card
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        },
-    },
-
-    mounted() {
-        this.getNameLecturer();
-    },
+        lecturer.value = response.data.result;
+    } catch (error) {
+        console.log(error);
+    }
 };
-</script>
 
+async function getSchedule() {
+    try {
+        newSchedule.value = [];
+
+        if (selectDay.value == "") {
+            return;
+        }
+
+        const resp_semester = await getCurrentSemester();
+
+        currentSemester.value = resp_semester.data.result;
+
+        const payload = reactive({
+            semester_id: currentSemester.value.id,
+            lecturer_id: lecturer_id.value,
+            even: even.value,
+            day_of_week: selectDay.value,
+        });
+
+        const response = await getLessonSchedulesForDayWhereLecturer(payload);
+
+        if (response.data.result == null) {
+            console.log('Error! Array of result is empty!');
+            return;
+        }
+
+        lessonSchedules.value = response.data.result;
+
+        getPairs();
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+async function changeEven() {
+    try {
+        even.value = even.value === true ? false : true;
+        titleEven.value = even.value === true ? 'Парний тиждень' : 'Непарний тиждень';
+
+        await getSchedule();
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+async function getPairs() {
+    try {
+        for (const schedule of lessonSchedules.value) {
+            const res_lesson_plan = await getLessonPlan(
+                schedule.lesson_plan_id
+            );
+            const res_subj = await getSubject(
+                res_lesson_plan.data.result.subject_id
+            );
+
+            const res_group = await getGroup(schedule.group_id);
+            const res_cab = await getCabinet(schedule.cabinet_id);
+            const res_building = await getBuilding(
+                res_cab.data.result.building_id
+            );
+
+            schedule.group_name = res_group.data.result.name;
+            schedule.subject_name = res_subj.data.result.name;
+            schedule.cabinet_number = res_cab.data.result.number;
+            schedule.building_street = res_building.data.result.street;
+
+            let isPush = true;
+
+            // merging groups in one card
+            if (newSchedule.value.length > 0) {
+                if (newSchedule.value.at(-1).index === schedule.index) {
+                    newSchedule.value.at(-1).group_name += ', ' + schedule.group_name;
+                    isPush = false;
+                }
+
+                if (schedule.index - 2 === newSchedule.value.at(-1).index) {
+                    newSchedule.value.push({
+                        isWindow: true,
+                        label: arrLabels[schedule.index - 2].label,
+                    });
+                }
+            }
+
+            if (isPush) {
+                newSchedule.value.push(schedule);
+            }
+
+            // merging groups in one card
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+async function updateCurrentWeek() {
+    try {
+        const res = await getToday();
+
+        selectDay.value = res.data.result.day_of_week;
+        even.value = res.data.result.even;
+        titleEven.value = even.value === true ? 'Парний тиждень' : 'Непарний тиждень';
+
+        await getSchedule();
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+onMounted(() => {
+    getNameLecturer();
+    updateCurrentWeek();
+});
+</script>
 
 <style scoped lang="scss">
 @import "@/style";

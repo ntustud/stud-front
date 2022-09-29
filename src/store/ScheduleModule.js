@@ -91,7 +91,6 @@ export const ScheduleModule = {
 
         async getLessonPlan({ }, lesson_plan_id) {
             try {
-                console.log('LOGGER', lesson_plan_id);
                 const res = await ax.get(`/lesson/plan/${lesson_plan_id}`);
 
                 return res;
@@ -145,6 +144,16 @@ export const ScheduleModule = {
                 throw error;
             }
         },
+
+        async getToday() {
+            try {
+                const res = await ax.get(`/today`);
+
+                return res
+            } catch (error) {
+                throw error;
+            }
+        }
     },
     namespaced: true
 }
