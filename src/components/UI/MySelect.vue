@@ -1,79 +1,68 @@
 <template>
-    <select v-model="modelValue" @change="changeOption" class="my-select" :class="{'opacity-select': !isSelect}">
-        <option disabled value="" class="first-select"> {{ nameSelect }} </option>
-        <option v-for="option in options" :key="option.value" :value="option.value" class="my-option"> {{ option.name }} </option>
+    <select v-model="props.modelValue" @change="changeOption" class="my-select" :class="{'opacity-select': !isSelect}">
+        <option disabled value="" class="first-select"> {{ props.nameSelect }} </option>
+        <option v-for="option in props.options" :key="option.value" :value="option.value" class="my-option"> {{
+        option.name }}
+        </option>
     </select>
 </template> 
 
+<script setup>
+import { ref, defineEmits, onMounted } from 'vue';
 
-<script>
-    export default {
-        name: 'my-select',
-        props: {
-            modelValue: {
-                type: String
-            },
-            options: {
-                type: Array,
-                default: () => []
-            },
-            nameSelect: {
-                type: String
-            }
-        },
+const emit = defineEmits(['update:modelValue']);
 
-        data() {
-            return {
-                isSelect: false
-            }
-        },
+const props = defineProps(['modelValue', 'options', 'nameSelect']);
 
-        methods: {
-            changeOption(event) {
-                this.isSelect = true;
-                this.$emit('update:modelValue', event.target.value);
-            }
-        }
-    };
+let isSelect = ref(false);
+
+function changeOption(event) {
+    isSelect = true;
+    emit('update:modelValue', event.target.value);
+}
+
+onMounted(() => {
+    console.log('props:', props);
+});
 </script>
-
 
 <style scoped lang="scss">
 @import "@/style";
 
-    .my-select {
-        border: 1px solid $border-gray;
-        box-sizing: border-box;
-        border-radius: 5px;
+.my-select {
+    border: 1px solid $border-gray;
+    box-sizing: border-box;
+    border-radius: 5px;
 
-        padding: 12px 0px 12px 12px;
+    padding: 12px 0px 12px 12px;
 
-        width: 100%;
+    width: 100%;
 
-        background: transparent;
+    background: transparent;
 
+    color: $white;
+
+    .first-select {
+        font-family: 'Open Sans', sans-serif;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 16px;
+
+        background: $black;
+    }
+
+    .my-option {
         color: $white;
-
-        .first-select {
-            font-family: 'Open Sans', sans-serif;
-            font-style: normal;
-            font-weight: 400;
-            font-size: 12px;
-            line-height: 16px;
-
-            background: $black;
-        }
-        .my-option {
-            color: $white;
-            background-color: $black;
-        }
+        background-color: $black;
     }
+}
 
-    option {
-        background: transparent;
-    }
+option {
+    background: transparent;
+}
 
-    .opacity-select {
-        opacity: 0.5;
-    }
+.opacity-select {
+    opacity: 0.5;
+}
 </style>

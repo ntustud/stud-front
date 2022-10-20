@@ -50,7 +50,6 @@ export const ScheduleModule = {
 
         async getLessonSchedulesForDayWhereGroup({ }, { semester_id, group_id, even, day_of_week }) {
             try {
-                console.log(semester_id, group_id, even, day_of_week);
                 const res = await ax.post(`/semester/${semester_id}/group/${group_id}/lesson/schedules/day`, { even, day_of_week });
 
                 return res;
@@ -145,6 +144,16 @@ export const ScheduleModule = {
                 throw error;
             }
         },
+
+        async getToday() {
+            try {
+                const res = await ax.get(`/today`);
+
+                return res
+            } catch (error) {
+                throw error;
+            }
+        }
     },
     namespaced: true
 }

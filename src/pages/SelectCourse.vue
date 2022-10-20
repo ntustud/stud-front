@@ -3,23 +3,16 @@
     <div class="wrapper-main">
       <h4 class="main-title">Оберіть курс</h4>
       <p class="main-subtitle">Номер вашого курсу на факультеті</p>
-      <select v-model.number="num_course" class="my-select">
-        <option
-          v-for="option in arrCourse"
-          :key="option.id"
-          :value="option.id"
-          class="my-option"
-        >
+      <select v-model.number="numCourse" class="my-select">
+        <option v-for="option in arrCourse" :key="option.id" :value="option.id" class="my-option">
           {{ option.id }}
         </option>
       </select>
       <div class="wrapper-btn">
-        <router-link
-          :to="{
-            name: 'group',
-            params: { idFaculty: faculty_id, numCourse: num_course },
-          }"
-        >
+        <router-link :to="{
+          name: 'group',
+          params: { idFaculty: facultyID, numCourse: numCourse },
+        }">
           <MyButton class="btn-blue">Далі</MyButton>
         </router-link>
         <router-link :to="{ name: 'faculty' }">
@@ -30,33 +23,22 @@
   </section>
 </template> 
 
+<script setup>
+import MyButton from '../components/UI/MyButton.vue';
+import { ref, reactive, computed } from 'vue';
+import { useRoute } from 'vue-router';
+import { useStore } from "vuex";
 
-<script>
-import { mapState } from "vuex";
+const store = useStore();
+const route = useRoute();
 
-export default {
-  data() {
-    return {
-      selectCourse: 0,
+const faculties = computed(() => store.state.timeTable.faculties);
 
-      faculty_id: this.$route.params.idFaculty,
-      num_course: 1,
-
-      arrCourse: [{id: 1}, {id: 2}, {id: 3}, {id:4}, {id:5}],
-    };
-  },
-
-  computed: {
-    ...mapState({
-      faculties: (state) => state.timeTable.faculties,
-    }),
-  },
-
-  methods: {
-  },
-};
+const arrCourse = reactive([{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }]);
+const facultyID = ref(route.params.idFaculty);
+const selectCourse = ref(0);
+const numCourse = ref(1);
 </script>
-
 
 <style scoped lang="scss">
 @import "@/style";

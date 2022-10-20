@@ -18,65 +18,50 @@
     </section>
 </template> 
 
-
-<script>
-import { mapActions } from "vuex";
+<script setup>
+import { ref, reactive, onMounted } from 'vue';
+import MyButton from '../components/UI/MyButton.vue';
 import vSelect from "vue-select";
+import { useStore } from "vuex";
 
-export default {
-    data() {
-        return {
-            optionsLecturer: [],
-            selectedLecturer: {id: 0},
-        };
-    },
+const store = useStore();
 
-    components: {
-        "v-select": vSelect,
-    },
+let optionsLecturer = ref([]);
+let selectedLecturer = reactive({ id: 0 });
 
-    methods: {
-        ...mapActions("timeTable", ["searchLecturers"]),
+const searchLecturers = (searchInfo) => store.dispatch('timeTable/searchLecturers', searchInfo);
 
-        async search(loading, search, vm) {
-            try {
-                const response = await this.searchLecturers(search);
+async function search(loading, searchInfo) {
+    try {
+        const response = await searchLecturers(searchInfo);
 
-                if (response.data.result == null) {
-                    return;
-                }
+        if (response.data.result == null) {
+            return;
+        }
 
-                let arrLecturers = response.data.result;
+        let arrLecturers = response.data.result;
 
-                for (const lecturer in arrLecturers) {
-                    arrLecturers[lecturer]['name'] = arrLecturers[lecturer].first_name + ' ' + arrLecturers[lecturer].last_name + ' ' + arrLecturers[lecturer].second_name;
-                }
+        for (const lecturer in arrLecturers) {
+            arrLecturers[lecturer]['name'] = arrLecturers[lecturer].first_name + ' ' + arrLecturers[lecturer].last_name + ' ' + arrLecturers[lecturer].second_name;
+        }
+        optionsLecturer.value = arrLecturers;
+        loading(false);
+    } catch (error) {
+        console.log(error);
+    }
+};
 
-                vm.optionsLecturer = arrLecturers;
-                loading(false);
-            } catch (error) {
-                console.log(error);
-            }
-        },
+async function onSearch(searchInfo, loading) {
+    if (searchInfo.length) {
+        loading(true);
+        await search(loading, searchInfo);
+    }
+};
 
-        onSearch(search, loading) {
-            if (search.length) {
-                loading(true);
-                this.search(loading, search, this);
-            }
-        },
-
-        selectOptionLecturer(val) {
-            this.selectedLecturer.id = val.id;
-        },
-    },
-
-    mounted() {
-
-    },
+function selectOptionLecturer(val) {
+    selectedLecturer.id = val.id;
 };
 </script>
-
 
 <style scoped lang="scss">
 @import "@/style";
@@ -89,7 +74,7 @@ export default {
     font-weight: 400;
     font-size: 12px;
     line-height: 16px;
-    color: $black  !important;
+    color: $black !important;
     border: 1px solid $black;
     border-radius: 4px;
     background: $white;

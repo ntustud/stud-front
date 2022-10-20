@@ -4,32 +4,22 @@
       <h4 class="main-title">Оберіть групу</h4>
       <p class="main-subtitle">Кодова назва вашої групи</p>
       <select v-model.number="selectGroup" class="my-select">
-        <option
-          v-for="option in groups"
-          :key="option.id"
-          :value="option.id"
-          class="my-option"
-        >
+        <option v-for="option in groups" :key="option.id" :value="option.id" class="my-option">
           {{ option.name }}
         </option>
       </select>
       <div class="wrapper-btn">
-        <router-link
-          :to="{
-            name: 'schedule',
-            params: {
-              idFaculty: payload.faculty_id,
-              numCourse: payload.num_course,
-              idGroup: selectGroup,
-            },
-          }"
-          :class="{ disabled: selectGroup === 0}"
-        >
+        <router-link :to="{
+          name: 'schedule',
+          params: {
+            idFaculty: payload.faculty_id,
+            numCourse: payload.num_course,
+            idGroup: selectGroup,
+          },
+        }" :class="{ disabled: selectGroup === 0}">
           <MyButton class="btn-blue">Зберегти</MyButton>
         </router-link>
-        <router-link
-          :to="{ name: 'course', params: { idFaculty: payload.faculty_id } }"
-        >
+        <router-link :to="{ name: 'course', params: { idFaculty: payload.faculty_id } }">
           <MyButton color="gray">Назад</MyButton>
         </router-link>
       </div>
@@ -37,50 +27,42 @@
   </section>
 </template> 
 
+<script setup>
+import MyButton from '../components/UI/MyButton.vue';
+import { ref, reactive, computed, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import { useStore } from "vuex";
 
-<script>
-import { mapActions, mapState } from "vuex";
+const store = useStore();
+const route = useRoute();
 
-export default {
-  data() {
-    return {
-      selectGroup: 0,
-      payload: {
-        faculty_id: this.$route.params.idFaculty,
-        num_course: this.$route.params.numCourse,
-      },
-      groups: {},
-    };
-  },
+let selectGroup = ref(0);
+let groups = ref({});
 
-  computed: {
-    ...mapState({
-      faculties: (state) => state.timeTable.faculties,
-    }),
-  },
+const payload = reactive({
+  faculty_id: route.params.idFaculty,
+  num_course: route.params.numCourse,
+});
 
-  methods: {
-    ...mapActions("timeTable", ["getGroupsWhereFacultyAndCourse"]),
+const faculties = computed(() => store.state.timeTable.faculties);
 
-    async setGroup() {
-      try {
-        const response = await this.getGroupsWhereFacultyAndCourse(
-          this.payload
-        );
+const getGroupsWhereFacultyAndCourse = (payload) => store.dispatch('timeTable/getGroupsWhereFacultyAndCourse', payload);
 
-        this.groups = response.data.result;
-      } catch (error) {
-        console.log(error);
-      }
-    },
-  },
+async function setGroup() {
+  try {
+    const response = await getGroupsWhereFacultyAndCourse(payload);
 
-  mounted() {
-    this.setGroup();
-  },
+    groups.value = response.data.result;
+  } catch (error) {
+    console.log(error);
+  }
 };
-</script>
 
+onMounted(() => {
+  setGroup();
+});
+
+</script>
 
 <style scoped lang="scss">
 @import "@/style";
