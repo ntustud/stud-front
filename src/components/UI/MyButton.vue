@@ -1,15 +1,17 @@
 <template>
   <button class="btn btn-primary" :class="{
-    'btn-red': props.color === 'red',
-    'btn-gray': props.color === 'gray',
-    'btn-white': props.color === 'white',
+    'btn-red': color === 'red',
+    'btn-gray': color === 'gray',
+    'btn-white': color === 'white',
   }" type="submit">
     <slot></slot>
   </button>
 </template> 
 
 <script setup>
-const props = defineProps(['color']);
+const { color } = defineProps({
+    color: String,
+});
 </script>
 
 <style scoped lang="scss">

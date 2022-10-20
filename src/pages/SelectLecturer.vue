@@ -29,10 +29,6 @@ const store = useStore();
 let optionsLecturer = ref([]);
 let selectedLecturer = reactive({ id: 0 });
 
-// components: {
-//     "v-select": vSelect,
-// },
-
 const searchLecturers = (searchInfo) => store.dispatch('timeTable/searchLecturers', searchInfo);
 
 async function search(loading, searchInfo) {
@@ -64,12 +60,7 @@ async function onSearch(searchInfo, loading) {
 
 function selectOptionLecturer(val) {
     selectedLecturer.id = val.id;
-    console.log('selectedLecturer', selectedLecturer);
 };
-
-onMounted(() => {
-    console.log('selectedLecturer.id', selectedLecturer.id);
-});
 </script>
 
 <style scoped lang="scss">

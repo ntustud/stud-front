@@ -29,29 +29,22 @@
 </template> 
 
 <script setup>
-  import { useStore } from "vuex";
-  import { ref, computed, onMounted } from 'vue';
-  import { UNIVERSITY_ID } from '../../constant';
-  import MyButton from '../components/UI/MyButton.vue';
+import { useStore } from "vuex";
+import { ref, computed, onMounted } from 'vue';
+import { UNIVERSITY_ID } from '../../constant';
+import MyButton from '../components/UI/MyButton.vue';
 
-  const store = useStore();
+const store = useStore();
 
-  const selectFaculty = ref(0);
-  const universityID = ref(UNIVERSITY_ID);
+const selectFaculty = ref(0);
+const universityID = ref(UNIVERSITY_ID);
 
-  const faculties = computed(() => store.state.timeTable.faculties);
-  const getFaculties = (universityID) => store.dispatch('timeTable/getFaculties', universityID);
-  // computed(() => {
-  //   mapState({
-  //     faculties: () => store.timeTable.faculties,
-  //   })
-  // });
+const faculties = computed(() => store.state.timeTable.faculties);
+const getFaculties = (universityID) => store.dispatch('timeTable/getFaculties', universityID);
 
-  // mapActions("timeTable", ["getFaculties"]),
-
-  onMounted(() => {
-    getFaculties(universityID.value);
-  });
+onMounted(() => {
+  getFaculties(universityID.value);
+});
 
 </script>
 

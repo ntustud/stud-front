@@ -38,6 +38,7 @@ const route = useRoute();
 
 let selectGroup = ref(0);
 let groups = ref({});
+
 const payload = reactive({
   faculty_id: route.params.idFaculty,
   num_course: route.params.numCourse,

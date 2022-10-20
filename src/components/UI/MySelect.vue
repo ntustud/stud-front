@@ -15,18 +15,6 @@ const emit = defineEmits(['update:modelValue']);
 const props = defineProps(['modelValue', 'options', 'nameSelect']);
 
 let isSelect = ref(false);
-// props: {
-//     modelValue: {
-//         type: String
-//     },
-//     options: {
-//         type: Array,
-//         default: () => []
-//     },
-//     nameSelect: {
-//         type: String
-//     }
-// },
 
 function changeOption(event) {
     isSelect = true;

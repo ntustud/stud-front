@@ -34,7 +34,6 @@
           </div>
           <div class="line"></div>
         </template>
-
         <template v-else>
           <div class="wrapper-pair">
             {{ arrLabels[schedule.index - 1].label }}
@@ -71,12 +70,23 @@ import { useStore } from "vuex";
 const store = useStore();
 const route = useRoute();
 
+const SUNDAY = 7;
+const MONDAY = 1;
+
 let group_id = ref(parseInt(route.params.idGroup));
 let group = ref({});
 let even = ref(true);
 let titleEven = ref("Парний тиждень");
 let selectDay = ref("");
-let days = [
+let newSchedule = ref([]);
+let currentSemester = ref("");
+let lessonSchedules = ref("");
+const typeLesson = [
+  { id: 1, name: 'Лекція' },
+  { id: 2, name: 'Практична' },
+  { id: 3, name: 'Лабораторна' },
+];
+const days = [
   { id: 1, name: "Понеділок" },
   { id: 2, name: "Вівторок" },
   { id: 3, name: "Середа" },
@@ -84,15 +94,7 @@ let days = [
   { id: 5, name: "П'ятниця" },
   { id: 6, name: "Субота" },
 ];
-let newSchedule = ref([]);
-let currentSemester = ref("");
-let lessonSchedules = ref("");
-let typeLesson = [
-  { id: 1, name: 'Лекція' },
-  { id: 2, name: 'Практична' },
-  { id: 3, name: 'Лабораторна' },
-];
-let arrLabels = [
+const arrLabels = [
   { label: "8:30 - 9:50", index: 1 },
   { label: "10:00 - 11:20", index: 2 },
   { label: "11:30 - 12:50", index: 3 },
@@ -144,7 +146,6 @@ async function getSchedule() {
     const response = await getLessonSchedulesForDayWhereGroup(payload);
 
     if (response.data.result == null) {
-      console.log('Error! Array of result is empty!');
       return;
     }
 
@@ -208,18 +209,14 @@ async function getPairs() {
   }
 };
 
-// async function activeElement() {
-//   document.getElementById('1').checked = true;
-//   selectDay = 1;
-//   await getSchedule();
-// };
-
 async function updateCurrentWeek() {
   try {
     const res = await getToday();
 
-    selectDay.value = res.data.result.day_of_week;
-    even.value = res.data.result.even;
+    const today = res.data.result;
+
+    selectDay.value = today.day_of_week !== SUNDAY ? today.day_of_week : MONDAY;
+    even.value = today.day_of_week !== SUNDAY ? today.even : !today.even;
     titleEven.value = even.value === true ? 'Парний тиждень' : 'Непарний тиждень';
 
     await getSchedule();
@@ -231,7 +228,6 @@ async function updateCurrentWeek() {
 onMounted(() => {
   getNameGroup();
   updateCurrentWeek();
-  //activeElement();
 });
 </script>
 
@@ -372,11 +368,6 @@ onMounted(() => {
 
       &:active {
         animation: rotation-arrows 0.3s;
-      }
-
-      &:hover {
-        transform: scale(1.05);
-        transform: rotate(180deg);
       }
     }
   }
