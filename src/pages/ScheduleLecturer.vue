@@ -392,12 +392,11 @@ onMounted(() => {
         display: flex;
         max-width: 100%;
         margin: 16px 0px 0px;
+        padding-bottom: 10px;
 
         .wrapper-radio {
             padding: 6px 0px;
             margin-right: 12px;
-
-            .my-radio {}
 
             .my-label {
                 font-weight: 600;

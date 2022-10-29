@@ -63,20 +63,32 @@ function selectOptionLecturer(val) {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import "@/style";
 
 .v-select {
+    border: 1px solid $border-gray;
+    border-radius: 5px;
+
     margin: 12px 0px 24px;
-    width: 100%;
+
     font-family: 'Open Sans';
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
-    line-height: 16px;
-    color: $black !important;
-    border: 1px solid $black;
-    border-radius: 4px;
-    background: $white;
+
+    width: 100%;
+    background: transparent;
+    color: $white !important;
+
+
+}
+
+.vs__dropdown-menu {
+    background: $border-gray !important;
+}
+
+.vs__search {
+    color: white !important;
 }
 </style>
