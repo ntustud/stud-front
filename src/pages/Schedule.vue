@@ -127,6 +127,7 @@ async function getNameGroup() {
 async function getSchedule() {
   try {
     newSchedule.value = [];
+    lessonSchedules.value = '';
 
     if (selectDay.value == "") {
       return;
@@ -151,7 +152,7 @@ async function getSchedule() {
 
     lessonSchedules.value = response.data.result;
 
-    getPairs();
+    await getPairs();
   } catch (error) {
     console.log(error);
   }
@@ -379,6 +380,7 @@ onMounted(() => {
     display: flex;
     max-width: 100%;
     margin: 16px 0px 0px;
+    padding-bottom: 10px;
 
     .wrapper-radio {
       padding: 6px 0px;
@@ -466,13 +468,9 @@ input[type=radio] {
     transform: rotate(0deg);
   }
 
-  50% {
-    transform: scale(3);
-    transform: rotate(160deg);
-  }
-
   100% {
-    transform: rotate(360deg);
+    transform: scale(3);
+    transform: rotate(180deg);
   }
 }
 </style>

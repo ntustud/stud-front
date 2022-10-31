@@ -20,10 +20,6 @@ function changeOption(event) {
     isSelect = true;
     emit('update:modelValue', event.target.value);
 }
-
-onMounted(() => {
-    console.log('props:', props);
-});
 </script>
 
 <style scoped lang="scss">

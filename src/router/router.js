@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Main from "../pages/Main";
 import SelectFaculty from "../pages/SelectFaculty";
 import SelectCourse from "../pages/SelectCourse";
 import SelectGroup from "../pages/SelectGroup";
@@ -11,7 +10,7 @@ const routes = [
     {
         path: '/',
         name: 'main',
-        component: Main
+        component: () => import('../pages/Main.vue'),
     },
     {
         path: '/faculty',

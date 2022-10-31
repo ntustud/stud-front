@@ -7,7 +7,7 @@
             </div>
             <p class="main-text-top">Сервіс «НТУ Студ» наразі
                 працює у бета-режимі та надає можливості
-                по перегляду розкладу занять університету
+                по перегляду розкладу занять університету {{test}}
             </p>
         </div>
         <div class="wrapper-bottom">
@@ -22,6 +22,7 @@
 
 <script setup>
 import MyButton from '../components/UI/MyButton.vue';
+const test = window.Telegram.WebApp.initDataUnsafe;
 </script>
 
 <style scoped lang="scss">
