@@ -7,13 +7,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <link rel="icon" href="<%= BASE_URL %>favicon.ico">
   <title>NTU Stud</title>
-  <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Open+Sans:wght@400;500;600&display=swap"
     rel="stylesheet">
-
-  <!-- <script src="https://polyfill.io/v3/polyfill.min.js"></script> -->
 
   <style>
     *,
@@ -21,8 +19,6 @@
     *::after {
       box-sizing: border-box;
       margin: 0;
-
-      font-family: 'Roboto', sans-serif;
     }
 
     html {
@@ -31,21 +27,22 @@
     }
 
     html {
-      --tg-color-scheme: light;
-      --tg-theme-bg-color: #ffffff;
+      /* --tg-color-scheme: light;
+      --tg-theme-bg-color: #ffffff; 
       --tg-theme-button-color: #40a7e3;
       --tg-theme-button-text-color: #ffffff;
       --tg-theme-hint-color: #999999;
       --tg-theme-link-color: #168acd;
       --tg-theme-text-color: #000000;
       --tg-viewport-height: 100vh;
-      --tg-viewport-stable-height: 100vh;
+      --tg-viewport-stable-height: 100vh; */
 
       --tg-color-scheme: dark;
-      --tg-theme-bg-color: #17212b;
-      --tg-theme-button-color: #5289c1;
+      --tg-theme-bg-color: #191919;
+      --secondary_bg_color: #212124;
+      --tg-theme-button-color: #62B0FF;
       --tg-theme-button-text-color: #ffffff;
-      --tg-theme-hint-color: #708599;
+      --tg-theme-hint-color: #909091;
       --tg-theme-link-color: #6ab3f3;
       --tg-theme-text-color: #f5f5f5;
       --tg-viewport-height: 100vh;
@@ -54,12 +51,48 @@
       background: var(--tg-theme-bg-color);
       color: var(--tg-theme-text-color);
     }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+    }
+
+    a {
+      text-decoration: none;
+      color: var(--tg-theme-text-color);
+    }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+    }
   </style>
 </head>
 
 <body>
   <div id="app"></div>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script>
+    window.__IS_TG_WEB_APP__ = window.Telegram.WebApp.initData;
+
+    if (!window.__IS_TG_WEB_APP__) {
+      const darkTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      console.log('is dark', darkTheme);
+      if (!darkTheme) {
+
+      }
+
+      let root = document.querySelector(':root');
+
+      //root.style.setProperty('--tg-theme-bg-color', 'green');
+
+    }
+
+
+  </script>
 </body>
 
 </html>

@@ -1,21 +1,26 @@
 <template>
     <section class="main-section">
-        <div class="wrapper-top">
-            <div class="wrapper-h1">
-                <h3 class="main-title">Вітаю!</h3>
+        <div class="wrapper-inner">
+            <div class="wrapper-title">
+                <h3 class="title">Вітаю!</h3>
                 <img src="@/assets/img/img-hi.png" alt="welcome-image">
             </div>
-            <p class="main-text-top">Сервіс «НТУ Студ» наразі
-                працює у бета-режимі та надає можливості
-                по перегляду розкладу занять університету
-            </p>
+            <p class="main-subtitle">Для початку оберіть для кого бажаєте переглянути розклад занять</p>
         </div>
-        <div class="wrapper-bottom">
-            <div class="wrapper-title2">
-                <h4 class="main-title2">Розклад <span class="main-symbol">β</span></h4>
+        <div class="wrapper-select">
+            <div class="wrapper-select-btn">
+                <router-link :to="{ name: 'group' }">Для групи</router-link>
+                <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 9L5 5L1 1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
             </div>
-            <p class="main-text-bottom">Переглядайте актуальний розклад своєї групи</p>
-            <MyButton class="main-btn" @click="$router.push('/faculty');">Перейти</MyButton>
+            <div class="horizontal-line"></div>
+            <div class="wrapper-select-btn">
+                <router-link :to="{ name: 'lecturer' }">Для викладача</router-link>
+                <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 9L5 5L1 1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </div>
         </div>
     </section>
 </template> 
@@ -32,9 +37,9 @@ import MyButton from '../components/UI/MyButton.vue';
     flex-direction: column;
     align-items: center;
 
-    padding: 70px 16px 16px;
+    margin: 100px 16px 16px;
 
-    .wrapper-top {
+    .wrapper-inner {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -44,7 +49,7 @@ import MyButton from '../components/UI/MyButton.vue';
         max-width: 500px;
         width: 100%;
 
-        .wrapper-h1 {
+        .wrapper-title {
             display: flex;
             flex-direction: row;
 
@@ -52,13 +57,8 @@ import MyButton from '../components/UI/MyButton.vue';
 
             margin-bottom: 12px;
 
-            .main-title {
-                color: $white;
-
-                font-family: 'Montserrat', sans-serif;
-                font-weight: 500;
+            .title {
                 font-size: 24px;
-
                 margin-right: 12px;
             }
         }
@@ -68,66 +68,58 @@ import MyButton from '../components/UI/MyButton.vue';
             height: 32px;
         }
 
-        .main-text-top {
-            color: $txt-gray;
-
-            font-family: 'Open Sans', sans-serif;
-            font-weight: 400;
+        .main-subtitle {
             font-size: 14px;
 
             line-height: 19px;
             text-align: center;
-        }
 
+            opacity: 0.8;
+        }
     }
 
-    .wrapper-bottom {
+    .wrapper-select {
         display: flex;
         flex-direction: column;
-        align-items: center;
+        text-align: center;
 
-        max-width: 500px;
+        border: 1px solid currentColor;
+        border-radius: 8px;
+
+        max-width: 358px;
         width: 100%;
 
-        background-color: $main-gray;
-        border-radius: 5px;
-        line-height: 19px;
+        opacity: 0.8;
 
-        .wrapper-title2 {
-            display: flex;
+        .wrapper-select-btn {
+            position: relative;
 
-            font-family: 'Montserrat', sans-serif;
-            font-style: normal;
-            font-weight: 500;
-            font-size: 18px;
+            padding: 24px 21px;
 
-            margin: 16px 0 8px;
+            cursor: pointer;
 
-            color: $white;
+            svg {
+                position: absolute;
 
-            .main-symbol {
-                font-family: 'Open Sans', sans-serif;
-                opacity: 0.5;
+                right: 21px;
+                top: 30px;
+
+                transition: 0.1s;
+            }
+
+            &:hover {
+                svg {
+                    right: 15px;
+                }
             }
         }
 
-        .main-text-bottom {
-            max-width: 500px;
+        .horizontal-line {
+            height: 1px;
 
-            font-family: 'Open Sans', sans-serif;
-            font-weight: 400;
-            font-size: 14px;
+            margin: 0px 16px;
 
-            text-align: center;
-            letter-spacing: -0.02em;
-
-            color: $txt-gray;
-
-            margin-bottom: 20px;
-        }
-
-        .main-btn {
-            margin-bottom: 16px;
+            background: currentColor;
         }
     }
 }

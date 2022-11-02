@@ -1,8 +1,6 @@
 <template>
   <button class="btn btn-primary" :class="{
-    'btn-red': color === 'red',
     'btn-gray': color === 'gray',
-    'btn-white': color === 'white',
   }" type="submit">
     <slot></slot>
   </button>
@@ -18,11 +16,10 @@ const { color } = defineProps({
 @import "@/style";
 
 .btn {
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 400;
-  font-size: 14px;
-  background-color: $btn-blue;
-  color: $white;
+  // font-family: 'Open Sans', sans-serif;
+  // font-weight: 400;
+  // font-size: 14px;
+  background-color: var(--tg-theme-button-color);
   padding: 6px 16px;
   border-radius: 5px;
   border: none;
@@ -33,25 +30,6 @@ const { color } = defineProps({
 
   &:active {
     background-color: $btn-blue-active;
-  }
-}
-
-.btn-red {
-  &.btn {
-    background-color: $white;
-    border: 1px solid $red;
-    color: $red;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 15px;
-
-    &:hover {
-      border: 3px solid $red;
-    }
-
-    &:active {
-      border: 2px solid $red;
-    }
   }
 }
 
@@ -70,22 +48,6 @@ const { color } = defineProps({
 
   &.btn-primary {
     border-color: $translucent-gray !important;
-  }
-}
-
-.btn-white {
-  color: $main-color;
-
-  &.btn {
-    background-color: $white;
-
-    &:hover {
-      background: $btn-white-hover;
-    }
-
-    &:active {
-      background: $btn-white-active;
-    }
   }
 }
 </style>

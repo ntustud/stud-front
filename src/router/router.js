@@ -1,10 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import SelectFaculty from "../pages/SelectFaculty";
-import SelectCourse from "../pages/SelectCourse";
-import SelectGroup from "../pages/SelectGroup";
-import SelectLecturer from "../pages/SelectLecturer";
-import Schedule from "../pages/Schedule";
-import ScheduleLecturer from "../pages/ScheduleLecturer";
 
 const routes = [
     {
@@ -13,35 +7,45 @@ const routes = [
         component: () => import('../pages/Main.vue'),
     },
     {
-        path: '/faculty',
-        name: 'faculty',
-        component: SelectFaculty
-    },
-    {
-        path: '/faculty/:idFaculty/course',
-        name: 'course',
-        component: SelectCourse
-    },
-    {
-        path: '/faculty/:idFaculty/course/:numCourse/group',
+        path: '/group',
         name: 'group',
-        component: SelectGroup
+        component: () => import('../pages/GroupPage.vue'),
     },
     {
         path: '/lecturer',
         name: 'lecturer',
-        component: SelectLecturer
+        component: () => import('../pages/LecturerPage.vue'),
     },
-    {
-        path: '/faculty/:idFaculty/course/:numCourse/group/:idGroup/schedule',
-        name: 'schedule',
-        component: Schedule
-    },
-    {
-        path: '/lecturer/:idLecturer/schedule',
-        name: 'schedule-lecturer',
-        component: ScheduleLecturer
-    }
+    // {
+    //     path: '/faculty',
+    //     name: 'faculty',
+    //     component: SelectFaculty
+    // },
+    // {
+    //     path: '/faculty/:idFaculty/course',
+    //     name: 'course',
+    //     component: SelectCourse
+    // },
+    // {
+    //     path: '/faculty/:idFaculty/course/:numCourse/group',
+    //     name: 'group',
+    //     component: SelectGroup
+    // },
+    // {
+    //     path: '/lecturer',
+    //     name: 'lecturer',
+    //     component: SelectLecturer
+    // },
+    // {
+    //     path: '/faculty/:idFaculty/course/:numCourse/group/:idGroup/schedule',
+    //     name: 'schedule',
+    //     component: Schedule
+    // },
+    // {
+    //     path: '/lecturer/:idLecturer/schedule',
+    //     name: 'schedule-lecturer',
+    //     component: ScheduleLecturer
+    // }
 ]
 
 const router = createRouter({

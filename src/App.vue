@@ -10,12 +10,11 @@ import MyHeader from "./components/MyHeader.vue";
 </script>
 
 <style lang="scss">
-@import '@/style/global.scss';
-@import "@/style";
+//@import '@/style/global.scss';
+//@import "@/style";
 
 #app {
   width: 100%;
   height: 100%;
-  background-color: $main-backg;
 }
 </style>
