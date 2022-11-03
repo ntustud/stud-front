@@ -155,6 +155,7 @@ body {
     color: currentColor;
 
     text-align: center;
+    text-align: -webkit-center;
 
     .my-option {
         color: var(--tg-theme-button-text-color);
