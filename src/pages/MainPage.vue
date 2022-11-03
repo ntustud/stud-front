@@ -47,7 +47,7 @@ import MyButton from '../components/UI/MyButton.vue';
 
         transition: 0.1s;
 
-        color: var(--tg-theme-button-color);
+        color: var(--tg-theme-hint-color);
     }
 
     &:hover {
