@@ -6,7 +6,7 @@ module.exports = {
     configureWebpack: {
         resolve: {
             alias: {
-                "@style": path.join(__dirname, vueSrc, "style", "index.scss")
+                "@style": path.join(__dirname, vueSrc, "style", "global.scss")
             }
         },
     },

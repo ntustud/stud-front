@@ -4,7 +4,7 @@ const routes = [
     {
         path: '/',
         name: 'main',
-        component: () => import('../pages/Main.vue'),
+        component: () => import('../pages/MainPage.vue'),
     },
     {
         path: '/group',

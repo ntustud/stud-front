@@ -1,6 +1,6 @@
 <template>
   <MyHeader> Студ </MyHeader>
-  <div class="app">
+  <div>
     <router-view></router-view>
   </div>
 </template>
@@ -10,8 +10,7 @@ import MyHeader from "./components/MyHeader.vue";
 </script>
 
 <style lang="scss">
-//@import '@/style/global.scss';
-//@import "@/style";
+@import "@/style/global.scss";
 
 #app {
   width: 100%;
