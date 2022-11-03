@@ -1,6 +1,6 @@
 <template>
-  <button class="btn btn-primary" :class="{
-    'btn-gray': color === 'gray',
+  <button class="btn" :class="{
+    'btn-transp': color === 'transp',
   }" type="submit">
     <slot></slot>
   </button>
@@ -8,46 +8,34 @@
 
 <script setup>
 const { color } = defineProps({
-    color: String,
+  color: String,
 });
 </script>
 
 <style scoped lang="scss">
-@import "@/style";
-
 .btn {
-  // font-family: 'Open Sans', sans-serif;
-  // font-weight: 400;
-  // font-size: 14px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+
   background-color: var(--tg-theme-button-color);
-  padding: 6px 16px;
-  border-radius: 5px;
+  color: var(--tg-theme-button-text-color);
+
+  padding: 14px 16px;
+
+  border-radius: 8px;
   border: none;
 
-  &:hover {
-    background-color: $btn-blue-hover;
-  }
-
+  &:hover,
   &:active {
-    background-color: $btn-blue-active;
+    opacity: 0.7;
   }
 }
 
-.btn-gray {
-  &.btn {
-    background-color: $btn-gray;
+.btn-transp {
+  border: 2px solid var(--tg-theme-button-color);
+  background-color: transparent;
 
-    &:hover {
-      background: $btn-gray-hover;
-    }
-
-    &:active {
-      background: $btn-gray-active;
-    }
-  }
-
-  &.btn-primary {
-    border-color: $translucent-gray !important;
-  }
+  color: var(--tg-theme-button-color);
 }
 </style>
