@@ -139,6 +139,12 @@ body {
 }
 
 .my-select {
+    font-family: "Open Sans";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
+
     padding: 24px;
 
     border: none;
@@ -151,5 +157,9 @@ body {
     .my-option {
         color: var(--tg-theme-button-text-color);
         background-color: var(--tg-theme-bg-color);
+    }
+
+    &:hover {
+        opacity: 0.7;
     }
 }
