@@ -11,6 +11,7 @@
             <div class="wrapper-select">
                 <select v-model.number="selectFaculty" class="my-select" @change="changeSelect('Faculty')">
                     <option value="0" selected disabled hidden>Факультет</option>
+                    <option v-if="!faculties" disabled class="my-option">Факультети відсутні</option>
                     <option v-for="faculty in faculties" :key="faculty.id" :value="faculty.id" class="my-option">
                         {{ faculty.name }}
                     </option>
@@ -26,6 +27,7 @@
                 <div class="horizontal-line"></div>
                 <select v-model.number="selectGroup" class="my-select" :disabled="selectCourse === 0" @click="setGroup">
                     <option value="0" selected disabled hidden>Група</option>
+                    <option v-if="!groups" disabled class="my-option">Групи відсутні</option>
                     <option v-for="option in groups" :key="option.id" :value="option.id" class="my-option">
                         {{ option.name }}
                     </option>

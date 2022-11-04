@@ -54,7 +54,6 @@
   </script>
   <script>
     function hexToRgb(str) {
-      console.log(str);
       if (/^#([0-9a-f]{3}|[0-9a-f]{6})$/ig.test(str)) {
         var hex = str.substr(1);
         hex = hex.length == 3 ? hex.replace(/(.)/g, '$1$1') : hex;
