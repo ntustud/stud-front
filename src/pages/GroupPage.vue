@@ -76,10 +76,10 @@ async function setGroup() {
 function changeSelect(type) {
     if (type === 'Faculty') {
         selectCourse.value = 0;
-        selectGroup.value = 0;
-    } else if (type === 'Course') {
-        selectGroup.value = 0;
     }
+
+    selectGroup.value = 0;
+    groups.value = {};
 };
 
 onMounted(() => {
