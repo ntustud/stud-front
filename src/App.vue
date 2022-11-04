@@ -7,12 +7,8 @@
 
 <script setup>
 import MyHeader from "./components/MyHeader.vue";
-import { ref, reactive, computed, onMounted } from 'vue';
-const IS_TG_APP = window.__IS_TG_WEB_APP__;
 
-onMounted(() => {
-    console.log('test', IS_TG_APP);
-});
+const IS_TG_APP = window.__IS_TG_WEB_APP__;
 </script>
 
 <style lang="scss">
