@@ -97,6 +97,7 @@ onMounted(() => {
     display: flex;
 
     margin-top: 16px;
+    margin-bottom: 50px;
 
     max-width: inherit;
     width: 100%;

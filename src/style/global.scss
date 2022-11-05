@@ -219,10 +219,14 @@ input.el-input__inner::placeholder {
     background: var(--tg-theme-bg-color);
 
     .selected {
+        color: var(--tg-theme-button-text-color);
+
         background-color: var(--tg-theme-button-color) !important;
     }
 
     .hover {
+        color: var(--tg-theme-button-text-color);
+
         background-color: var(--tg-theme-button-color) !important;
     }
 }
