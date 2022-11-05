@@ -9,7 +9,7 @@
         </div>
         <div class="wrapper-main-content">
             <v-select label="name" :filterable="false" :options="optionsLecturer" class="v-select" @search="onSearch"
-                @option:selected="selectOptionLecturer" />
+                @option:selected="selectOptionLecturer" placeholder="ПІБ" />
             <div class="wrapper-buttons">
                 <MyButton :disabled="selectedLecturer.id === 0" @click="router.push({ name: 'main' })"
                     :class="{ disabled: selectedLecturer.id === 0 }">Зберегти</MyButton>
@@ -64,7 +64,6 @@ async function onSearch(searchInfo, loading) {
 function selectOptionLecturer(val) {
     selectedLecturer.id = val.id;
 };
-
 </script>
   
 <style lang="scss">
@@ -88,6 +87,33 @@ function selectOptionLecturer(val) {
 
 .disabled {
     opacity: 0.5;
+}
+
+.vs__selected {
+    color: var(--tg-theme-text-color);
+}
+
+.vs__search {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+
+    color: var(--tg-theme-text-color);
+}
+
+.vs__dropdown-toggle {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+
+    border: 1px solid rgba(var(--tg-theme-hint-color-rgb), 0.5);
+
+    padding: 20px;
+}
+
+.vs__dropdown-menu {
+    color: var(--tg-theme-text-color);
+    background: var(--secondary_bg_color);
 }
 </style>
   

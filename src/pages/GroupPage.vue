@@ -9,15 +9,18 @@
         </div>
         <div class="wrapper-main-content">
             <div class="wrapper-select">
-                <select v-model.number="selectFaculty" class="my-select" @change="changeSelect('Faculty')">
+                <!-- <select v-model.number="selectFaculty" class="my-select" @change="changeSelect('Faculty')">
                     <option value="0" selected disabled hidden>Факультет</option>
                     <option v-if="!faculties" disabled class="my-option">Факультети відсутні</option>
                     <option v-for="faculty in faculties" :key="faculty.id" :value="faculty.id" class="my-option">
                         {{ faculty.name }}
                     </option>
-                </select>
+                </select> -->
+                <el-select v-model.number="selectFaculty" class="custom-select" clearable  placeholder="Факультет" size="large" @change="changeSelect('Faculty')">
+                    <el-option v-for="faculty in faculties" :key="faculty.id" :value="faculty.id" :label="faculty.name" />
+                </el-select>
                 <div class="horizontal-line"></div>
-                <select v-model.number="selectCourse" class="my-select" :disabled="selectFaculty === 0"
+                <select v-model.number="selectCourse" class="my-select" :disabled="selectFaculty === ''"
                     @change="changeSelect('Course')">
                     <option value="0" selected disabled hidden>Курс</option>
                     <option v-for="option in arrCourses" :key="option.id" :value="option.id" class="my-option">
@@ -53,7 +56,7 @@ const store = useStore();
 
 const universityID = ref(UNIVERSITY_ID);
 
-let selectFaculty = ref(0);
+let selectFaculty = ref('');
 let selectCourse = ref(0);
 let selectGroup = ref(0);
 
