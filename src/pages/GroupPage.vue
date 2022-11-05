@@ -9,13 +9,6 @@
         </div>
         <div class="wrapper-main-content">
             <div class="wrapper-select">
-                <!-- <select v-model.number="selectFaculty" class="my-select" @change="changeSelect('Faculty')">
-                    <option value="0" selected disabled hidden>Факультет</option>
-                    <option v-if="!faculties" disabled class="my-option">Факультети відсутні</option>
-                    <option v-for="faculty in faculties" :key="faculty.id" :value="faculty.id" class="my-option">
-                        {{ faculty.name }}
-                    </option>
-                </select> -->
                 <el-select v-model.number="selectFaculty" class="custom-select" clearable placeholder="Факультет"
                     size="large" @change="changeSelect('Faculty')">
                     <el-option v-for="faculty in faculties" :key="faculty.id" :value="faculty.id"
@@ -26,30 +19,16 @@
                     clearable placeholder="Курс" size="large" @change="changeSelect('Course')">
                     <el-option v-for="option in arrCourses" :key="option.id" :value="option.id" :label="option.id" />
                 </el-select>
-                <!-- <select v-model.number="selectCourse" class="my-select" :disabled="selectFaculty === ''"
-                    @change="changeSelect('Course')">
-                    <option value="0" selected disabled hidden>Курс</option>
-                    <option v-for="option in arrCourses" :key="option.id" :value="option.id" class="my-option">
-                        {{ option.id }}
-                    </option>
-                </select> -->
                 <div class="horizontal-line"></div>
                 <el-select v-model.number="selectGroup" class="custom-select" :disabled="selectCourse === ''"
                     empty="Групи відсутні" clearable placeholder="Група" size="large">
                     <el-option v-for="group in groups" :key="group.id" :value="group.id" :label="group.name" />
                 </el-select>
-                <!-- <select v-model.number="selectGroup" class="my-select" :disabled="selectCourse === 0" @click="setGroup">
-                    <option value="0" selected disabled hidden>Група</option>
-                    <option v-if="!groups" disabled class="my-option">Групи відсутні</option>
-                    <option v-for="option in groups" :key="option.id" :value="option.id" class="my-option">
-                        {{ option.name }}
-                    </option>
-                </select> -->
             </div>
             <div class="wrapper-buttons">
+                <MyButton color="transp" @click="router.push({ name: 'main' })">Назад</MyButton>
                 <MyButton :disabled="selectGroup === 0" @click="router.push({ name: 'main' })"
                     :class="{ disabled: selectGroup === 0 }">Зберегти</MyButton>
-                <MyButton color="transp" @click="router.push({ name: 'main' })">Назад</MyButton>
             </div>
         </div>
     </section>

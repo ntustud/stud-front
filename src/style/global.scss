@@ -198,6 +198,8 @@ body .el-popper[data-popper-placement^="bottom"] .el-popper__arrow::before {
             color: var(--tg-theme-text-color);
 
             text-align: center;
+
+            user-select: none !important;
             box-shadow: none !important;
         }
     }

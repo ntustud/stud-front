@@ -9,11 +9,15 @@
         </div>
         <div class="wrapper-main-content">
             <v-select label="name" :filterable="false" :options="optionsLecturer" class="v-select" @search="onSearch"
-                @option:selected="selectOptionLecturer" placeholder="ПІБ" />
+                @option:selected="selectOptionLecturer" placeholder="ПІБ">
+                <template #no-options>
+                    Введіть ПІБ викладача
+                </template>
+            </v-select>
             <div class="wrapper-buttons">
+                <MyButton color="transp" @click="router.push({ name: 'main' })">Назад</MyButton>
                 <MyButton :disabled="selectedLecturer.id === 0" @click="router.push({ name: 'main' })"
                     :class="{ disabled: selectedLecturer.id === 0 }">Зберегти</MyButton>
-                <MyButton color="transp" @click="router.push({ name: 'main' })">Назад</MyButton>
             </div>
         </div>
     </section>
@@ -108,12 +112,14 @@ function selectOptionLecturer(val) {
 
     border: 1px solid rgba(var(--tg-theme-hint-color-rgb), 0.5);
 
+    color: red !important;
+
     padding: 20px;
 }
 
 .vs__dropdown-menu {
     color: var(--tg-theme-text-color);
-    background: var(--secondary_bg_color);
+    background: var(--tg-theme-bg-color);
 }
 </style>
   
