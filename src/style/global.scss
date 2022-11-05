@@ -161,9 +161,10 @@ body {
 
         .el-input__inner {
             font-family: "Open Sans";
-            font-style: normal;
             font-weight: 600;
             font-size: 16px;
+
+            color: var(--tg-theme-text-color);
 
             text-align: center;
             box-shadow: none !important;
