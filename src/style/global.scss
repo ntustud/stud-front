@@ -171,9 +171,39 @@ body {
     }
 }
 
-body .el-select .el-input.is-focus .el-input__wrapper {
-    box-shadow: none inset !important;
+body .el-select__popper.el-popper {
+    background: none !important;
 }
+
+body .el-input .el-input--large .el-input--suffix .is-focus {
+    box-shadow: none !important;
+}
+body .el-input__wrapper .is-focus {
+    box-shadow: none !important;
+}
+body .el-select .el-input.is-focus .el-input__wrapper {
+    box-shadow: none !important;
+}
+body .el-select .el-input__wrapper.is-focus {
+    box-shadow: none !important;
+}
+
+body .el-select__popper.el-popper .el-popper__arrow::before {
+    border: 1px solid rgba(var(--tg-theme-hint-color-rgb), 0.5) !important;
+}
+body .el-popper[data-popper-placement^="bottom"] .el-popper__arrow::before {
+    border-bottom-color: 1px solid rgba(var(--tg-theme-hint-color-rgb), 0.5) !important;
+    border-right-color: 1px solid rgba(var(--tg-theme-hint-color-rgb), 0.5) !important;
+}
+body .el-popper.is-light .el-popper__arrow::before {
+    border: 1px solid rgba(var(--tg-theme-hint-color-rgb), 0.5) !important;
+    background: rgba(var(--tg-theme-hint-color-rgb), 0.5) !important;
+}
+body .el-popper[data-popper-placement^="bottom"] .el-popper__arrow::before {
+    border-bottom-color: 1px solid rgba(var(--tg-theme-hint-color-rgb), 0.5) !important;
+    border-right-color: 1px solid rgba(var(--tg-theme-hint-color-rgb), 0.5) !important;
+}
+
 .el-popper {
     border: 1px solid var(--secondary_bg_color) !important;
 }
