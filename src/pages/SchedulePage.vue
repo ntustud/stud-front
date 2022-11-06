@@ -2,7 +2,7 @@
   <div class="wrapper-head">
     <div class="wrapper-naming-group">
       <p class="main-title">{{ group.name }}</p>
-      <router-link :to="{ name: 'faculty' }">
+      <router-link :to="{ name: 'group' }">
         <img src="../assets/img/edit-group.png" alt="edit-group" class="img-edit">
       </router-link>
     </div>
@@ -73,6 +73,8 @@ const route = useRoute();
 const SUNDAY = 7;
 const MONDAY = 1;
 
+const isDisabledButton = ref(false);
+
 let group_id = ref(parseInt(route.params.idGroup));
 let group = ref({});
 let even = ref(true);
@@ -128,7 +130,8 @@ async function getSchedule() {
   try {
     newSchedule.value = [];
     lessonSchedules.value = '';
-
+    isDisabledButton.value = true;
+console.log('getSchedule1');
     if (selectDay.value == "") {
       return;
     }
@@ -147,6 +150,7 @@ async function getSchedule() {
     const response = await getLessonSchedulesForDayWhereGroup(payload);
 
     if (response.data.result == null) {
+      isDisabledButton.value = false;
       return;
     }
 
@@ -160,10 +164,12 @@ async function getSchedule() {
 
 async function changeEven() {
   try {
-    even.value = even.value === true ? false : true;
-    titleEven.value = even.value === true ? 'Парний тиждень' : 'Непарний тиждень';
+    if (!isDisabledButton.value) {
+      even.value = even.value === true ? false : true;
+      titleEven.value = even.value === true ? 'Парний тиждень' : 'Непарний тиждень';
 
-    await getSchedule();
+      await getSchedule();
+    }
   } catch (error) {
     console.log(error);
   }
@@ -204,6 +210,8 @@ async function getPairs() {
       }
 
       newSchedule.value.push(schedule);
+
+      isDisabledButton.value = false;
     }
   } catch (error) {
     console.log(error);

@@ -16,36 +16,16 @@ const routes = [
         name: 'lecturer',
         component: () => import('../pages/LecturerPage.vue'),
     },
-    // {
-    //     path: '/faculty',
-    //     name: 'faculty',
-    //     component: SelectFaculty
-    // },
-    // {
-    //     path: '/faculty/:idFaculty/course',
-    //     name: 'course',
-    //     component: SelectCourse
-    // },
-    // {
-    //     path: '/faculty/:idFaculty/course/:numCourse/group',
-    //     name: 'group',
-    //     component: SelectGroup
-    // },
-    // {
-    //     path: '/lecturer',
-    //     name: 'lecturer',
-    //     component: SelectLecturer
-    // },
-    // {
-    //     path: '/faculty/:idFaculty/course/:numCourse/group/:idGroup/schedule',
-    //     name: 'schedule',
-    //     component: Schedule
-    // },
-    // {
-    //     path: '/lecturer/:idLecturer/schedule',
-    //     name: 'schedule-lecturer',
-    //     component: ScheduleLecturer
-    // }
+    {
+        path: '/group/:idGroup/schedule',
+        name: 'schedule',
+        component: () => import('../pages/SchedulePage.vue'),
+    },
+    {
+        path: '/lecturer/:idLecturer/schedule',
+        name: 'schedule-lecturer',
+        component: () => import('../pages/ScheduleLecturerPage.vue'),
+    }
 ]
 
 const router = createRouter({

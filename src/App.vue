@@ -1,8 +1,6 @@
 <template>
   <MyHeader v-if="!IS_TG_APP"> Студ </MyHeader>
-  <div>
-    <router-view></router-view>
-  </div>
+  <router-view></router-view>
 </template>
 
 <script setup>
