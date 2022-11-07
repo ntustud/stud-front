@@ -314,6 +314,8 @@ onMounted(() => {
   padding: 4px 8px;
 
   border-radius: 5px;
+
+  color: var(--white-color);
 }
 
 .main-section {
