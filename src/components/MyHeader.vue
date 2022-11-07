@@ -87,8 +87,10 @@
             }
 
             .header-title {
-                color: var(--tg-theme-hint-color);
                 font-family: 'Montserrat', sans-serif;
+                font-size: 18px;
+
+                color: var(--tg-theme-hint-color);
             }
         }
 
