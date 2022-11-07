@@ -13,7 +13,9 @@ const IS_TG_APP = window.__IS_TG_WEB_APP__;
 @import "@/style/global.scss";
 
 #app {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  height: 100%;
+  height: var(--tg-viewport-height);
 }
 </style>
