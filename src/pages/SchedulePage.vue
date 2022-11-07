@@ -619,9 +619,9 @@ input[type=radio] {
 
   margin-right: 12px;
 
-  color: var(--green-color);
+  color: #31C68C;
 
-  border: 1px solid var(--green-color);
+  border: 1px solid #64D0A6;
 
   border-radius: 5px;
 }
