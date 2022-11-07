@@ -374,7 +374,11 @@ onMounted(() => {
 
   border-radius: 8px;
 
-  background: var(--secondary_bg_color);
+  background: var(--tg-theme-secondary-bg-color);
+}
+
+.text-window {
+  
 }
 
 .wrapper-svg {
@@ -410,7 +414,7 @@ onMounted(() => {
 
   padding: 10px 0px 20px 16px;
 
-  background: var(--secondary_bg_color);
+  background: var(--tg-theme-secondary-bg-color);
 
   user-select: none;
 
