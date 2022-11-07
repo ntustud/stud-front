@@ -284,7 +284,7 @@ onMounted(() => {
 }
 
 .current-even-small {
-  background: var(--green-status-color);
+  background: #64D0A6;
 }
 
 .disabled-even-small {
