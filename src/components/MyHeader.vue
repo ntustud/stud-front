@@ -61,7 +61,7 @@
 }
 
 .header {
-    background-color: var(--tg-theme-secondary-bg-color);
+    background: rgba(var(--tg-theme-hint-color-rgb), 0.05);
     padding: 18px 16px;
 
     .wrapper-header {
