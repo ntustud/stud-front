@@ -170,7 +170,6 @@ async function getPairs() {
       const res_lesson_plan = await getLessonPlan(
         schedule.lesson_plan_id
       );
-
       const res_subj = await getSubject(
         res_lesson_plan.data.result.subject_id
       );
