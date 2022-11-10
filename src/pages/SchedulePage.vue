@@ -6,7 +6,7 @@
     element-loading-background="transparent">
     <div class="wrapper-week desktop-nav">
       <div class="wrapper-days" v-for="day in days" :key="day.id">
-        <input type="radio" :id="day.id" :value="day.id" v-model="selectDay" @change="getSchedule" class="my-radio" />
+        <input type="radio" :id="day.id" :value="day.id" v-model="selectDay" @change="changeDay" class="my-radio" />
         <label :for="day.id" class="my-label"
           :class="{ 'currentDayColor': (selectDay !== currentDay && day.id === currentDay) }">{{ day.name }}</label>
       </div>
@@ -80,7 +80,6 @@ const loading = ref(false);
 
 const currentEven = ref('');
 const currentDay = ref('');
-
 
 let group_id = ref(parseInt(route.params.idGroup));
 let group = ref({});
@@ -237,7 +236,7 @@ async function updateCurrentWeek() {
     even.value = today.day_of_week !== SUNDAY ? today.even : !today.even;
     weekEven.value = even.value === true ? 'Парний тиждень' : 'Непарний тиждень';
 
-    await getSchedule();
+    await getSchedule(today.day_of_week, today.even);
   } catch (error) {
     console.log(error);
   }
