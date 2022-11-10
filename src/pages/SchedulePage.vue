@@ -34,7 +34,7 @@
     </div>
     <div class="wrapper-week overflow-week">
       <div class="wrapper-days" v-for="day in days" :key="day.id">
-        <input type="radio" :id="day.id" :value="day.id" v-model="selectDay" @change="getSchedule" class="my-radio" />
+        <input type="radio" :id="day.id" :value="day.id" v-model="selectDay" @change="changeDay" class="my-radio" />
         <label :for="day.id" class="my-label"
           :class="{ 'currentDayColor': (selectDay !== currentDay && day.id === currentDay) }">{{ day.name }}</label>
       </div>
@@ -77,7 +77,7 @@
   <section class="main-section wrapper-content">
     <div class="wrapper-week desktop-nav">
       <div class="wrapper-days" v-for="day in days" :key="day.id">
-        <input type="radio" :id="day.id" :value="day.id" v-model="selectDay" @change="getSchedule" class="my-radio" />
+        <input type="radio" :id="day.id" :value="day.id" v-model="selectDay" @change="changeDay" class="my-radio" />
         <label :for="day.id" class="my-label"
           :class="{ 'currentDayColor': (selectDay !== currentDay && day.id === currentDay) }">{{ day.name }}</label>
       </div>
@@ -188,17 +188,7 @@ const getSubject = (subject_id) => store.dispatch('timeTable/getSubject', subjec
 const getBuilding = (building_id) => store.dispatch('timeTable/getBuilding', building_id);
 const getToday = () => store.dispatch('timeTable/getToday');
 
-async function getNameGroup() {
-  try {
-    const response = await getGroup(group_id);
-
-    group.value = response.data.result;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-async function getSchedule() {
+async function getSchedule(copySelectDay, copyEven) {
   try {
     newSchedule.value = [];
     lessonSchedules.value = '';
@@ -226,28 +216,14 @@ async function getSchedule() {
 
     lessonSchedules.value = response.data.result;
 
-    await getPairs();
+    await getPairs(copySelectDay, copyEven);
   } catch (error) {
     console.log(error);
   }
 };
 
-async function changeEven() {
+async function getPairs(copySelectDay, copyEven) {
   try {
-    even.value = even.value === true ? false : true;
-    weekEven.value = even.value === true ? 'Парний тиждень' : 'Непарний тиждень';
-
-    await getSchedule();
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-async function getPairs() {
-  try {
-    const copySelectDay = selectDay.value;
-    const copyEven = even.value;
-
     for (const schedule of lessonSchedules.value) {
       const res_lesson_plan = await getLessonPlan(
         schedule.lesson_plan_id
@@ -287,8 +263,46 @@ async function getPairs() {
         }
       }
 
+      console.log('LOG 1', even.value, copyEven);
       newSchedule.value.push(schedule);
     }
+
+    console.log('TEST EVEN:', even.value, copyEven);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+async function changeEven() {
+  try {
+    even.value = !even.value;
+    weekEven.value = even.value ? 'Парний тиждень' : 'Непарний тиждень';
+
+    const copySelectDay = selectDay.value;
+    const copyEven = even.value;
+
+    await getSchedule(copySelectDay, copyEven);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+async function changeDay() {
+  try {
+    const copySelectDay = selectDay.value;
+    const copyEven = even.value;
+
+    await getSchedule(copySelectDay, copyEven);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+async function getNameGroup() {
+  try {
+    const response = await getGroup(group_id);
+
+    group.value = response.data.result;
   } catch (error) {
     console.log(error);
   }
@@ -306,7 +320,7 @@ async function updateCurrentWeek() {
     even.value = today.day_of_week !== SUNDAY ? today.even : !today.even;
     weekEven.value = even.value === true ? 'Парний тиждень' : 'Непарний тиждень';
 
-    await getSchedule();
+    await getSchedule(today.day_of_week, today.even);
   } catch (error) {
     console.log(error);
   }
