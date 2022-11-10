@@ -146,8 +146,6 @@ const route = useRoute();
 const SUNDAY = 7;
 const MONDAY = 1;
 
-const isDisabledButton = ref(false);
-
 const currentEven = ref('');
 const currentDay = ref('');
 
@@ -204,7 +202,6 @@ async function getSchedule() {
   try {
     newSchedule.value = [];
     lessonSchedules.value = '';
-    isDisabledButton.value = true;
 
     if (selectDay.value == "") {
       return;
@@ -224,7 +221,6 @@ async function getSchedule() {
     const response = await getLessonSchedulesForDayWhereGroup(payload);
 
     if (response.data.result == null) {
-      isDisabledButton.value = false;
       return;
     }
 
@@ -238,12 +234,10 @@ async function getSchedule() {
 
 async function changeEven() {
   try {
-    if (!isDisabledButton.value) {
-      even.value = even.value === true ? false : true;
-      weekEven.value = even.value === true ? 'Парний тиждень' : 'Непарний тиждень';
+    even.value = even.value === true ? false : true;
+    weekEven.value = even.value === true ? 'Парний тиждень' : 'Непарний тиждень';
 
-      await getSchedule();
-    }
+    await getSchedule();
   } catch (error) {
     console.log(error);
   }
@@ -251,6 +245,9 @@ async function changeEven() {
 
 async function getPairs() {
   try {
+    const copySelectDay = selectDay.value;
+    const copyEven = even.value;
+
     for (const schedule of lessonSchedules.value) {
       const res_lesson_plan = await getLessonPlan(
         schedule.lesson_plan_id
@@ -275,18 +272,22 @@ async function getPairs() {
       schedule.building_street = res_building.data.result.street;
       schedule.building_color = res_building.data.result.color;
 
+      if (copySelectDay != selectDay.value || copyEven != even.value) {
+        return;
+      }
+
       if (newSchedule.value.length > 0) {
         if (schedule.index - 2 === newSchedule.value.at(-1).index) {
           newSchedule.value.push({
             isWindow: true,
             label: arrLabels[schedule.index - 2].label,
+            day_of_week: schedule.day_of_week,
+            even: schedule.even
           });
         }
       }
 
       newSchedule.value.push(schedule);
-
-      isDisabledButton.value = false;
     }
   } catch (error) {
     console.log(error);
