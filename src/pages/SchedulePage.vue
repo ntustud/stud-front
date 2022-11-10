@@ -336,7 +336,7 @@ onMounted(() => {
       flex-direction: column;
       align-items: center;
 
-      margin-top: 80px;
+      margin-top: 50px;
 
       h5 {
         font-size: 21px;
@@ -347,6 +347,8 @@ onMounted(() => {
 
       p {
         color: var(--tg-theme-hint-color);
+
+        margin-bottom: 80px;
       }
     }
   }
