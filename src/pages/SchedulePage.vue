@@ -76,9 +76,6 @@ const route = useRoute();
 const SUNDAY = 7;
 const MONDAY = 1;
 
-const isDisabledButton = ref(false);
-const isDisabledSelectDays = ref(false);
-
 const currentEven = ref('');
 const currentDay = ref('');
 
@@ -134,11 +131,8 @@ async function getNameGroup() {
 
 async function getSchedule() {
   try {
-    console.log('getSchedule true');
     newSchedule.value = [];
     lessonSchedules.value = '';
-    isDisabledButton.value = true;
-    isDisabledSelectDays.value = true;
 
     if (selectDay.value == "") {
       return;
@@ -158,8 +152,6 @@ async function getSchedule() {
     const response = await getLessonSchedulesForDayWhereGroup(payload);
 
     if (response.data.result == null) {
-      isDisabledButton.value = false;
-      isDisabledSelectDays.value = false
       return;
     }
 
@@ -173,12 +165,12 @@ async function getSchedule() {
 
 async function changeEven() {
   try {
-    if (!isDisabledButton.value) {
-      even.value = even.value === true ? false : true;
-      weekEven.value = even.value === true ? 'Парний тиждень' : 'Непарний тиждень';
 
-      await getSchedule();
-    }
+    even.value = even.value === true ? false : true;
+    weekEven.value = even.value === true ? 'Парний тиждень' : 'Непарний тиждень';
+
+    await getSchedule();
+
   } catch (error) {
     console.log(error);
   }
@@ -186,9 +178,7 @@ async function changeEven() {
 
 async function changeDayOfWeek() {
   try {
-    if (!isDisabledSelectDays.value) {
-      await getSchedule();
-    }
+    await getSchedule();
   } catch (error) {
     console.log(error);
   }
@@ -196,6 +186,8 @@ async function changeDayOfWeek() {
 
 async function getPairs() {
   try {
+    const copySelectDay = selectDay.value;
+    const copyEven = even.value;
 
     for (const schedule of lessonSchedules.value) {
       const res_lesson_plan = await getLessonPlan(
@@ -222,20 +214,23 @@ async function getPairs() {
       schedule.building_street = res_building.data.result.street;
       schedule.building_color = res_building.data.result.color;
 
+      if (copySelectDay != selectDay.value || copyEven != even.value) {
+        return;
+      }
+
       if (newSchedule.value.length > 0) {
         if (schedule.index - 2 === newSchedule.value.at(-1).index) {
           newSchedule.value.push({
             isWindow: true,
             label: arrLabels[schedule.index - 2].label,
+            day_of_week: schedule.day_of_week,
+            even: schedule.even
           });
         }
       }
 
       newSchedule.value.push(schedule);
     }
-
-    isDisabledButton.value = false;
-    isDisabledSelectDays.value = false;
   } catch (error) {
     console.log(error);
   }
@@ -261,13 +256,9 @@ async function updateCurrentWeek() {
 
 async function updateSelectDay(newDay) {
   try {
-    console.log('updateSelectDay before isDisabledSelectDays.value', isDisabledSelectDays.value, selectDay.value);
-    if (!isDisabledSelectDays.value) {
-      selectDay.value = parseInt(newDay);
-      console.log('updateSelectDay after', isDisabledSelectDays.value, selectDay.value);
+    selectDay.value = parseInt(newDay);
 
-      await getSchedule();
-    }
+    await getSchedule();
   } catch (error) {
     console.log(error);
   }
