@@ -60,6 +60,13 @@
           <div class="line" :style="{ display: (newSchedule.at(-1).id === schedule.id ? 'none' : 'block') }"></div>
         </template>
       </div>
+      <template v-if="!loading && !newSchedule.length">
+        <div class="wrapper-dayoff">
+          <img src="../assets/img/chill.png" alt="chill-image">
+          <h5>Вихідний</h5>
+          <p>У цей день пари відсутні</p>
+        </div>
+      </template>
     </div>
   </section>
 </template>
@@ -145,6 +152,7 @@ async function getSchedule() {
     const response = await getLessonSchedulesForDayWhereGroup(payload);
 
     if (response.data.result == null) {
+      loading.value = false;
       return;
     }
 
@@ -236,7 +244,7 @@ async function updateCurrentWeek() {
     even.value = today.day_of_week !== SUNDAY ? today.even : !today.even;
     weekEven.value = even.value === true ? 'Парний тиждень' : 'Непарний тиждень';
 
-    await getSchedule(today.day_of_week, today.even);
+    await getSchedule();
   } catch (error) {
     console.log(error);
   }
@@ -253,6 +261,8 @@ async function changeDay(newDay) {
 }
 
 onMounted(() => {
+  loading.value = true;
+
   getNameGroup();
   updateCurrentWeek();
 })
@@ -321,6 +331,25 @@ onMounted(() => {
 
   .wrapper-main {
     width: 100%;
+
+    .wrapper-dayoff {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      margin-top: 80px;
+
+      h5 {
+        font-size: 21px;
+        color: var(--tg-theme-text-color);
+
+        margin: 24px 0 12px;
+      }
+
+      p {
+        color: var(--tg-theme-hint-color);
+      }
+    }
   }
 }
 
@@ -411,11 +440,6 @@ onMounted(() => {
   color: var(--tg-theme-hint-color);
 }
 
-.overflow-week {
-  overflow: hidden;
-  overflow-x: auto;
-}
-
 .wrapper-week {
   display: flex;
   max-width: 100%;
@@ -480,28 +504,13 @@ input[type=radio] {
 }
 
 @media only screen and (min-width: 992px) {
-  .mobile-nav {
-    display: none !important;
-  }
-
-  .desktop-nav {
-
-    .wrapper-arrow {
-      margin-right: 12px;
-    }
-
-    .wrapper-group-name {
-      margin-bottom: 0;
-    }
-
-    .wrapper-even {
-      padding-right: 0 !important;
-    }
-  }
-
   .main-section {
     flex-direction: row !important;
     padding: 0 !important;
+
+    .wrapper-dayoff {
+      margin-top: 10px !important;
+    }
   }
 
   .wrapper-week {
@@ -514,10 +523,6 @@ input[type=radio] {
       margin-right: 0 !important;
       margin-bottom: 12px;
     }
-  }
-
-  .wrapper-group-name {
-    padding-right: 0 !important;
   }
 }
 
