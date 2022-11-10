@@ -1,12 +1,12 @@
 <template>
   <MainPanel
     v-bind="{ currentEven: currentEven, even: even, weekEven: weekEven, selectDay: selectDay, titleName: group.name, currentDay: currentDay }"
-    @changeEven="changeEven" @getSchedule="updateSelectDay" />
-  <section class="main-section wrapper-content">
+    @changeEven="changeEven" @changeDay="changeDay" />
+  <section class="main-section wrapper-content" v-loading.fullscreen.lock="loading"
+    element-loading-background="transparent">
     <div class="wrapper-week desktop-nav">
       <div class="wrapper-days" v-for="day in days" :key="day.id">
-        <input type="radio" :id="day.id" :value="day.id" v-model="selectDay" @change="changeDayOfWeek"
-          class="my-radio" />
+        <input type="radio" :id="day.id" :value="day.id" v-model="selectDay" @change="getSchedule" class="my-radio" />
         <label :for="day.id" class="my-label"
           :class="{ 'currentDayColor': (selectDay !== currentDay && day.id === currentDay) }">{{ day.name }}</label>
       </div>
@@ -76,8 +76,11 @@ const route = useRoute();
 const SUNDAY = 7;
 const MONDAY = 1;
 
+const loading = ref(false);
+
 const currentEven = ref('');
 const currentDay = ref('');
+
 
 let group_id = ref(parseInt(route.params.idGroup));
 let group = ref({});
@@ -119,20 +122,11 @@ const getSubject = (subject_id) => store.dispatch('timeTable/getSubject', subjec
 const getBuilding = (building_id) => store.dispatch('timeTable/getBuilding', building_id);
 const getToday = () => store.dispatch('timeTable/getToday');
 
-async function getNameGroup() {
-  try {
-    const response = await getGroup(group_id);
-
-    group.value = response.data.result;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 async function getSchedule() {
   try {
     newSchedule.value = [];
     lessonSchedules.value = '';
+    loading.value = true;
 
     if (selectDay.value == "") {
       return;
@@ -161,34 +155,10 @@ async function getSchedule() {
   } catch (error) {
     console.log(error);
   }
-};
-
-async function changeEven() {
-  try {
-
-    even.value = even.value === true ? false : true;
-    weekEven.value = even.value === true ? 'Парний тиждень' : 'Непарний тиждень';
-
-    await getSchedule();
-
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-async function changeDayOfWeek() {
-  try {
-    await getSchedule();
-  } catch (error) {
-    console.log(error);
-  }
-};
+}
 
 async function getPairs() {
   try {
-    const copySelectDay = selectDay.value;
-    const copyEven = even.value;
-
     for (const schedule of lessonSchedules.value) {
       const res_lesson_plan = await getLessonPlan(
         schedule.lesson_plan_id
@@ -214,10 +184,6 @@ async function getPairs() {
       schedule.building_street = res_building.data.result.street;
       schedule.building_color = res_building.data.result.color;
 
-      if (copySelectDay != selectDay.value || copyEven != even.value) {
-        return;
-      }
-
       if (newSchedule.value.length > 0) {
         if (schedule.index - 2 === newSchedule.value.at(-1).index) {
           newSchedule.value.push({
@@ -231,10 +197,33 @@ async function getPairs() {
 
       newSchedule.value.push(schedule);
     }
+
+    loading.value = false;
   } catch (error) {
     console.log(error);
   }
-};
+}
+
+async function changeEven() {
+  try {
+    even.value = !even.value;
+    weekEven.value = even.value ? 'Парний тиждень' : 'Непарний тиждень';
+
+    await getSchedule();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function getNameGroup() {
+  try {
+    const response = await getGroup(group_id);
+
+    group.value = response.data.result;
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 async function updateCurrentWeek() {
   try {
@@ -252,9 +241,9 @@ async function updateCurrentWeek() {
   } catch (error) {
     console.log(error);
   }
-};
+}
 
-async function updateSelectDay(newDay) {
+async function changeDay(newDay) {
   try {
     selectDay.value = parseInt(newDay);
 
@@ -267,7 +256,7 @@ async function updateSelectDay(newDay) {
 onMounted(() => {
   getNameGroup();
   updateCurrentWeek();
-});
+})
 </script>
 
 <style scoped lang="scss">

@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper-navigation mobile-nav">
-        <div class="wrapper-group-name">
+        <div class="wrapper-panel-name">
             <p class="title-sub-head">{{ titleName }}</p>
             <router-link :to="{ name: 'group' }" class="img-edit">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -63,7 +63,7 @@
                 </div>
                 <span class="week-even">{{ weekEven }}</span>
             </div>
-            <div class="wrapper-group-name">
+            <div class="wrapper-panel-name">
                 <p class="title-sub-head">{{ titleName }}</p>
                 <router-link :to="{ name: 'group' }" class="img-edit">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -92,7 +92,7 @@ const { currentEven, even, weekEven, selectDay, titleName, currentDay } = define
     'currentDay'
 ]);
 
-const emit = defineEmits(['changeEven', 'getSchedule'])
+const emit = defineEmits(['changeEven', 'changeDay'])
 
 const days = [
     { id: 1, name: "Понеділок" },
@@ -104,7 +104,7 @@ const days = [
 ];
 
 function emitChangeDay(value) {
-    emit('getSchedule', value);
+    emit('changeDay', value);
 }
 
 function emitChangeEven() {
@@ -120,7 +120,7 @@ function emitChangeEven() {
 
     background: rgba(var(--tg-theme-hint-color-rgb), 0.05);
 
-    .wrapper-group-name {
+    .wrapper-panel-name {
         display: flex;
         align-items: center;
         flex-direction: row;
@@ -292,7 +292,7 @@ input[type=radio] {
             margin-right: 12px;
         }
 
-        .wrapper-group-name {
+        .wrapper-panel-name {
             margin-bottom: 0;
         }
 
@@ -313,7 +313,7 @@ input[type=radio] {
         }
     }
 
-    .wrapper-group-name {
+    .wrapper-panel-name {
         padding-right: 0 !important;
     }
 }
