@@ -319,7 +319,7 @@ onMounted(() => {
 
   border-radius: 5px;
 
-  color: var(--white-color);
+  color: #FFF;
 }
 
 .main-section {
