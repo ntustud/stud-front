@@ -74,7 +74,8 @@
       </div>
     </div>
   </div>
-  <section class="main-section wrapper-content">
+  <section class="main-section wrapper-content" v-loading.fullscreen.lock="loading"
+    element-loading-background="transparent" style="width: 100%">
     <div class="wrapper-week desktop-nav">
       <div class="wrapper-days" v-for="day in days" :key="day.id">
         <input type="radio" :id="day.id" :value="day.id" v-model="selectDay" @change="changeDay" class="my-radio" />
@@ -149,6 +150,8 @@ const MONDAY = 1;
 const currentEven = ref('');
 const currentDay = ref('');
 
+const loading = ref(false);
+
 let group_id = ref(parseInt(route.params.idGroup));
 let group = ref({});
 let even = ref(true);
@@ -157,6 +160,7 @@ let selectDay = ref("");
 let newSchedule = ref([]);
 let currentSemester = ref("");
 let lessonSchedules = ref("");
+
 const typeLesson = ['лек', 'пр', 'лаб'];
 const days = [
   { id: 1, name: "Понеділок" },
@@ -188,10 +192,11 @@ const getSubject = (subject_id) => store.dispatch('timeTable/getSubject', subjec
 const getBuilding = (building_id) => store.dispatch('timeTable/getBuilding', building_id);
 const getToday = () => store.dispatch('timeTable/getToday');
 
-async function getSchedule(copySelectDay, copyEven) {
+async function getSchedule() {
   try {
     newSchedule.value = [];
     lessonSchedules.value = '';
+    loading.value = true;
 
     if (selectDay.value == "") {
       return;
@@ -216,13 +221,13 @@ async function getSchedule(copySelectDay, copyEven) {
 
     lessonSchedules.value = response.data.result;
 
-    await getPairs(copySelectDay, copyEven);
+    await getPairs();
   } catch (error) {
     console.log(error);
   }
-};
+}
 
-async function getPairs(copySelectDay, copyEven) {
+async function getPairs() {
   try {
     for (const schedule of lessonSchedules.value) {
       const res_lesson_plan = await getLessonPlan(
@@ -248,10 +253,6 @@ async function getPairs(copySelectDay, copyEven) {
       schedule.building_street = res_building.data.result.street;
       schedule.building_color = res_building.data.result.color;
 
-      if (copySelectDay != selectDay.value || copyEven != even.value) {
-        return;
-      }
-
       if (newSchedule.value.length > 0) {
         if (schedule.index - 2 === newSchedule.value.at(-1).index) {
           newSchedule.value.push({
@@ -263,40 +264,33 @@ async function getPairs(copySelectDay, copyEven) {
         }
       }
 
-      console.log('LOG 1', even.value, copyEven);
       newSchedule.value.push(schedule);
     }
 
-    console.log('TEST EVEN:', even.value, copyEven);
+    loading.value = false;
   } catch (error) {
     console.log(error);
   }
-};
+}
 
 async function changeEven() {
   try {
     even.value = !even.value;
     weekEven.value = even.value ? 'Парний тиждень' : 'Непарний тиждень';
 
-    const copySelectDay = selectDay.value;
-    const copyEven = even.value;
-
-    await getSchedule(copySelectDay, copyEven);
+    await getSchedule();
   } catch (error) {
     console.log(error);
   }
-};
+}
 
 async function changeDay() {
   try {
-    const copySelectDay = selectDay.value;
-    const copyEven = even.value;
-
-    await getSchedule(copySelectDay, copyEven);
+    await getSchedule();
   } catch (error) {
     console.log(error);
   }
-};
+}
 
 async function getNameGroup() {
   try {
@@ -324,7 +318,7 @@ async function updateCurrentWeek() {
   } catch (error) {
     console.log(error);
   }
-};
+}
 
 onMounted(() => {
   getNameGroup();
