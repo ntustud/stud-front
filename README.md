@@ -1,19 +1,18 @@
 # stud-front
+The first service at NTU for students and lecturers. The service helps to find quickly and view the current schedule
 
-## Project setup
-```
-npm install
-```
+### How Stud platform Works:
+1. The Student/Lecturer choose the type of schedule what he/she need
+2. Student have to choose faculty, course and his/her group 
+3. Lecturer have to write his/her surname and select
+4. Next, he/she has the opportunity to review the current schedule
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Installation:
+1. Clone this repository `git clone https://github.com/ntustud/stud-front.git`
+2. Create .env file `cp  .env.example .env`
+3. Run Platform:
+    - With Docker: `make build`
+    - Local with npm: 
+      - `npm install`
+      - `npm run serve`
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

@@ -46,8 +46,6 @@
 </script>
 
 <style scoped lang="scss">
-@import "@/style";
-
 .wrapper-logo {
     svg {
         color: var(--tg-theme-button-color);

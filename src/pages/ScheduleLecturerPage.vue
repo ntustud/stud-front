@@ -263,7 +263,7 @@ async function getLecturerName() {
         let response = await getLecturer(lecturer_id.value);
 
         response = response.data.result;
-        lecturerFullName.value = response.last_name + ' ' + response.first_name + ' ' + response.second_name;
+        lecturerFullName.value = response.last_name + ' ' + response.first_name.charAt(0) + '. ' + response.second_name.charAt(0) + '.';
         console.log('lecturerFullName.value', lecturerFullName.value);
     } catch (error) {
         console.log(error);
@@ -297,7 +297,6 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-@import "@/style";
 .wrapper-main-section {
   display: flex;
   flex-direction: row;

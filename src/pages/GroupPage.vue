@@ -54,6 +54,7 @@ let groups = ref({});
 const arrCourses = reactive([{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }]);
 
 const faculties = computed(() => store.state.timeTable.faculties);
+
 const getFaculties = (universityID) => store.dispatch('timeTable/getFaculties', universityID);
 const getGroupsWhereFacultyAndCourse = (payload) => store.dispatch('timeTable/getGroupsWhereFacultyAndCourse', payload);
 
