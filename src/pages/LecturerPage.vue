@@ -16,7 +16,7 @@
             </v-select>
             <div class="wrapper-buttons">
                 <MyButton color="transp" @click="router.push({ name: 'main' })">Назад</MyButton>
-                <MyButton :disabled="selectedLecturer.id === 0" @click="router.push({ name: 'schedule-lecturer' })"
+                <MyButton :disabled="selectedLecturer.id === 0" @click="router.push({ name: 'schedule-lecturer', params: { idLecturer: selectedLecturer.id} })"
                     :class="{ disabled: selectedLecturer.id === 0 }">Зберегти</MyButton>
             </div>
         </div>

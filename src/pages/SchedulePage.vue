@@ -1,72 +1,73 @@
 <template>
   <MainPanel
-    v-bind="{ currentEven: currentEven, even: even, weekEven: weekEven, selectDay: selectDay, titleName: group.name, currentDay: currentDay }"
+    v-bind="{ currentEven: currentEven, even: even, titleEven: titleEven, selectDay: selectDay, titleName: group.name, currentDay: currentDay }"
     @changeEven="changeEven" @changeDay="changeDay" />
-  <section class="main-section wrapper-content" v-loading.fullscreen.lock="loading"
-    element-loading-background="transparent">
-    <div class="wrapper-week desktop-nav">
-      <div class="wrapper-days" v-for="day in days" :key="day.id">
-        <input type="radio" :id="day.id" :value="day.id" v-model="selectDay" @change="changeDay" class="my-radio" />
-        <label :for="day.id" class="my-label"
-          :class="{ 'currentDayColor': (selectDay !== currentDay && day.id === currentDay) }">{{ day.name }}</label>
-      </div>
-    </div>
-    <div class="vertical-line"></div>
-    <div class="wrapper-main">
-      <div class="wrapper-schedule" v-for="schedule in newSchedule" :key="schedule.id" :id="schedule.id">
-        <template v-if="schedule.isWindow">
-          <div class="wrapper-pair">
-            {{ schedule.label }}
-          </div>
-          <div class="wrapper-window">
-            <div class="wrapper-svg">
-              <svg width="23" height="17" viewBox="0 0 23 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd"
-                  d="M20.0678 0L2.99203 16.0723L3.97769 17L6.90988 14.2401H16.7273C20.1916 14.2401 23 11.5968 23 8.33603C23 5.83771 21.3514 3.70181 19.0222 2.83958L21.0534 0.927739L20.0678 0ZM17.9156 3.88114L8.30382 12.9281H16.7273C19.4218 12.9281 21.6061 10.8722 21.6061 8.33603C21.6061 6.1857 20.0358 4.38058 17.9156 3.88114ZM1.39394 8.33603C1.39394 10.4316 2.88523 12.1993 4.9234 12.7502L3.83272 13.7768C1.58048 12.8809 0 10.7822 0 8.33603C0 5.07529 2.8084 2.43193 6.27273 2.43193H15.8859L14.492 3.74395H6.27273C3.57825 3.74395 1.39394 5.79989 1.39394 8.33603Z"
-                  fill="currentColor" fill-opacity="0.85" />
-              </svg>
-            </div>
-            <p class="text-window">
-              Вікно
-            </p>
-          </div>
-          <div class="line"></div>
-        </template>
-        <template v-else>
-          <div class="wrapper-pair">
-            {{ arrLabels[schedule.index - 1].label }}
-          </div>
-          <div class="wrapper-lesson">
-            <span class="type-lesson">{{ typeLesson[schedule.type_lesson - 1] }}</span>
-            {{ schedule.subject_name }}
-          </div>
-          <div class="wrapper-lecturer">
-            <svg class="wrapper-svg-lecturer" width="24" height="24" viewBox="0 0 24 24" fill="none"
-              xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" clip-rule="evenodd"
-                d="M12.3553 3.30176C12.1119 3.23267 11.8551 3.23273 11.6116 3.30203C11.0931 3.44957 10.5697 3.58623 10.0445 3.72335C7.70087 4.33527 5.12037 5.00904 2.91292 6.81037L1.87215 7.65967C1.04221 8.33693 1.04264 9.66327 1.8733 10.3398L2.89724 11.1738C3.65371 11.79 4.44208 12.2719 5.25 12.665V17.2939C5.25 18.4272 5.94522 19.4444 7.0011 19.8561L11.0011 21.4156C11.6435 21.666 12.3565 21.666 12.9989 21.4156L16.9989 19.8561C18.0548 19.4444 18.75 18.4272 18.75 17.2939V12.6733C19.5526 12.2823 20.3357 11.8028 21.0871 11.1896L21.25 11.0567V16C21.25 16.4142 21.5858 16.75 22 16.75C22.4142 16.75 22.75 16.4142 22.75 16V9C22.7498 8.49918 22.542 7.99845 22.1267 7.66016L21.1028 6.82618C18.8793 5.01516 16.1903 4.31386 13.9192 3.72153C13.3952 3.58485 12.8729 3.44863 12.3553 3.30176ZM8.29914 12.8122C7.9193 12.647 7.47745 12.821 7.31224 13.2009C7.14704 13.5807 7.32103 14.0226 7.70087 14.1878C8.97872 14.7435 10.3015 15.1983 11.6571 15.5462C11.8933 15.6068 12.1411 15.6068 12.3773 15.5459C13.7292 15.198 15.0481 14.7432 16.3219 14.1874C16.7015 14.0217 16.875 13.5797 16.7093 13.2C16.5436 12.8204 16.1016 12.6469 15.7219 12.8126C14.5253 13.3348 13.2865 13.7623 12.0167 14.0899C10.743 13.7622 9.50004 13.3346 8.29914 12.8122Z"
-                fill="currentColor" />
-            </svg>
-            <span>{{ schedule.lecturer_name }}</span>
-          </div>
-          <div class="wrapper-bottom">
-            <div class="wrapper-number" :style="{ background: schedule.building_color }">
-              {{ schedule.cabinet_number }}
-            </div>
-            <div class="wrapper-building">
-              {{ schedule.building_street }}
-            </div>
-          </div>
-          <div class="line" :style="{ display: (newSchedule.at(-1).id === schedule.id ? 'none' : 'block') }"></div>
-        </template>
-      </div>
-      <template v-if="!loading && !newSchedule.length">
-        <div class="wrapper-dayoff">
-          <img src="../assets/img/chill.png" alt="chill-image">
-          <h5>Вихідний</h5>
-          <p>У цей день пари відсутні</p>
+  <section class="main-section" v-loading.fullscreen.lock="loading" element-loading-background="transparent">
+    <div class="wrapper-main-section wrapper-content">
+      <div class="wrapper-week desktop-nav">
+        <div class="wrapper-days" v-for="day in days" :key="day.id">
+          <input type="radio" :id="day.id" :value="day.id" v-model="selectDay" @change="changeDay" class="my-radio" />
+          <label :for="day.id" class="my-label"
+            :class="{ 'currentDayColor': (selectDay !== currentDay && day.id === currentDay) }">{{ day.name }}</label>
         </div>
-      </template>
+      </div>
+      <div class="vertical-line"></div>
+      <div class="wrapper-main">
+        <div class="wrapper-schedule" v-for="schedule in newSchedule" :key="schedule.id" :id="schedule.id">
+          <template v-if="schedule.isWindow">
+            <div class="wrapper-pair">
+              {{ schedule.label }}
+            </div>
+            <div class="wrapper-window">
+              <div class="wrapper-svg">
+                <svg width="23" height="17" viewBox="0 0 23 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M20.0678 0L2.99203 16.0723L3.97769 17L6.90988 14.2401H16.7273C20.1916 14.2401 23 11.5968 23 8.33603C23 5.83771 21.3514 3.70181 19.0222 2.83958L21.0534 0.927739L20.0678 0ZM17.9156 3.88114L8.30382 12.9281H16.7273C19.4218 12.9281 21.6061 10.8722 21.6061 8.33603C21.6061 6.1857 20.0358 4.38058 17.9156 3.88114ZM1.39394 8.33603C1.39394 10.4316 2.88523 12.1993 4.9234 12.7502L3.83272 13.7768C1.58048 12.8809 0 10.7822 0 8.33603C0 5.07529 2.8084 2.43193 6.27273 2.43193H15.8859L14.492 3.74395H6.27273C3.57825 3.74395 1.39394 5.79989 1.39394 8.33603Z"
+                    fill="currentColor" fill-opacity="0.85" />
+                </svg>
+              </div>
+              <p class="text-window">
+                Вікно
+              </p>
+            </div>
+            <div class="line"></div>
+          </template>
+          <template v-else>
+            <div class="wrapper-pair">
+              {{ arrLabels[schedule.index - 1].label }}
+            </div>
+            <div class="wrapper-lesson">
+              <span class="type-lesson">{{ typeLesson[schedule.type_lesson - 1] }}</span>
+              {{ schedule.subject_name }}
+            </div>
+            <div class="wrapper-lecturer">
+              <svg class="wrapper-svg-lecturer" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M12.3553 3.30176C12.1119 3.23267 11.8551 3.23273 11.6116 3.30203C11.0931 3.44957 10.5697 3.58623 10.0445 3.72335C7.70087 4.33527 5.12037 5.00904 2.91292 6.81037L1.87215 7.65967C1.04221 8.33693 1.04264 9.66327 1.8733 10.3398L2.89724 11.1738C3.65371 11.79 4.44208 12.2719 5.25 12.665V17.2939C5.25 18.4272 5.94522 19.4444 7.0011 19.8561L11.0011 21.4156C11.6435 21.666 12.3565 21.666 12.9989 21.4156L16.9989 19.8561C18.0548 19.4444 18.75 18.4272 18.75 17.2939V12.6733C19.5526 12.2823 20.3357 11.8028 21.0871 11.1896L21.25 11.0567V16C21.25 16.4142 21.5858 16.75 22 16.75C22.4142 16.75 22.75 16.4142 22.75 16V9C22.7498 8.49918 22.542 7.99845 22.1267 7.66016L21.1028 6.82618C18.8793 5.01516 16.1903 4.31386 13.9192 3.72153C13.3952 3.58485 12.8729 3.44863 12.3553 3.30176ZM8.29914 12.8122C7.9193 12.647 7.47745 12.821 7.31224 13.2009C7.14704 13.5807 7.32103 14.0226 7.70087 14.1878C8.97872 14.7435 10.3015 15.1983 11.6571 15.5462C11.8933 15.6068 12.1411 15.6068 12.3773 15.5459C13.7292 15.198 15.0481 14.7432 16.3219 14.1874C16.7015 14.0217 16.875 13.5797 16.7093 13.2C16.5436 12.8204 16.1016 12.6469 15.7219 12.8126C14.5253 13.3348 13.2865 13.7623 12.0167 14.0899C10.743 13.7622 9.50004 13.3346 8.29914 12.8122Z"
+                  fill="currentColor" />
+              </svg>
+              <span>{{ schedule.lecturer_name }}</span>
+            </div>
+            <div class="wrapper-bottom">
+              <div class="wrapper-number" :style="{ background: schedule.building_color }">
+                {{ schedule.cabinet_number }}
+              </div>
+              <div class="wrapper-building">
+                {{ schedule.building_street }}
+              </div>
+            </div>
+            <div class="line" :style="{ display: (newSchedule.at(-1).id === schedule.id ? 'none' : 'block') }"></div>
+          </template>
+        </div>
+        <template v-if="!loading && !newSchedule.length">
+          <div class="wrapper-dayoff">
+            <img src="../assets/img/chill.png" alt="chill-image">
+            <h5>Вихідний</h5>
+            <p>У цей день пари відсутні</p>
+          </div>
+        </template>
+      </div>
     </div>
   </section>
 </template>
@@ -91,7 +92,7 @@ const currentDay = ref('');
 let group_id = ref(parseInt(route.params.idGroup));
 let group = ref({});
 let even = ref(true);
-let weekEven = ref("Парний тиждень");
+let titleEven = ref("Парний тиждень");
 let selectDay = ref("");
 let newSchedule = ref([]);
 let currentSemester = ref("");
@@ -213,7 +214,7 @@ async function getPairs() {
 async function changeEven() {
   try {
     even.value = !even.value;
-    weekEven.value = even.value ? 'Парний тиждень' : 'Непарний тиждень';
+    titleEven.value = even.value ? 'Парний тиждень' : 'Непарний тиждень';
 
     await getSchedule();
   } catch (error) {
@@ -221,7 +222,17 @@ async function changeEven() {
   }
 }
 
-async function getNameGroup() {
+async function changeDay(newDay) {
+  try {
+    selectDay.value = parseInt(newDay);
+
+    await getSchedule();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function getGroupName() {
   try {
     const response = await getGroup(group_id);
 
@@ -241,17 +252,7 @@ async function updateCurrentWeek() {
     currentEven.value = today.even;
     selectDay.value = today.day_of_week !== SUNDAY ? today.day_of_week : MONDAY;
     even.value = today.day_of_week !== SUNDAY ? today.even : !today.even;
-    weekEven.value = even.value === true ? 'Парний тиждень' : 'Непарний тиждень';
-
-    await getSchedule();
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-async function changeDay(newDay) {
-  try {
-    selectDay.value = parseInt(newDay);
+    titleEven.value = even.value === true ? 'Парний тиждень' : 'Непарний тиждень';
 
     await getSchedule();
   } catch (error) {
@@ -262,12 +263,18 @@ async function changeDay(newDay) {
 onMounted(() => {
   loading.value = true;
 
-  getNameGroup();
+  getGroupName();
   updateCurrentWeek();
 })
 </script>
 
 <style scoped lang="scss">
+.wrapper-main-section {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
 .wrapper-bottom {
   display: flex;
   align-items: center;
@@ -300,7 +307,6 @@ onMounted(() => {
 
 .vertical-line {
   width: 1px;
-  height: 98%;
 
   margin-right: 24px;
   margin-bottom: 24px;
@@ -507,7 +513,6 @@ input[type=radio] {
 @media only screen and (min-width: 992px) {
   .main-section {
     flex-direction: row !important;
-    padding: 0 !important;
 
     .wrapper-dayoff {
       margin-top: 10px !important;

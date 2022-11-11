@@ -1,76 +1,92 @@
 <template>
-    <div class="wrapper-head">
-        <div class="wrapper-naming-group">
-            <p class="main-title">{{ lecturer.last_name }} {{ lecturer.first_name }} {{ lecturer.second_name }}</p>
-            <router-link :to="{ name: 'lecturer' }" class="img-edit">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M11.896 0.183396C12.0418 0.197238 12.1047 0.374027 12.0011 0.477444L4.76005 7.70637C4.67804 7.78824 4.61937 7.89044 4.59006 8.00246L3.71974 11.3288C3.66118 11.5526 3.72588 11.7907 3.88974 11.9543C4.0536 12.1178 4.29204 12.1824 4.51625 12.124L7.84818 11.2551C7.96039 11.2259 8.06277 11.1673 8.14478 11.0854L15.4884 3.7541C15.5915 3.65124 15.7676 3.71278 15.7828 3.85745C16.0888 6.76738 16.0715 9.70265 15.7309 12.6097C15.537 14.2649 14.2044 15.5645 12.5522 15.7489C9.55121 16.0837 6.4488 16.0837 3.44785 15.7489C1.79565 15.5645 0.463028 14.2649 0.269111 12.6097C-0.0897035 9.54701 -0.0897035 6.45299 0.26911 3.39029C0.463028 1.73508 1.79565 0.435475 3.44785 0.251127C6.23058 -0.0593614 9.10056 -0.0819386 11.896 0.183396Z"
-                        fill="currentColor" />
-                    <path
-                        d="M13.0681 1.25535C13.1531 1.17069 13.2907 1.17069 13.3756 1.25535L14.6065 2.48422C14.6915 2.56905 14.6915 2.70658 14.6065 2.7914L7.38865 9.99715C7.36145 10.0243 7.32696 10.0439 7.28978 10.0537L5.62364 10.4882C5.46295 10.53 5.3166 10.3835 5.35831 10.2231L5.79347 8.55992C5.80324 8.52259 5.82281 8.48851 5.85014 8.46122L13.0681 1.25535Z"
-                        fill="currentColor" />
-                </svg>
-            </router-link>
-        </div>
-        <div class="wrapper-even">
-            <span class="title-even">{{ titleEven }}</span>
-            <div class="wrapper-arrow" @click="changeEven">
-                <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M3.38615 1.32775C3.68849 1.02401 3.68849 0.531547 3.38615 0.227806C3.08381 -0.0759353 2.59361 -0.0759353 2.29127 0.227806L0.226756 2.30188C-0.0755854 2.60562 -0.0755854 3.09808 0.226756 3.40182L2.29127 5.4759C2.59361 5.77964 3.08381 5.77964 3.38615 5.4759C3.68849 5.17216 3.68849 4.6797 3.38615 4.37595L2.64326 3.62963H13.1613C13.5889 3.62963 13.9355 3.28141 13.9355 2.85185C13.9355 2.4223 13.5889 2.07407 13.1613 2.07407H2.64326L3.38615 1.32775Z"
-                        fill="currentColor" />
-                    <path
-                        d="M12.6139 8.5241C12.3115 8.82784 12.3115 9.3203 12.6139 9.62405L13.3567 10.3704H2.83871C2.41113 10.3704 2.06452 10.7186 2.06452 11.1481C2.06452 11.5777 2.41113 11.9259 2.83871 11.9259H13.3567L12.6139 12.6722C12.3115 12.976 12.3115 13.4685 12.6139 13.7722C12.9162 14.0759 13.4064 14.0759 13.7087 13.7722L15.7732 11.6981C16.0756 11.3944 16.0756 10.9019 15.7732 10.5982L13.7087 8.5241C13.4064 8.22036 12.9162 8.22036 12.6139 8.5241Z"
-                        fill="currentColor" />
-                </svg>
+    <MainPanel
+        v-bind="{ currentEven: currentEven, even: even, titleEven: titleEven, selectDay: selectDay, titleName: lecturerFullName, currentDay: currentDay }"
+        @changeEven="changeEven" @changeDay="changeDay" />
+    <section class="main-section" v-loading.fullscreen.lock="loading" element-loading-background="transparent">
+        <div class="wrapper-main-section wrapper-content">
+            <div class="wrapper-week desktop-nav">
+                <div class="wrapper-days" v-for="day in days" :key="day.id">
+                    <input type="radio" :id="day.id" :value="day.id" v-model="selectDay" @change="changeDay"
+                        class="my-radio" />
+                    <label :for="day.id" class="my-label"
+                        :class="{ 'currentDayColor': (selectDay !== currentDay && day.id === currentDay) }">{{ day.name
+                        }}
+                    </label>
+                </div>
             </div>
-        </div>
-        <div class="wrapper-radio-section">
-            <div class="wrapper-radio" v-for="day in days" :key="day.id">
-                <input type="radio" :id="day.id" :value="day.id" v-model="selectDay" @change="getSchedule"
-                    class="my-radio" />
-                <label :for="day.id" class="my-label">{{ day.name }}</label>
-            </div>
-        </div>
-    </div>
-    <section class="main-section">
-        <div class="wrapper-main">
-            <div class="wrapper-schedule" v-for="schedule in newSchedule" :key="schedule.id">
-                <template v-if="schedule.isWindow">
-                    <div class="wrapper-pair">
-                        {{ schedule.label }}
-                    </div>
-                    <div class="wrapper-window">
-                        <img src="../assets/img/union.png" alt="icon">
-                        <p class="text-window">
-                            Вікно
-                        </p>
-                    </div>
-                    <div class="line"></div>
-                </template>
-                <template v-else>
-                    <div class="wrapper-pair">
-                        {{ arrLabels[schedule.index - 1].label }}
-                    </div>
-                    <div class="wrapper-lesson">
-                        {{ schedule.subject_name }}
-                        <span class="type-lesson">({{ typeLesson[schedule.type_lesson - 1].name }})</span>
-                    </div>
-                    <div class="wrapper-lecturer">
-                        <img src="../assets/img/groups.png" alt="icon" class="img-lecturer" />
-                        <span>{{ schedule.group_name }}</span>
-                    </div>
-                    <div class="wrapper-bottom">
-                        <div class="wrapper-number">
-                            {{ schedule.cabinet_number }}
+            <div class="vertical-line"></div>
+            <div class="wrapper-main">
+                <div class="wrapper-schedule" v-for="schedule in newSchedule" :key="schedule.id">
+                    <template v-if="schedule.isWindow">
+                        <div class="wrapper-pair">
+                            {{ schedule.label }}
                         </div>
-                        <div class="wrapper-building">
-                            <span>вул.</span>
-                            {{ schedule.building_street }}
+                        <div class="wrapper-window">
+                            <div class="wrapper-svg">
+                                <svg width="23" height="17" viewBox="0 0 23 17" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M20.0678 0L2.99203 16.0723L3.97769 17L6.90988 14.2401H16.7273C20.1916 14.2401 23 11.5968 23 8.33603C23 5.83771 21.3514 3.70181 19.0222 2.83958L21.0534 0.927739L20.0678 0ZM17.9156 3.88114L8.30382 12.9281H16.7273C19.4218 12.9281 21.6061 10.8722 21.6061 8.33603C21.6061 6.1857 20.0358 4.38058 17.9156 3.88114ZM1.39394 8.33603C1.39394 10.4316 2.88523 12.1993 4.9234 12.7502L3.83272 13.7768C1.58048 12.8809 0 10.7822 0 8.33603C0 5.07529 2.8084 2.43193 6.27273 2.43193H15.8859L14.492 3.74395H6.27273C3.57825 3.74395 1.39394 5.79989 1.39394 8.33603Z"
+                                        fill="currentColor" fill-opacity="0.85" />
+                                </svg>
+                            </div>
+                            <p class="text-window">
+                                Вікно
+                            </p>
                         </div>
+                        <div class="line"></div>
+                    </template>
+                    <template v-else>
+                        <div class="wrapper-pair">
+                            {{ arrLabels[schedule.index - 1].label }}
+                        </div>
+                        <div class="wrapper-lesson">
+                            <span class="type-lesson">{{ typeLesson[schedule.type_lesson - 1] }}</span>
+                            {{ schedule.subject_name }}
+                        </div>
+                        <div class="wrapper-lecturer">
+                            <svg class="wrapper-svg-lecturer" width="20" height="12" viewBox="0 0 20 12" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M10 0.5C8.61778 0.5 7.49724 1.62071 7.49724 3.00318C7.49724 4.38564 8.61778 5.50636 10 5.50636C11.3823 5.50636 12.5028 4.38564 12.5028 3.00318C12.5028 1.62071 11.3823 0.5 10 0.5Z"
+                                    fill="currentColor" />
+                                <path
+                                    d="M7.33039 6.84138C5.94814 6.84138 4.8276 7.96209 4.8276 9.34456V10.1378C4.8276 10.6405 5.19193 11.0692 5.68807 11.1503C8.54381 11.6166 11.4563 11.6166 14.312 11.1503C14.8081 11.0692 15.1725 10.6405 15.1725 10.1378V9.34456C15.1725 7.96209 14.0519 6.84138 12.6697 6.84138H12.4422C12.319 6.84138 12.1967 6.86086 12.0796 6.89908L11.502 7.08773C10.526 7.40646 9.47402 7.40646 8.49808 7.08773L7.92043 6.89908C7.80338 6.86086 7.68102 6.84138 7.55789 6.84138H7.33039Z"
+                                    fill="currentColor" />
+                                <path
+                                    d="M16.5517 10.1219V9.34456C16.5517 8.44758 16.2464 7.62051 15.7333 6.96262C16.2597 7.03512 16.7982 6.98618 17.3083 6.8158L17.7319 6.67431C17.8178 6.64564 17.9075 6.63104 17.9978 6.63104H18.1646C19.1783 6.63104 20 7.47157 20 8.50842V9.10332C20 9.48041 19.7328 9.80194 19.369 9.8627C18.4357 10.0186 17.4942 10.105 16.5517 10.1219Z"
+                                    fill="currentColor" />
+                                <path
+                                    d="M14.3715 3.75238C14.3715 2.71553 15.1932 1.875 16.2069 1.875C17.2205 1.875 18.0423 2.71553 18.0423 3.75238C18.0423 4.78923 17.2205 5.62977 16.2069 5.62977C15.1932 5.62977 14.3715 4.78923 14.3715 3.75238Z"
+                                    fill="currentColor" />
+                                <path
+                                    d="M4.26668 6.96262C3.75358 7.62051 3.44829 8.44758 3.44829 9.34456V10.1219C2.50584 10.105 1.5643 10.0186 0.631014 9.8627C0.267174 9.80194 0 9.48041 0 9.10332V8.50842C0 7.47157 0.821727 6.63104 1.83538 6.63104H2.00221C2.09251 6.63104 2.18224 6.64564 2.26807 6.67431L2.69169 6.8158C3.20181 6.98618 3.74027 7.03512 4.26668 6.96262Z"
+                                    fill="currentColor" />
+                                <path
+                                    d="M1.95774 3.75238C1.95774 2.71553 2.77946 1.875 3.79311 1.875C4.80677 1.875 5.62849 2.71553 5.62849 3.75238C5.62849 4.78923 4.80677 5.62977 3.79311 5.62977C2.77946 5.62977 1.95774 4.78923 1.95774 3.75238Z"
+                                    fill="currentColor" />
+                            </svg>
+                            <span>{{ schedule.group_name }}</span>
+                        </div>
+                        <div class="wrapper-bottom">
+                            <div class="wrapper-number" :style="{ background: schedule.building_color }">
+                                {{ schedule.cabinet_number }}
+                            </div>
+                            <div class="wrapper-building">
+                                {{ schedule.building_street }}
+                            </div>
+                        </div>
+                        <div class="line"
+                            :style="{ display: (newSchedule.at(-1).id === schedule.id ? 'none' : 'block') }">
+                        </div>
+                    </template>
+                </div>
+                <template v-if="!loading && !newSchedule.length">
+                    <div class="wrapper-dayoff">
+                        <img src="../assets/img/chill.png" alt="chill-image">
+                        <h5>Вихідний</h5>
+                        <p>У цей день пари відсутні</p>
                     </div>
-                    <div class="line"></div>
                 </template>
             </div>
         </div>
@@ -78,6 +94,7 @@
 </template>
 
 <script setup>
+import MainPanel from '../components/MainPanel.vue';
 import { ref, reactive, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from "vuex";
@@ -88,14 +105,21 @@ const route = useRoute();
 const SUNDAY = 7;
 const MONDAY = 1;
 
+const loading = ref(false);
+
+const currentEven = ref('');
+const currentDay = ref('');
+
 const lecturer_id = ref(parseInt(route.params.idLecturer));
-const lecturer = ref({});
+const lecturerFullName = ref('');
 const even = ref(true);
 const titleEven = ref("Парний тиждень");
 const selectDay = ref("");
 const newSchedule = ref([]);
 const currentSemester = ref("");
 const lessonSchedules = ref("");
+
+const typeLesson = ['лек', 'пр', 'лаб'];
 const days = [
     { id: 1, name: "Понеділок" },
     { id: 2, name: "Вівторок" },
@@ -104,19 +128,16 @@ const days = [
     { id: 5, name: "П'ятниця" },
     { id: 6, name: "Субота" },
 ];
-const typeLesson = [
-    { id: 1, name: 'Лекція' },
-    { id: 2, name: 'Практична' },
-    { id: 3, name: 'Лабораторна' }
-];
 const arrLabels = [
-    { label: "8:30 - 9:50", index: 1 },
-    { label: "10:00 - 11:20", index: 2 },
-    { label: "11:30 - 12:50", index: 3 },
-    { label: "13:10 - 14:30", index: 4 },
-    { label: "14:40 - 16:00", index: 5 },
-    { label: "16:10 - 17:30", index: 6 },
-    { label: "17:40 - 19:00", index: 7 }
+  { label: "8:30 - 9:50", index: 1 },
+  { label: "10:00 - 11:20", index: 2 },
+  { label: "11:30 - 12:50", index: 3 },
+  { label: "13:10 - 14:30", index: 4 },
+  { label: "14:40 - 16:00", index: 5 },
+  { label: "16:10 - 17:30", index: 6 },
+  { label: "17:40 - 19:00", index: 7 },
+  { label: "19:10 - 20:30", index: 8 },
+  { label: "20:40 - 22:00", index: 9 },
 ];
 
 const getGroup = (group_id) => store.dispatch('timeTable/getGroup', group_id);
@@ -129,19 +150,11 @@ const getSubject = (subject_id) => store.dispatch('timeTable/getSubject', subjec
 const getBuilding = (building_id) => store.dispatch('timeTable/getBuilding', building_id);
 const getToday = () => store.dispatch('timeTable/getToday');
 
-async function getNameLecturer() {
-    try {
-        const response = await getLecturer(lecturer_id.value);
-
-        lecturer.value = response.data.result;
-    } catch (error) {
-        console.log(error);
-    }
-};
-
 async function getSchedule() {
     try {
         newSchedule.value = [];
+        lessonSchedules.value = '';
+        loading.value = true;
 
         if (selectDay.value == "") {
             return;
@@ -161,28 +174,17 @@ async function getSchedule() {
         const response = await getLessonSchedulesForDayWhereLecturer(payload);
 
         if (response.data.result == null) {
-            console.log('Error! Array of result is empty!');
+            loading.value = false;
             return;
         }
 
         lessonSchedules.value = response.data.result;
 
-        getPairs();
+        await getPairs();
     } catch (error) {
         console.log(error);
     }
-};
-
-async function changeEven() {
-    try {
-        even.value = even.value === true ? false : true;
-        titleEven.value = even.value === true ? 'Парний тиждень' : 'Непарний тиждень';
-
-        await getSchedule();
-    } catch (error) {
-        console.log(error);
-    }
-};
+}
 
 async function getPairs() {
     try {
@@ -204,6 +206,7 @@ async function getPairs() {
             schedule.subject_name = res_subj.data.result.name;
             schedule.cabinet_number = res_cab.data.result.number;
             schedule.building_street = res_building.data.result.street;
+            schedule.building_color = res_building.data.result.color;
 
             let isPush = true;
 
@@ -225,13 +228,47 @@ async function getPairs() {
             if (isPush) {
                 newSchedule.value.push(schedule);
             }
-
             // merging groups in one card
         }
+
+        loading.value = false;
     } catch (error) {
         console.log(error);
     }
-};
+}
+
+async function changeEven() {
+    try {
+        even.value = !even.value;
+        titleEven.value = even.value ? 'Парний тиждень' : 'Непарний тиждень';
+
+        await getSchedule();
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function changeDay(newDay) {
+    try {
+        selectDay.value = parseInt(newDay);
+
+        await getSchedule();
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function getLecturerName() {
+    try {
+        let response = await getLecturer(lecturer_id.value);
+
+        response = response.data.result;
+        lecturerFullName.value = response.last_name + ' ' + response.first_name + ' ' + response.second_name;
+        console.log('lecturerFullName.value', lecturerFullName.value);
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 async function updateCurrentWeek() {
     try {
@@ -239,6 +276,8 @@ async function updateCurrentWeek() {
 
         const today = res.data.result;
 
+        currentDay.value = today.day_of_week;
+        currentEven.value = today.even;
         selectDay.value = today.day_of_week !== SUNDAY ? today.day_of_week : MONDAY;
         even.value = today.day_of_week !== SUNDAY ? today.even : !today.even;
         titleEven.value = even.value === true ? 'Парний тиждень' : 'Непарний тиждень';
@@ -247,258 +286,289 @@ async function updateCurrentWeek() {
     } catch (error) {
         console.log(error);
     }
-};
+}
 
 onMounted(() => {
-    getNameLecturer();
+    loading.value = true;
+
+    getLecturerName();
     updateCurrentWeek();
-});
+})
 </script>
 
 <style scoped lang="scss">
 @import "@/style";
+.wrapper-main-section {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
 
 .wrapper-bottom {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
+}
+
+.current-even-big {
+  background: rgba(100, 208, 166, 0.25);
+}
+
+.current-even-small {
+  background: #64D0A6;
+}
+
+.disabled-even-small {
+  background: var(--tg-theme-hint-color);
+}
+
+.currentDayColor {
+  color: var(--tg-theme-link-color) !important;
 }
 
 .line {
-    margin-top: 20px;
-    max-width: 288px;
-    width: 100%;
-    height: 1px;
-    background: #3D3D41;
+  margin-top: 20px;
+
+  width: 100%;
+  height: 1px;
+
+  background: rgba(var(--tg-theme-hint-color-rgb), 0.5);
+}
+
+.vertical-line {
+  width: 1px;
+
+  margin-right: 24px;
+  margin-bottom: 24px;
+
+  background: rgba(var(--tg-theme-hint-color-rgb), 0.5);
 }
 
 .wrapper-number {
-    margin-right: 8px;
-    padding: 4px 8px;
-    background: #5FB7D1;
-    border-radius: 5px;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 19px;
+
+  margin-right: 8px;
+
+  padding: 4px 8px;
+
+  border-radius: 5px;
+
+  color: #FFF;
 }
 
 .main-section {
-    padding-top: 10px;
-    font-family: 'Open Sans', sans-serif;
-    max-height: 680px;
-    overflow-y: scroll;
+  width: 100%;
+  align-items: flex-start;
+
+  margin-top: 24px;
+
+  .wrapper-main {
+    width: 100%;
+
+    .wrapper-dayoff {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      margin-top: 50px;
+
+      h5 {
+        font-size: 21px;
+        color: var(--tg-theme-text-color);
+
+        margin: 24px 0 12px;
+      }
+
+      p {
+        color: var(--tg-theme-hint-color);
+
+        margin-bottom: 80px;
+      }
+    }
+  }
 }
 
-.img-lecturer {
-    height: 24px;
-    width: 24px;
-    margin-right: 10px;
-}
+.wrapper-svg-lecturer {
+  margin-right: 10px;
 
-.wrapper-lecturer {
-    display: flex;
-    align-items: center;
-    margin-bottom: 12px;
+  width: 24px;
+  height: 24px;
+
+  color: var(--tg-theme-hint-color);
 }
 
 .wrapper-schedule {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    color: white;
-    margin-top: 15px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  align-items: flex-start;
+
+  color: var(--tg-theme-text-color);
+
+  margin-top: 15px;
+
+  width: 100%;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &:last-child {
+    margin-bottom: 24px;
+  }
 }
 
 .wrapper-lesson {
-    margin: 15px 0px 12px 0px;
-    font-weight: 400;
-}
+  display: flex;
+  align-items: center;
 
-.mb-3 {
-    display: flex;
-    color: white;
+  margin: 15px 0px 12px 0px;
+
+  font-weight: 600;
 }
 
 .wrapper-pair {
-    font-size: 14px;
-    line-height: 19px;
+  font-weight: 700;
+
+  color: var(--tg-theme-hint-color);
 }
 
-.wrapper-lesson {
-    font-weight: 600;
-    line-height: 22px;
+.wrapper-window {
+  display: flex;
+
+  font-weight: 600;
+  font-size: 14px;
+
+  padding: 6px 8px;
+  margin-top: 8px;
+
+  border-radius: 8px;
+
+  background: var(--tg-theme-secondary-bg-color);
+}
+
+.wrapper-svg {
+  display: flex;
+  align-items: center;
+
+  margin-right: 8px;
+
+  color: var(--tg-theme-text-color);
 }
 
 .wrapper-lecturer {
-    font-size: 14px;
-    line-height: 19px;
-    opacity: 0.85;
+  display: flex;
+  align-items: center;
+
+  margin-bottom: 12px;
+
+  font-size: 14px;
+
+  opacity: 0.85;
 }
 
 .wrapper-building {
-    font-size: 14px;
-    line-height: 19px;
-    opacity: 0.5;
+  font-size: 14px;
+
+  line-height: 19px;
+
+  color: var(--tg-theme-hint-color);
 }
 
-.wrapper-number {
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 16px;
-}
+.wrapper-week {
+  display: flex;
+  max-width: 100%;
 
-.wrapper-head {
-    padding: 10px 16px 20px 16px;
-    font-family: "Open Sans", sans-serif;
-    max-width: 100%;
-    background: $main-gray;
+  margin: 16px 0px 0px;
+  padding-bottom: 10px;
 
-    .wrapper-naming-group {
-        display: flex;
-        align-items: center;
-        flex-direction: row;
-        margin-bottom: 16px;
+  .wrapper-days {
+    padding: 6px 0px;
+    margin-right: 12px;
 
-        .main-title {
-            font-style: normal;
-            font-weight: 600;
-            font-size: 16px;
-            line-height: 22px;
-            color: $white;
-            opacity: 0.85;
-            margin-right: 8px;
-        }
+    .my-label {
+      font-weight: 600;
 
-        .img-edit {
-            &:hover {
-                transform: scale(1.1);
-            }
+      border-radius: 8px;
 
-            &:active {
-                transform: scale(0.9);
-            }
-        }
+      padding: 6px 16px;
+
+      color: var(--tg-theme-hint-color);
+
+      &:hover {
+        background: var(--tg-theme-button-color) !important;
+        color: var(--tg-theme-button-text-color) !important;
+        opacity: 0.9;
+      }
     }
-
-    .wrapper-even {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-style: normal;
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 19px;
-        color: $white;
-
-        .wrapper-arrow {
-            padding: 5px;
-            background: $btn-arrows;
-            border-radius: 5px;
-            transition: 0.4s;
-
-            &:active {
-                animation: rotation-arrows 0.3s;
-            }
-        }
-    }
-
-    .wrapper-radio-section {
-        color: wheat;
-        overflow: hidden;
-        overflow-x: auto;
-        display: flex;
-        max-width: 100%;
-        margin: 16px 0px 0px;
-        padding-bottom: 10px;
-
-        .wrapper-radio {
-            padding: 6px 0px;
-            margin-right: 12px;
-
-            .my-label {
-                font-weight: 600;
-                font-size: 14px;
-                line-height: 19px;
-                border-radius: 5px;
-                padding: 6px 16px;
-                color: $white;
-
-                &:hover {
-                    background: $btn-green-hover;
-                }
-
-                &:active {
-                    background: $btn-green-active ;
-                }
-            }
-        }
-    }
+  }
 }
 
 input[type=radio] {
-    display: none;
+  display: none;
 }
 
-.wrapper-radio input[type="radio"]:checked+label {
-    background: $btn-green;
-}
-
-.title-even::before {
-    content: '';
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    border-radius: 100%;
-    background-color: $btn-green;
-    margin-right: 8px;
+.wrapper-days input[type="radio"]:checked+label {
+  background: var(--tg-theme-button-color);
+  color: var(--tg-theme-button-text-color) !important;
 }
 
 .type-lesson {
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 19px;
-    opacity: 0.5;
+  padding: 4px 8px;
+
+  font-size: 14px;
+  line-height: 19px;
+
+  margin-right: 12px;
+
+  color: #31C68C;
+
+  border: 1px solid #64D0A6;
+
+  border-radius: 5px;
 }
 
-@media only screen and (max-width: 414px) {
-    .main-section {
-        overflow: scroll;
-    }
+@media only screen and (max-width: 991px) {
+  .desktop-nav {
+    display: none !important;
+  }
 
-    .wrapper-schedule {
-        width: 100%;
-    }
-
-    .wrapper-main {
-        max-width: 100%;
-
-        .line {
-            max-width: 100%;
-        }
-    }
+  .vertical-line {
+    display: none !important;
+  }
 }
 
-@media only screen and (max-height: 896px) {
-    .main-section {
-        max-height: 70vh !important;
-    }
-}
+@media only screen and (min-width: 992px) {
+  .main-section {
+    flex-direction: row !important;
 
-@media only screen and (max-height: 667px) {
-    .main-section {
-        max-height: 60vh !important;
+    .wrapper-dayoff {
+      margin-top: 10px !important;
     }
+  }
+
+  .wrapper-week {
+    flex-direction: column !important;
+
+    margin-right: 24px;
+    margin-top: 0 !important;
+
+    .wrapper-days {
+      margin-right: 0 !important;
+      margin-bottom: 12px;
+    }
+  }
 }
 
 @keyframes rotation-arrows {
-    0% {
-        transform: rotate(0deg);
-    }
+  0% {
+    transform: rotate(0deg);
+  }
 
-    50% {
-        transform: scale(3);
-        transform: rotate(160deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
+  100% {
+    transform: scale(3);
+    transform: rotate(180deg);
+  }
 }
 </style>

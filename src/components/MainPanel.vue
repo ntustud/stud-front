@@ -20,7 +20,7 @@
                         :class="{ 'current-even-small': currentEven === even, 'disabled-even-small': currentEven !== even }">
                     </div>
                 </div>
-                <span class="week-even">{{ weekEven }}</span>
+                <span class="week-even">{{ titleEven }}</span>
             </div>
             <div class="wrapper-arrow" @click="emitChangeEven">
                 <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -61,7 +61,7 @@
                         :class="{ 'current-even-small': currentEven === even, 'disabled-even-small': currentEven !== even }">
                     </div>
                 </div>
-                <span class="week-even">{{ weekEven }}</span>
+                <span class="week-even">{{ titleEven }}</span>
             </div>
             <div class="wrapper-panel-name">
                 <p class="title-sub-head">{{ titleName }}</p>
@@ -83,10 +83,10 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue';
 
-const { currentEven, even, weekEven, selectDay, titleName, currentDay } = defineProps([
+const { currentEven, even, titleEven, selectDay, titleName, currentDay } = defineProps([
     'currentEven',
     'even',
-    'weekEven',
+    'titleEven',
     'selectDay',
     'titleName',
     'currentDay'
@@ -284,7 +284,8 @@ input[type=radio] {
     }
 
     .wrapper-navigation {
-        padding-left: 0 !important;
+        padding-left: 16px !important;
+        padding-right: 16px !important;
     }
 
     .desktop-nav {

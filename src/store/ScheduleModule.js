@@ -60,7 +60,6 @@ export const ScheduleModule = {
 
         async getLessonSchedulesForDayWhereLecturer({ }, { semester_id, lecturer_id, even, day_of_week }) {
             try {
-                console.log(semester_id, lecturer_id, even, day_of_week);
                 const res = await ax.post(`/semester/${semester_id}/lecturer/${lecturer_id}/lesson/schedules/day`, { even, day_of_week });
 
                 return res;

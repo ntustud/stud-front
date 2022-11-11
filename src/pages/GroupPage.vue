@@ -27,8 +27,8 @@
             </div>
             <div class="wrapper-buttons">
                 <MyButton color="transp" @click="router.push({ name: 'main' })">Назад</MyButton>
-                <MyButton :disabled="selectGroup === 0" @click="router.push({ name: 'schedule', params: { idGroup: 1 } })"
-                    :class="{ disabled: selectGroup === 0 }">Зберегти</MyButton>
+                <MyButton :disabled="selectGroup === ''" @click="router.push({ name: 'schedule', params: { idGroup: selectGroup } })"
+                    :class="{ disabled: selectGroup === '' }">Зберегти</MyButton>
             </div>
         </div>
     </section>
