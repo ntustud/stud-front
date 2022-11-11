@@ -1,6 +1,12 @@
 # stud-front
 The first service at NTU for students and lecturers. The service helps to find quickly and view the current schedule
 
+## Features:
+- Support Web Welegram App 
+- List of all pairs
+- Display of exams (In planning)
+- Support PWA (In planning)
+
 ### How Stud platform Works:
 1. The Student/Lecturer choose the type of schedule what he/she need
 2. Student have to choose faculty, course and his/her group 
@@ -16,3 +22,8 @@ The first service at NTU for students and lecturers. The service helps to find q
       - `npm install`
       - `npm run serve`
 
+## Images:
+![Example Bot Image](https://raw.githubusercontent.com/ntu-stud/stud-front/main/images/app-preview.png)
+
+## Contributions:
+Any contributions are welcome, also if there are problems in the process, then create an issue
