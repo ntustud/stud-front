@@ -23,7 +23,7 @@ The first service at NTU for students and lecturers. The service helps to find q
       - `npm run serve`
 
 ## Images:
-![Example Bot Image](https://raw.githubusercontent.com/ntu-stud/stud-front/main/images/app-preview.png)
+![Example Bot Image](https://raw.githubusercontent.com/ntustud/stud-front/main/images/app-preview.png)
 
 ## Contributions:
 Any contributions are welcome, also if there are problems in the process, then create an issue
