@@ -42,22 +42,6 @@ export const auth = {
 
             localStorage.removeItem('typeSchedule');
             localStorage.removeItem('select_id');
-        },
-
-        // async logout(context) {
-        //     context.commit('TOKEN_UPDATE', {
-        //         access_token: null,
-        //         refresh_token: null,
-        //     });
-
-        //     localStorage.removeItem('access_token');
-        //     localStorage.removeItem('refresh_token');
-
-        //     if (router.currentRoute.value.name !== 'main') {
-        //         router.push({
-        //             name: 'main',
-        //         });
-        //     }
-        // },
+        }
     },
 }

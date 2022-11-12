@@ -2,7 +2,7 @@
     <div class="wrapper-navigation mobile-nav">
         <div class="wrapper-panel-name">
             <p class="title-sub-head">{{ titleName }}</p>
-            <router-link :to="{ name: 'group' }" class="img-edit">
+            <router-link :to="{ name: typeSchedule }" class="img-edit">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M11.896 0.183396C12.0418 0.197238 12.1047 0.374027 12.0011 0.477444L4.76005 7.70637C4.67804 7.78824 4.61937 7.89044 4.59006 8.00246L3.71974 11.3288C3.66118 11.5526 3.72588 11.7907 3.88974 11.9543C4.0536 12.1178 4.29204 12.1824 4.51625 12.124L7.84818 11.2551C7.96039 11.2259 8.06277 11.1673 8.14478 11.0854L15.4884 3.7541C15.5915 3.65124 15.7676 3.71278 15.7828 3.85745C16.0888 6.76738 16.0715 9.70265 15.7309 12.6097C15.537 14.2649 14.2044 15.5645 12.5522 15.7489C9.55121 16.0837 6.4488 16.0837 3.44785 15.7489C1.79565 15.5645 0.463028 14.2649 0.269111 12.6097C-0.0897035 9.54701 -0.0897035 6.45299 0.26911 3.39029C0.463028 1.73508 1.79565 0.435475 3.44785 0.251127C6.23058 -0.0593614 9.10056 -0.0819386 11.896 0.183396Z"
@@ -65,7 +65,7 @@
             </div>
             <div class="wrapper-panel-name">
                 <p class="title-sub-head">{{ titleName }}</p>
-                <router-link :to="{ name: 'group' }" class="img-edit">
+                <router-link :to="{ name: typeSchedule }" class="img-edit">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M11.896 0.183396C12.0418 0.197238 12.1047 0.374027 12.0011 0.477444L4.76005 7.70637C4.67804 7.78824 4.61937 7.89044 4.59006 8.00246L3.71974 11.3288C3.66118 11.5526 3.72588 11.7907 3.88974 11.9543C4.0536 12.1178 4.29204 12.1824 4.51625 12.124L7.84818 11.2551C7.96039 11.2259 8.06277 11.1673 8.14478 11.0854L15.4884 3.7541C15.5915 3.65124 15.7676 3.71278 15.7828 3.85745C16.0888 6.76738 16.0715 9.70265 15.7309 12.6097C15.537 14.2649 14.2044 15.5645 12.5522 15.7489C9.55121 16.0837 6.4488 16.0837 3.44785 15.7489C1.79565 15.5645 0.463028 14.2649 0.269111 12.6097C-0.0897035 9.54701 -0.0897035 6.45299 0.26911 3.39029C0.463028 1.73508 1.79565 0.435475 3.44785 0.251127C6.23058 -0.0593614 9.10056 -0.0819386 11.896 0.183396Z"
@@ -81,7 +81,11 @@
 </template> 
   
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, computed } from 'vue';
+import { useStore } from "vuex";
+
+const store = useStore();
+const typeSchedule = computed(() => store.state.auth.typeSchedule);
 
 const { currentEven, even, titleEven, selectDay, titleName, currentDay } = defineProps([
     'currentEven',
@@ -92,7 +96,7 @@ const { currentEven, even, titleEven, selectDay, titleName, currentDay } = defin
     'currentDay'
 ]);
 
-const emit = defineEmits(['changeEven', 'changeDay'])
+const emit = defineEmits(['changeEven', 'changeDay']);
 
 const days = [
     { id: 1, name: "Понеділок" },
