@@ -60,13 +60,7 @@
             <div class="line" :style="{ display: (newSchedule.at(-1).id === schedule.id ? 'none' : 'block') }"></div>
           </template>
         </div>
-        <template v-if="!loading && !newSchedule.length">
-          <div class="wrapper-dayoff">
-            <img src="../assets/img/chill.png" alt="chill-image">
-            <h5>Вихідний</h5>
-            <p>У цей день пари відсутні</p>
-          </div>
-        </template>
+        <PlaceholderHoliday v-if="!loading && !newSchedule.length"/>
       </div>
     </div>
   </section>
@@ -74,6 +68,7 @@
 
 <script setup>
 import MainPanel from '../components/MainPanel.vue';
+import PlaceholderHoliday from './UI/PlaceholderHoliday.vue';
 import { ref, reactive, onMounted, computed } from 'vue';
 import { useStore } from "vuex";
 
@@ -160,6 +155,7 @@ async function getSchedule() {
     await getPairs();
   } catch (error) {
     console.log(error);
+    loading.value = false;
   }
 }
 
@@ -334,27 +330,6 @@ onMounted(() => {
 
   .wrapper-main {
     width: 100%;
-
-    .wrapper-dayoff {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      margin-top: 50px;
-
-      h5 {
-        font-size: 21px;
-        color: var(--tg-theme-text-color);
-
-        margin: 24px 0 12px;
-      }
-
-      p {
-        color: var(--tg-theme-hint-color);
-
-        margin-bottom: 80px;
-      }
-    }
   }
 }
 
@@ -511,10 +486,6 @@ input[type=radio] {
 @media only screen and (min-width: 992px) {
   .main-section {
     flex-direction: row !important;
-
-    .wrapper-dayoff {
-      margin-top: 10px !important;
-    }
   }
 
   .wrapper-week {
