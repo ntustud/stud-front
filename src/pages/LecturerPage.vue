@@ -122,14 +122,15 @@ async function goSchedule() {
 
     border: 1px solid rgba(var(--tg-theme-hint-color-rgb), 0.5);
 
-    color: red !important;
-
     padding: 20px;
 }
 
 .vs__dropdown-menu {
-    color: var(--tg-theme-text-color);
     background: var(--tg-theme-bg-color);
+}
+
+.vs__dropdown-option {
+    color: var(--tg-theme-text-color);
 }
 </style>
   

@@ -117,38 +117,6 @@ body {
     padding: 0 16px;
 }
 
-.my-select {
-    font-family: "Open Sans";
-    font-style: normal;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 22px;
-
-    padding: 24px;
-
-    border: none;
-
-    background: transparent;
-    color: currentColor;
-
-    text-align: center;
-    text-align: -webkit-center;
-
-    .my-option {
-        color: var(--tg-theme-button-text-color);
-
-        background-color: var(--tg-theme-bg-color);
-    }
-
-    &:hover {
-        opacity: 0.7;
-    }
-
-    &:focus-visible {
-        outline: none;
-    }
-}
-
 // --- element-plus Select --- //
 body .el-select__popper.el-popper {
     background: none !important;
