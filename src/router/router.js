@@ -20,17 +20,7 @@ const routes = [
         path: '/lecturer',
         name: 'lecturer',
         component: () => import('../pages/LecturerPage.vue'),
-    },
-    // {
-    //     path: '/group/:idGroup/schedule',
-    //     name: 'schedule',
-    //     component: () => import('../pages/SchedulePage.vue'),
-    // },
-    // {
-    //     path: '/lecturer/:idLecturer/schedule',
-    //     name: 'schedule-lecturer',
-    //     component: () => import('../pages/ScheduleLecturerPage.vue'),
-    // }
+    }
 ]
 
 const router = createRouter({
@@ -46,23 +36,7 @@ router.beforeEach((to, from, next) => {
         });
         return;
     }
-    // if (to.matched.some((record) => record.meta.roles)) {
-    //   const { roles } = to.meta;
-    //   const userRoles = localStore.user.authorities;
-    //   const hasAccess = roles.reduce((found, item) => found || userRoles.includes(item), false);
-
-    //   if (hasAccess) {
-    //     next();
-    //   } else {
-    //     next({
-    //       name: 'home',
-    //     });
-    //   }
-    //   return;
-    // }
-
     next();
-
 });
 
 export default router;
