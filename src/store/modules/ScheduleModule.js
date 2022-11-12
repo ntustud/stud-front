@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { UNIVERSITY_ID } from '../../constant';
+import { UNIVERSITY_ID } from '../../../constant';
 
 const API_URL = process.env.VUE_APP_API_URL;
 

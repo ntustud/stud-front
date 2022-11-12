@@ -95,12 +95,10 @@
 
 <script setup>
 import MainPanel from '../components/MainPanel.vue';
-import { ref, reactive, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref, reactive, onMounted, computed } from 'vue';
 import { useStore } from "vuex";
 
 const store = useStore();
-const route = useRoute();
 
 const SUNDAY = 7;
 const MONDAY = 1;
@@ -110,7 +108,7 @@ const loading = ref(false);
 const currentEven = ref('');
 const currentDay = ref('');
 
-const lecturer_id = ref(parseInt(route.params.idLecturer));
+const lecturer_id = computed(() => store.state.auth.select_id);
 const lecturerFullName = ref('');
 const even = ref(true);
 const titleEven = ref("Парний тиждень");

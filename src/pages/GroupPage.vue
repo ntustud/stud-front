@@ -27,21 +27,22 @@
             </div>
             <div class="wrapper-buttons">
                 <MyButton color="transp" @click="router.push({ name: 'main' })">Назад</MyButton>
-                <MyButton :disabled="selectGroup === ''" @click="router.push({ name: 'schedule', params: { idGroup: selectGroup } })"
-                    :class="{ disabled: selectGroup === '' }">Зберегти</MyButton>
+                <MyButton :disabled="selectGroup === ''" @click="goSchedule" :class="{ disabled: selectGroup === '' }">
+                    Зберегти</MyButton>
             </div>
         </div>
     </section>
 </template> 
   
 <script setup>
-import { useStore } from "vuex";
+import MyButton from '../components/UI/MyButton.vue';
 import { ref, reactive, computed, onMounted } from 'vue';
 import { UNIVERSITY_ID } from '../../constant';
-import MyButton from '../components/UI/MyButton.vue';
-import router from "../router/router";
+import { useRouter } from 'vue-router';
+import { useStore } from "vuex";
 
 const store = useStore();
+const router = useRouter();
 
 const universityID = ref(UNIVERSITY_ID);
 
@@ -66,7 +67,7 @@ async function setGroup() {
     } catch (error) {
         console.log(error);
     }
-};
+}
 
 async function changeSelect(type) {
     if (type === 'Faculty') {
@@ -80,7 +81,16 @@ async function changeSelect(type) {
     if (type === 'Course') {
         await setGroup();
     }
-};
+}
+
+async function goSchedule() {
+    store.dispatch('auth/selectSchedule', {
+        typeSchedule: 'group',
+        select_id: selectGroup.value
+    });
+
+    router.push({ name: 'schedule'});
+}
 
 onMounted(() => {
     getFaculties(universityID.value);

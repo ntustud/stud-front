@@ -16,7 +16,7 @@
             </v-select>
             <div class="wrapper-buttons">
                 <MyButton color="transp" @click="router.push({ name: 'main' })">Назад</MyButton>
-                <MyButton :disabled="selectedLecturer.id === 0" @click="router.push({ name: 'schedule-lecturer', params: { idLecturer: selectedLecturer.id} })"
+                <MyButton :disabled="selectedLecturer.id === 0" @click="goSchedule"
                     :class="{ disabled: selectedLecturer.id === 0 }">Зберегти</MyButton>
             </div>
         </div>
@@ -24,14 +24,15 @@
 </template> 
   
 <script setup>
-import { useStore } from "vuex";
-import { ref, reactive, computed, onMounted } from 'vue';
 import { UNIVERSITY_ID } from '../../constant';
 import MyButton from '../components/UI/MyButton.vue';
-import router from "../router/router";
 import vSelect from "vue-select";
+import { ref, reactive, computed, onMounted } from 'vue';
+import { useStore } from "vuex";
+import { useRouter } from 'vue-router';
 
 const store = useStore();
+const router = useRouter();
 
 let optionsLecturer = ref([]);
 let selectedLecturer = reactive({ id: 0 });
@@ -56,18 +57,27 @@ async function search(loading, searchInfo) {
     } catch (error) {
         console.log(error);
     }
-};
+}
 
 async function onSearch(searchInfo, loading) {
     if (searchInfo.length) {
         loading(true);
         await search(loading, searchInfo);
     }
-};
+}
 
 function selectOptionLecturer(val) {
     selectedLecturer.id = val.id;
-};
+}
+
+async function goSchedule() {
+    store.dispatch('auth/selectSchedule', {
+        typeSchedule: 'lecturer',
+        select_id: selectedLecturer.id
+    });
+
+    router.push({ name: 'schedule' })
+}
 </script>
   
 <style lang="scss">

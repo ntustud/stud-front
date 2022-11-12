@@ -5,7 +5,14 @@
 
 <script setup>
 import MyHeader from "./components/MyHeader.vue";
+import { onBeforeMount } from 'vue'
+import { useStore } from "vuex";
 
+const store = useStore();
+
+onBeforeMount(() => {
+  store.dispatch('initialiseStore');
+})
 const IS_TG_APP = window.__IS_TG_WEB_APP__;
 </script>
 
