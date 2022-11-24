@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper-dayoff">
+    <div class="wrapper-placeholder">
         <img src="../../assets/img/chill.png" alt="chill-image">
         <h5>Вихідний</h5>
         <p>У цей день пари відсутні</p>
@@ -10,7 +10,7 @@
 </script>
   
 <style scoped lang="scss">
-.wrapper-dayoff {
+.wrapper-placeholder {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -32,7 +32,7 @@
 }
 
 @media only screen and (min-width: 992px) {
-    .wrapper-dayoff {
+    .wrapper-placeholder {
         margin-top: 10px !important;
     }
 }

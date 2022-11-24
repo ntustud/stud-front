@@ -78,7 +78,8 @@
             </div>
           </template>
         </div>
-        <PlaceholderHoliday v-if="!loading && !newSchedule.length" />
+        <PlaceholderHoliday v-if="!loading && !newSchedule.length && !error" />
+        <PlaceholderError v-if="error" />
       </div>
     </div>
   </section>
@@ -87,6 +88,7 @@
 <script setup>
 import MainPanel from '../components/MainPanel.vue';
 import PlaceholderHoliday from './UI/PlaceholderHoliday.vue';
+import PlaceholderError from './UI/PlaceholderError.vue';
 import { ref, reactive, onMounted, computed } from 'vue';
 import { useStore } from "vuex";
 
@@ -96,6 +98,7 @@ const SUNDAY = 7;
 const MONDAY = 1;
 
 const loading = ref(false);
+const error = ref(false);
 
 const currentEven = ref('');
 const currentDay = ref('');
@@ -173,6 +176,8 @@ async function getSchedule() {
     await getPairs();
   } catch (error) {
     console.log(error);
+
+    error.value = true;
     loading.value = false;
   }
 }
