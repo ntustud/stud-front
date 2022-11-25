@@ -11,16 +11,12 @@
             <div class="wrapper-select">
                 <router-link :to="{ name: 'group' }" class="wrapper-select-btn">
                     <span>Для групи</span>
-                    <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M1 9L5 5L1 1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
+                    <IconRightArrow />
                 </router-link>
                 <div class="horizontal-line"></div>
                 <router-link :to="{ name: 'lecturer' }" class="wrapper-select-btn">
                     <span>Для викладача</span>
-                    <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M1 9L5 5L1 1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
+                    <IconRightArrow />
                 </router-link>
             </div>
         </div>
@@ -29,12 +25,13 @@
 
 <script setup>
 import MyButton from '../components/UI/MyButton.vue';
+import IconRightArrow from '../components/icons/IconRightArrow.vue';
 </script>
 
 <style scoped lang="scss">
 .wrapper-select-btn {
     position: relative;
-    
+
     padding: 24px;
 
     cursor: pointer;

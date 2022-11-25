@@ -19,13 +19,7 @@
               {{ schedule.label }}
             </div>
             <div class="wrapper-window">
-              <div class="wrapper-svg">
-                <svg width="23" height="17" viewBox="0 0 23 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M20.0678 0L2.99203 16.0723L3.97769 17L6.90988 14.2401H16.7273C20.1916 14.2401 23 11.5968 23 8.33603C23 5.83771 21.3514 3.70181 19.0222 2.83958L21.0534 0.927739L20.0678 0ZM17.9156 3.88114L8.30382 12.9281H16.7273C19.4218 12.9281 21.6061 10.8722 21.6061 8.33603C21.6061 6.1857 20.0358 4.38058 17.9156 3.88114ZM1.39394 8.33603C1.39394 10.4316 2.88523 12.1993 4.9234 12.7502L3.83272 13.7768C1.58048 12.8809 0 10.7822 0 8.33603C0 5.07529 2.8084 2.43193 6.27273 2.43193H15.8859L14.492 3.74395H6.27273C3.57825 3.74395 1.39394 5.79989 1.39394 8.33603Z"
-                    fill="currentColor" fill-opacity="0.85" />
-                </svg>
-              </div>
+              <IconWindowBetweenPairs />
               <p class="text-window">
                 Вікно
               </p>
@@ -41,12 +35,7 @@
               {{ schedule.subject_name }}
             </div>
             <div class="wrapper-lecturer">
-              <svg class="wrapper-svg-lecturer" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd"
-                  d="M12.3553 3.30176C12.1119 3.23267 11.8551 3.23273 11.6116 3.30203C11.0931 3.44957 10.5697 3.58623 10.0445 3.72335C7.70087 4.33527 5.12037 5.00904 2.91292 6.81037L1.87215 7.65967C1.04221 8.33693 1.04264 9.66327 1.8733 10.3398L2.89724 11.1738C3.65371 11.79 4.44208 12.2719 5.25 12.665V17.2939C5.25 18.4272 5.94522 19.4444 7.0011 19.8561L11.0011 21.4156C11.6435 21.666 12.3565 21.666 12.9989 21.4156L16.9989 19.8561C18.0548 19.4444 18.75 18.4272 18.75 17.2939V12.6733C19.5526 12.2823 20.3357 11.8028 21.0871 11.1896L21.25 11.0567V16C21.25 16.4142 21.5858 16.75 22 16.75C22.4142 16.75 22.75 16.4142 22.75 16V9C22.7498 8.49918 22.542 7.99845 22.1267 7.66016L21.1028 6.82618C18.8793 5.01516 16.1903 4.31386 13.9192 3.72153C13.3952 3.58485 12.8729 3.44863 12.3553 3.30176ZM8.29914 12.8122C7.9193 12.647 7.47745 12.821 7.31224 13.2009C7.14704 13.5807 7.32103 14.0226 7.70087 14.1878C8.97872 14.7435 10.3015 15.1983 11.6571 15.5462C11.8933 15.6068 12.1411 15.6068 12.3773 15.5459C13.7292 15.198 15.0481 14.7432 16.3219 14.1874C16.7015 14.0217 16.875 13.5797 16.7093 13.2C16.5436 12.8204 16.1016 12.6469 15.7219 12.8126C14.5253 13.3348 13.2865 13.7623 12.0167 14.0899C10.743 13.7622 9.50004 13.3346 8.29914 12.8122Z"
-                  fill="currentColor" />
-              </svg>
+              <IconLecturer />
               <span>{{ schedule.lecturer_name }}</span>
             </div>
             <div class="wrapper-bottom">
@@ -60,7 +49,7 @@
             <div class="line" :style="{ display: (newSchedule.at(-1).id === schedule.id ? 'none' : 'block') }"></div>
           </template>
         </div>
-        <PlaceholderHoliday v-if="!loading && !newSchedule.length && !error"/>
+        <PlaceholderHoliday v-if="!loading && !newSchedule.length && !error" />
         <PlaceholderError v-if="error" />
       </div>
     </div>
@@ -68,11 +57,13 @@
 </template>
 
 <script setup>
+import { ref, reactive, onMounted, computed } from 'vue';
+import { useStore } from "vuex";
 import MainPanel from '../components/MainPanel.vue';
 import PlaceholderHoliday from './UI/PlaceholderHoliday.vue';
 import PlaceholderError from './UI/PlaceholderError.vue';
-import { ref, reactive, onMounted, computed } from 'vue';
-import { useStore } from "vuex";
+import IconWindowBetweenPairs from './icons/IconWindowBetweenPairs.vue';
+import IconLecturer from './icons/IconLecturer.vue'
 
 const store = useStore();
 
@@ -160,7 +151,7 @@ async function getSchedule() {
     console.log(error);
 
     error.value = true;
-    console.log('Log 1 error', error.value);
+
     loading.value = false;
   }
 }
@@ -269,252 +260,5 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-.wrapper-main-section {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-}
-
-.wrapper-bottom {
-  display: flex;
-  align-items: center;
-}
-
-.current-even-big {
-  background: rgba(100, 208, 166, 0.25);
-}
-
-.current-even-small {
-  background: #64D0A6;
-}
-
-.disabled-even-small {
-  background: var(--tg-theme-hint-color);
-}
-
-.currentDayColor {
-  color: var(--tg-theme-link-color) !important;
-}
-
-.line {
-  margin-top: 20px;
-
-  width: 100%;
-  height: 1px;
-
-  background: rgba(var(--tg-theme-hint-color-rgb), 0.5);
-}
-
-.vertical-line {
-  width: 1px;
-
-  margin-right: 24px;
-  margin-bottom: 24px;
-
-  background: rgba(var(--tg-theme-hint-color-rgb), 0.5);
-}
-
-.wrapper-number {
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 19px;
-
-  margin-right: 8px;
-
-  padding: 4px 8px;
-
-  border-radius: 5px;
-
-  color: #FFF;
-}
-
-.main-section {
-  width: 100%;
-  align-items: flex-start;
-
-  margin-top: 24px;
-
-  .wrapper-main {
-    width: 100%;
-  }
-}
-
-.wrapper-svg-lecturer {
-  margin-right: 10px;
-
-  width: 24px;
-  height: 24px;
-
-  color: var(--tg-theme-hint-color);
-}
-
-.wrapper-schedule {
-  display: flex;
-  flex-direction: column;
-
-  align-items: flex-start;
-
-  color: var(--tg-theme-text-color);
-
-  margin-top: 15px;
-
-  width: 100%;
-
-  &:first-child {
-    margin-top: 0;
-  }
-
-  &:last-child {
-    margin-bottom: 24px;
-  }
-}
-
-.wrapper-lesson {
-  display: flex;
-  align-items: center;
-
-  margin: 15px 0px 12px 0px;
-
-  font-weight: 600;
-}
-
-.wrapper-pair {
-  font-weight: 700;
-
-  color: var(--tg-theme-hint-color);
-}
-
-.wrapper-window {
-  display: flex;
-
-  font-weight: 600;
-  font-size: 14px;
-
-  padding: 6px 8px;
-  margin-top: 8px;
-
-  border-radius: 8px;
-
-  background: var(--tg-theme-secondary-bg-color);
-}
-
-.wrapper-svg {
-  display: flex;
-  align-items: center;
-
-  margin-right: 8px;
-
-  color: var(--tg-theme-text-color);
-}
-
-.wrapper-lecturer {
-  display: flex;
-  align-items: center;
-
-  margin-bottom: 12px;
-
-  font-size: 14px;
-
-  opacity: 0.85;
-}
-
-.wrapper-building {
-  font-size: 14px;
-
-  line-height: 19px;
-
-  color: var(--tg-theme-hint-color);
-}
-
-.wrapper-week {
-  display: flex;
-  max-width: 100%;
-
-  margin: 16px 0px 0px;
-  padding-bottom: 10px;
-
-  .wrapper-days {
-    padding: 6px 0px;
-    margin-right: 12px;
-
-    .my-label {
-      font-weight: 600;
-
-      border-radius: 8px;
-
-      padding: 6px 16px;
-
-      color: var(--tg-theme-hint-color);
-
-      &:hover {
-        background: var(--tg-theme-button-color) !important;
-        color: var(--tg-theme-button-text-color) !important;
-        opacity: 0.9;
-      }
-    }
-  }
-}
-
-input[type=radio] {
-  display: none;
-}
-
-.wrapper-days input[type="radio"]:checked+label {
-  background: var(--tg-theme-button-color);
-  color: var(--tg-theme-button-text-color) !important;
-}
-
-.type-lesson {
-  padding: 4px 8px;
-
-  font-size: 14px;
-  line-height: 19px;
-
-  margin-right: 12px;
-
-  color: #31C68C;
-
-  border: 1px solid #64D0A6;
-
-  border-radius: 5px;
-}
-
-@media only screen and (max-width: 991px) {
-  .desktop-nav {
-    display: none !important;
-  }
-
-  .vertical-line {
-    display: none !important;
-  }
-}
-
-@media only screen and (min-width: 992px) {
-  .main-section {
-    flex-direction: row !important;
-  }
-
-  .wrapper-week {
-    flex-direction: column !important;
-
-    margin-right: 24px;
-    margin-top: 0 !important;
-
-    .wrapper-days {
-      margin-right: 0 !important;
-      margin-bottom: 12px;
-    }
-  }
-}
-
-@keyframes rotation-arrows {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: scale(3);
-    transform: rotate(180deg);
-  }
-}
+@import "@/style/schedule.scss";
 </style>
