@@ -26,9 +26,16 @@
                 </el-select>
             </div>
             <div class="wrapper-buttons">
-                <MyButton color="transp" @click="router.push({ name: 'main' })">Назад</MyButton>
-                <MyButton :disabled="selectGroup === ''" @click="goSchedule" :class="{ disabled: selectGroup === '' }">
-                    Зберегти</MyButton>
+                <MyButton color="transp" @click="router.push({ name: 'main' })">
+                    Назад
+                </MyButton>
+                <MyButton 
+                    :disabled="selectGroup === ''" 
+                    @click="goSchedule" 
+                    :class="{ disabled: selectGroup === '' }"
+                >
+                    Зберегти
+                </MyButton>
             </div>
         </div>
     </section>
@@ -70,16 +77,20 @@ async function setGroup() {
 }
 
 async function changeSelect(type) {
-    if (type === 'Faculty') {
-        selectCourse.value = '';
-
-    }
-
-    selectGroup.value = '';
-    groups.value = {};
-
-    if (type === 'Course') {
-        await setGroup();
+    try {
+        if (type === 'Faculty') {
+            selectCourse.value = '';
+    
+        }
+    
+        selectGroup.value = '';
+        groups.value = {};
+    
+        if (type === 'Course') {
+            await setGroup();
+        }
+    } catch (error) {
+        console.log(error);
     }
 }
 

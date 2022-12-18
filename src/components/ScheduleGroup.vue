@@ -38,6 +38,12 @@
               <IconLecturer />
               <span>{{ schedule.lecturer_name }}</span>
             </div>
+            <template v-if="schedule.additional_lecturers">
+              <div class="wrapper-lecturer" v-for="lecturer in schedule.additional_lecturers">
+                <IconLecturer />
+                <span>{{ lecturer.lecturer_name }}</span>
+              </div>
+            </template>
             <div class="wrapper-bottom">
               <div class="wrapper-number" :style="{ background: schedule.building_color }">
                 {{ schedule.cabinet_number }}
@@ -170,6 +176,13 @@ async function getPairs() {
       const res_building = await getBuilding(
         res_cab.data.result.building_id
       );
+
+      if (Object.keys(schedule.additional_lecturers).length !== 0) {
+        schedule.additional_lecturers.forEach(async (e) => {
+          const res = await getLecturer(e.id);
+          e.lecturer_name = res.data.result.first_name + " " + res.data.result.last_name + " " + res.data.result.second_name;
+        });
+      }
 
       schedule.lecturer_name =
         res_lecturer.data.result.first_name +

@@ -16,8 +16,13 @@
             </v-select>
             <div class="wrapper-buttons">
                 <MyButton color="transp" @click="router.push({ name: 'main' })">Назад</MyButton>
-                <MyButton :disabled="selectedLecturer.id === 0" @click="goSchedule"
-                    :class="{ disabled: selectedLecturer.id === 0 }">Зберегти</MyButton>
+                <MyButton 
+                    :disabled="selectedLecturer.id === 0" 
+                    @click="goSchedule"
+                    :class="{ disabled: selectedLecturer.id === 0 }"
+                >
+                Зберегти
+                </MyButton>
             </div>
         </div>
     </section>
@@ -60,9 +65,13 @@ async function search(loading, searchInfo) {
 }
 
 async function onSearch(searchInfo, loading) {
-    if (searchInfo.length) {
-        loading(true);
-        await search(loading, searchInfo);
+    try {
+        if (searchInfo.length) {
+            loading(true);
+            await search(loading, searchInfo);
+        }
+    } catch (error) {
+        console.log(error);
     }
 }
 
