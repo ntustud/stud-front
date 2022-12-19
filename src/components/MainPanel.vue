@@ -20,7 +20,7 @@
             </div>
         </div>
         <div class="wrapper-week overflow-week">
-            <div class="wrapper-days" v-for="day in days" :key="day.id">
+            <div class="wrapper-days" v-for="day in nameDays" :key="day.id">
                 <input type="radio" :id="day.id" :value="day.id" v-model="selectDay"
                     @change="emitChangeDay($event.target.value)" class="my-radio" />
                 <label :for="day.id" class="my-label"
@@ -57,9 +57,7 @@ import { computed } from 'vue';
 import { useStore } from "vuex";
 import IconEditGroup from './icons/IconEditGroup.vue';
 import IconArrows from './icons/IconArrows.vue';
-
-const store = useStore();
-const typeSchedule = computed(() => store.state.auth.typeSchedule);
+import { NAME_DAYS } from '../../constant';
 
 const { currentEven, even, titleEven, selectDay, titleName, currentDay } = defineProps([
     'currentEven',
@@ -72,14 +70,10 @@ const { currentEven, even, titleEven, selectDay, titleName, currentDay } = defin
 
 const emit = defineEmits(['changeEven', 'changeDay']);
 
-const days = [
-    { id: 1, name: "Понеділок" },
-    { id: 2, name: "Вівторок" },
-    { id: 3, name: "Середа" },
-    { id: 4, name: "Четвер" },
-    { id: 5, name: "П'ятниця" },
-    { id: 6, name: "Субота" },
-];
+const store = useStore();
+const typeSchedule = computed(() => store.state.auth.typeSchedule);
+
+const nameDays = NAME_DAYS;
 
 function emitChangeDay(value) {
     emit('changeDay', value);

@@ -5,7 +5,7 @@
   <section class="main-section" v-loading.fullscreen.lock="loading" element-loading-background="transparent">
     <div class="wrapper-main-section wrapper-content">
       <div class="wrapper-week desktop-nav">
-        <div class="wrapper-days" v-for="day in days" :key="day.id">
+        <div class="wrapper-days" v-for="day in nameDays" :key="day.id">
           <input type="radio" :id="day.id" :value="day.id" v-model="selectDay" @change="changeDay" class="my-radio" />
           <label :for="day.id" class="my-label"
             :class="{ 'currentDayColor': (selectDay !== currentDay && day.id === currentDay) }">{{ day.name
@@ -30,10 +30,10 @@
           </template>
           <template v-else>
             <div class="wrapper-pair">
-              {{ arrLabels[schedule.index - 1].label }}
+              {{ labels[schedule.index] }}
             </div>
             <div class="wrapper-lesson">
-              <span class="type-lesson">{{ typeLesson[schedule.type_lesson - 1] }}</span>
+              <span class="type-lesson">{{ typesLesson[schedule.type_lesson] }}</span>
               {{ schedule.subject_name }}
             </div>
             <div class="wrapper-lecturer">
@@ -67,6 +67,7 @@ import PlaceholderHoliday from './UI/PlaceholderHoliday.vue';
 import PlaceholderError from './UI/PlaceholderError.vue';
 import IconWindowBetweenPairs from './icons/IconWindowBetweenPairs.vue';
 import IconLecturer from './icons/IconLecturer.vue'
+import { TYPES_LECTURER_ABBREVIATION, NAME_DAYS, LABELS, TYPES_LESSON } from '../../constant';
 
 const store = useStore();
 
@@ -88,26 +89,9 @@ const newSchedule = ref([]);
 const currentSemester = ref("");
 const lessonSchedules = ref("");
 
-const typeLesson = ['лек', 'пр', 'лаб'];
-const days = [
-  { id: 1, name: "Понеділок" },
-  { id: 2, name: "Вівторок" },
-  { id: 3, name: "Середа" },
-  { id: 4, name: "Четвер" },
-  { id: 5, name: "П'ятниця" },
-  { id: 6, name: "Субота" },
-];
-const arrLabels = [
-  { label: "8:30 - 9:50", index: 1 },
-  { label: "10:00 - 11:20", index: 2 },
-  { label: "11:30 - 12:50", index: 3 },
-  { label: "13:10 - 14:30", index: 4 },
-  { label: "14:40 - 16:00", index: 5 },
-  { label: "16:10 - 17:30", index: 6 },
-  { label: "17:40 - 19:00", index: 7 },
-  { label: "19:10 - 20:30", index: 8 },
-  { label: "20:40 - 22:00", index: 9 },
-];
+const typesLesson = TYPES_LESSON;
+const nameDays = NAME_DAYS;
+const labels = LABELS;
 
 const getGroup = (group_id) => store.dispatch('timeTable/getGroup', group_id);
 const getCurrentSemester = () => store.dispatch('timeTable/getCurrentSemester');
@@ -192,7 +176,7 @@ async function getPairs() {
         if (schedule.index - 2 === newSchedule.value.at(-1).index) {
           newSchedule.value.push({
             isWindow: true,
-            label: arrLabels[schedule.index - 2].label,
+            label: labels[schedule.index - 1],
           });
         }
       }
