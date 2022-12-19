@@ -5,10 +5,10 @@
   <section class="main-section" v-loading.fullscreen.lock="loading" element-loading-background="transparent">
     <div class="wrapper-main-section wrapper-content">
       <div class="wrapper-week desktop-nav">
-        <div class="wrapper-days" v-for="day in nameDays" :key="day.id">
-          <input type="radio" :id="day.id" :value="day.id" v-model="selectDay" @change="changeDay" class="my-radio" />
+        <div class="wrapper-days" v-for="(day, key) in nameDays" :key="key">
+          <input type="radio" :id="key" :value="key" v-model="selectDay" @change="changeDay" class="my-radio" />
           <label :for="day.id" class="my-label"
-            :class="{ 'currentDayColor': (selectDay !== currentDay && day.id === currentDay) }">{{ day.name }}</label>
+            :class="{ 'currentDayColor': (selectDay !== currentDay && key === currentDay) }">{{ day }}</label>
         </div>
       </div>
       <div class="vertical-line"></div>
