@@ -103,8 +103,8 @@ async function goSchedule() {
     router.push({ name: 'schedule'});
 }
 
-onMounted(() => {
-    getFaculties(universityID.value);
+onMounted(async() => {
+    await getFaculties(universityID.value);
 });
 </script>
   

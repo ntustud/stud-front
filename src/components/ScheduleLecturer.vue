@@ -244,11 +244,11 @@ async function updateCurrentWeek() {
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
   loading.value = true;
 
-  getLecturerName();
-  updateCurrentWeek();
+  await getLecturerName();
+  await updateCurrentWeek();
 })
 </script>
 
