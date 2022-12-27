@@ -1,7 +1,15 @@
 <template>
   <MainPanel
-    v-bind="{ currentEven: currentEven, even: even, titleEven: titleEven, selectDay: selectDay, titleName: lecturerFullName, currentDay: currentDay }"
-    @changeEven="changeEven" @changeDay="changeDay" />
+    v-bind="{ currentEven: currentEven, 
+      even: even, 
+      titleEven: titleEven, 
+      selectDay: selectDay, 
+      titleName: lecturerFullName, 
+      currentDay: currentDay 
+    }"
+    @changeEven="changeEven" 
+    @changeDay="changeDay" 
+  />
   <section class="main-section" v-loading.fullscreen.lock="loading" element-loading-background="transparent">
     <div class="wrapper-main-section wrapper-content">
       <div class="wrapper-week desktop-nav">
@@ -67,7 +75,8 @@ import PlaceholderHoliday from './UI/PlaceholderHoliday.vue';
 import PlaceholderError from './UI/PlaceholderError.vue';
 import IconWindowBetweenPairs from './icons/IconWindowBetweenPairs.vue';
 import IconLecturer from './icons/IconLecturer.vue'
-import { TYPES_LECTURER_ABBREVIATION, NAME_DAYS, LABELS, TYPES_LESSON } from '../../constant';
+import { NAME_DAYS, LABELS, TYPES_LESSON } from '../../constant';
+import { useLecturerFullName } from '../uses/uses';
 
 const store = useStore();
 
@@ -219,8 +228,7 @@ async function getLecturerName() {
     let response = await getLecturer(lecturer_id.value);
 
     response = response.data.result;
-    lecturerFullName.value = response.last_name + ' ' + response.first_name.charAt(0) + '. ' + response.second_name.charAt(0) + '.';
-    console.log('lecturerFullName.value', lecturerFullName.value);
+    lecturerFullName.value = useLecturerFullName(response);
   } catch (error) {
     console.log(error);
   }

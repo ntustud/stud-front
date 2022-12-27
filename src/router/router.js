@@ -14,12 +14,12 @@ const routes = [
     {
         path: '/group',
         name: 'group',
-        component: () => import('../pages/SelectGroupPage.vue'),
+        component: () => import('../pages/ScheduleGroupPage.vue'),
     },
     {
         path: '/lecturer',
         name: 'lecturer',
-        component: () => import('../pages/SelectLecturerPage.vue'),
+        component: () => import('../pages/ScheduleLecturerPage.vue'),
     }
 ]
 

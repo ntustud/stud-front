@@ -1,13 +1,22 @@
 <template>
   <MainPanel
-    v-bind="{ currentEven: currentEven, even: even, titleEven: titleEven, selectDay: selectDay, titleName: group.name, currentDay: currentDay }"
-    @changeEven="changeEven" @changeDay="changeDay" />
+    v-bind="{ 
+      currentEven: currentEven,
+      even: even,
+      titleEven: titleEven, 
+      selectDay: selectDay, 
+      titleName: group.name, 
+      currentDay: currentDay 
+    }"
+    @changeEven="changeEven"
+    @changeDay="changeDay" 
+  />
   <section class="main-section" v-loading.fullscreen.lock="loading" element-loading-background="transparent">
     <div class="wrapper-main-section wrapper-content">
       <div class="wrapper-week desktop-nav">
         <div class="wrapper-days" v-for="(day, key) in nameDays" :key="key">
           <input type="radio" :id="key" :value="key" v-model="selectDay" @change="changeDay" class="my-radio" />
-          <label :for="day.id" class="my-label"
+          <label :for="key" class="my-label"
             :class="{ 'currentDayColor': (selectDay !== currentDay && key === currentDay) }">{{ day }}</label>
         </div>
       </div>
@@ -218,7 +227,7 @@ async function changeEven() {
 async function changeDay(newDay) {
   try {
     selectDay.value = parseInt(newDay);
-
+    console.log('change');
     await getSchedule();
   } catch (error) {
     console.log(error);

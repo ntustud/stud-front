@@ -24,7 +24,6 @@
 </template> 
 
 <script setup>
-import MyButton from '../components/UI/MyButton.vue';
 import IconRightArrow from '../components/icons/IconRightArrow.vue';
 </script>
 
