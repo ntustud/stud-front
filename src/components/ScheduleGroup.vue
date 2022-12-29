@@ -227,7 +227,6 @@ async function changeEven() {
 async function changeDay(newDay) {
   try {
     selectDay.value = parseInt(newDay);
-    console.log('change');
     await getSchedule();
   } catch (error) {
     console.log(error);
