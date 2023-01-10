@@ -21,10 +21,19 @@
         </div>
         <div class="wrapper-week overflow-week">
             <div class="wrapper-days" v-for="(day, key) in nameDays" :key="key">
-                <input type="radio" :id="key" :value="key" v-model="selectDay"
-                    @change="emitChangeDay($event.target.value)" class="my-radio" />
-                <label :for="key" class="my-label"
-                    :class="{ 'currentDayColor': (selectDay !== currentDay && key === currentDay) }">
+                <input 
+                    type="radio" 
+                    :id="key" 
+                    :value="key" 
+                    v-model="selectDay"
+                    @change="emitChangeDay($event.target.value)" 
+                    class="my-radio" 
+                />
+                <label 
+                    :for="key" 
+                    class="my-label"
+                    :class="{ 'currentDayColor': (selectDay !== currentDay && key === currentDay) }"
+                >
                     {{ day}}
                 </label>
             </div>
