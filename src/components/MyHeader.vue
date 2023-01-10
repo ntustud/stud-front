@@ -14,6 +14,7 @@
                 <nav class="navbar">
                     <a href="https://t.me/ntustud" class="nav-link">Канал</a>
                     <a href="https://t.me/ntustud_bot">Допомога</a>
+                    <a href="#">Інше</a>
                 </nav>
                 <div class="wrapper-burger">
                     <IconBurger />
