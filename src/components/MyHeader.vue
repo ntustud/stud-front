@@ -1,36 +1,49 @@
 <template>
     <header class="header">
-        <div class="wrapper-header">
+        <div class="wrapper-header wrapper-content">
             <div class="wrapper-logo">
                 <router-link :to="{ name: 'main' }" class="logo-link">
-                    <img src="@/assets/img/logo.png" alt="logo-img">
+                    <IconLogo />
                 </router-link>
                 <div class="verical-line"></div>
-                <p class="logo-text">
+                <p class="header-title">
                     <slot></slot>
                 </p>
             </div>
-            <div class="wrapper-burger">
-                <img src="@/assets/img/burger.png" alt="gurger-image">
+            <div class="wrapper-navbar">
+                <nav class="navbar">
+                    <a href="https://t.me/ntustud" class="nav-link">Канал</a>
+                    <a href="https://t.me/ntustud_bot">Допомога</a>
+                </nav>
+                <div class="wrapper-burger">
+                    <IconBurger />
+                </div>
             </div>
         </div>
     </header>
 </template> 
 
-
-<script>
-export default {
-
-};
+<script setup>
+import IconLogo from './icons/IconLogo.vue';
+import IconBurger from './icons/IconBurger.vue';
 </script>
 
-
 <style scoped lang="scss">
-@import "@/style";
+.wrapper-logo {
+    svg {
+        color: var(--tg-theme-button-color);
+    }
+}
+
+.wrapper-burger {
+    svg {
+        color: var(--tg-theme-text-color);
+    }
+}
 
 .header {
-    background-color: $main-gray;
-    padding: 20px 16px;
+    background: rgba(var(--tg-theme-hint-color-rgb), 0.05);
+    padding: 18px 16px;
 
     .wrapper-header {
         display: flex;
@@ -49,21 +62,44 @@ export default {
             .verical-line {
                 width: 1px;
                 height: 20px;
-                background-color: $header-color;
+                background-color: var(--tg-theme-hint-color);
 
-                margin: 0px 8px 0px 8px;
+                margin: 0px 8px 0px 12px;
             }
 
-            .logo-text {
-                color: $header-color;
+            .header-title {
                 font-family: 'Montserrat', sans-serif;
+                font-size: 18px;
+
+                color: var(--tg-theme-hint-color);
             }
         }
 
-        .wrapper-burger {
-            user-select: none;
-            cursor: pointer;
+        .wrapper-navbar {
+
+            .navbar {
+                display: none;
+
+                .nav-link {
+                    margin-right: 24px;
+                }
+            }
+
+            .wrapper-burger {
+                user-select: none;
+                cursor: pointer;
+            }
         }
+    }
+}
+
+@media screen and (min-width: 576px) {
+    .navbar {
+        display: block !important;
+    }
+
+    .wrapper-burger {
+        display: none;
     }
 }
 </style>
