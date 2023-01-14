@@ -29,10 +29,9 @@
 </template> 
   
 <script setup>
-import { UNIVERSITY_ID } from '../../constant';
 import MyButton from '../components/UI/MyButton.vue';
 import vSelect from "vue-select";
-import { ref, reactive, computed, onMounted } from 'vue';
+import { ref, reactive } from 'vue';
 import { useStore } from "vuex";
 import { useRouter } from 'vue-router';
 

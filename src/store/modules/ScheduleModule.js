@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { UNIVERSITY_ID } from '../../../constant';
 
 const API_URL = process.env.VUE_APP_API_URL;
 
@@ -26,9 +25,9 @@ export const ScheduleModule = {
     },
 
     actions: {
-        async getFaculties({ commit }, university_id) {
+        async getFaculties({ commit }) {
             try {
-                const res = await ax.get(`/university/${university_id}/faculties`);
+                const res = await ax.get(`/faculties`);
 
                 commit('setFaculties', res.data.result);
 
@@ -110,7 +109,7 @@ export const ScheduleModule = {
 
         async searchLecturers({ }, name) {    
             try {
-                const res = await ax.post(`/university/${UNIVERSITY_ID}/lecturers/search`, { name });
+                const res = await ax.post(`/lecturers/search`, { name });
 
                 return res;
             } catch (error) {

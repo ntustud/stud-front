@@ -44,14 +44,11 @@
 <script setup>
 import MyButton from '../components/UI/MyButton.vue';
 import { ref, reactive, computed, onMounted } from 'vue';
-import { UNIVERSITY_ID } from '../../constant';
 import { useRouter } from 'vue-router';
 import { useStore } from "vuex";
 
 const store = useStore();
 const router = useRouter();
-
-const universityID = ref(UNIVERSITY_ID);
 
 let selectFaculty = ref('');
 let selectCourse = ref('');
@@ -63,7 +60,7 @@ const arrCourses = reactive([{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5
 
 const faculties = computed(() => store.state.timeTable.faculties);
 
-const getFaculties = (universityID) => store.dispatch('timeTable/getFaculties', universityID);
+const getFaculties = () => store.dispatch('timeTable/getFaculties');
 const getGroupsWhereFacultyAndCourse = (payload) => store.dispatch('timeTable/getGroupsWhereFacultyAndCourse', payload);
 
 async function setGroup() {
@@ -104,7 +101,7 @@ async function goSchedule() {
 }
 
 onMounted(async() => {
-    await getFaculties(universityID.value);
+    await getFaculties();
 });
 </script>
   

@@ -1,4 +1,3 @@
-export const UNIVERSITY_ID = 1;
 export const TYPES_LECTURER_ABBREVIATION = {
     '1': "викл",
     '2': "ст. викл.",
