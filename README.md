@@ -15,7 +15,7 @@ The first service at NTU for students and lecturers. The service helps to find q
 
 ## Installation:
 1. Clone this repository `git clone https://github.com/ntustud/stud-front.git`
-2. Create .env file `cp  .env.example .env`
+2. Create .env file `cp .env.example .env`
 3. Run Platform:
     - With Docker: `make build`
     - Local with npm: 
