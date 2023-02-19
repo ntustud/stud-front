@@ -87,7 +87,7 @@ function emitChangeEven() {
   
 <style scoped lang="scss">
 .wrapper-navigation {
-    padding: 10px 0px 6px 16px;
+    padding: 0px 0px 24px 16px;
 
     user-select: none;
 

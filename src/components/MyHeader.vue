@@ -43,7 +43,7 @@ import IconBurger from './icons/IconBurger.vue';
 
 .header {
     background: rgba(var(--tg-theme-hint-color-rgb), 0.05);
-    padding: 18px 16px;
+    padding: 18px 16px 24px;
 
     .wrapper-header {
         display: flex;
