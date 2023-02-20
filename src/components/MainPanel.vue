@@ -24,7 +24,7 @@
                 <input type="radio" :id="key" :value="key" v-model="selectDay"
                     @change="emitChangeDay($event.target.value)" class="my-radio" />
                 <label :for="key" class="my-label"
-                    :class="{ 'currentDayColor': (selectDay !== currentDay && key === currentDay) }">
+                    :class="{ 'currentDayColor': (selectDay !== currentDay && key == currentDay && currentEven === even) }">
                     {{ day}}
                 </label>
             </div>

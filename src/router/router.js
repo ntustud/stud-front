@@ -7,7 +7,7 @@ const routes = [
         component: () => import('../pages/SchedulePage.vue'),
     },
     {
-        path: '/main',
+        path: '/',
         name: 'main',
         component: () => import('../pages/MainPage.vue'),
     },
