@@ -14,7 +14,7 @@
     <div class="wrapper-main-section wrapper-content">
       <div class="wrapper-week desktop-nav">
         <div class="wrapper-days" v-for="(day, key) in nameDays" :key="key">
-          <input type="radio" :id="key" :value="key" v-model="selectDay" @change="changeDay" class="my-radio" />
+          <input type="radio" :id="key" :value="key" v-model="selectDay" @change="changeDay" />
           <label :for="key" class="my-label"
             :class="{ 'currentDayColor': (selectDay !== currentDay && key == currentDay && currentEven === even) }">
             {{ day }}

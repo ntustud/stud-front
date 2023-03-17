@@ -19,12 +19,19 @@
                 <IconArrows />
             </div>
         </div>
-        <div class="wrapper-week overflow-week">
-            <div class="wrapper-days" v-for="(day, key) in nameDays" :key="key">
-                <input type="radio" :id="key" :value="key" v-model="selectDay"
-                    @change="emitChangeDay($event.target.value)" class="my-radio" />
-                <label :for="key" class="my-label"
-                    :class="{ 'currentDayColor': (selectDay !== currentDay && key == currentDay && currentEven === even) }">
+        <div class="wrapper-week overflow-week" ref="tabs">
+            <div class="wrapper-days" v-for="(day, key, index) in nameDays" :key="key">
+                <input 
+                    type="radio" 
+                    :id="key" 
+                    :value="key" 
+                    v-model="selectDay"
+                    @change="emitChangeDay($event.target.value)"
+                />
+                <label
+                    :for="key" class="my-label"
+                    :class="{ 'currentDayColor': (selectDay !== currentDay && key == currentDay && currentEven === even) }"
+                >
                     {{ day}}
                 </label>
             </div>
@@ -54,7 +61,7 @@
 </template> 
   
 <script setup>
-import { computed } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useStore } from "vuex";
 import IconEditGroup from './icons/IconEditGroup.vue';
 import IconArrows from './icons/IconArrows.vue';
@@ -73,16 +80,32 @@ const emit = defineEmits(['changeEven', 'changeDay']);
 
 const store = useStore();
 const typeSchedule = computed(() => store.state.auth.typeSchedule);
+const tabs = ref(null);
 
 const nameDays = NAME_DAYS;
 
 function emitChangeDay(value) {
     emit('changeDay', value);
+    scrollToActive();
 }
 
 function emitChangeEven() {
     emit('changeEven');
+    scrollToActive();
 }
+
+function scrollToActive() {
+    const activeEl = tabs.value.querySelector(".wrapper-days input[type='radio']:checked+label");
+    activeEl.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "center",
+    });
+}
+
+onMounted(() => {
+    setTimeout(() => scrollToActive(), 500)
+})
 </script>
   
 <style scoped lang="scss">
