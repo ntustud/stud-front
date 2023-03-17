@@ -238,14 +238,3 @@ input[type="radio"] {
         }
     }
 }
-
-@keyframes rotation-arrows {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: scale(3);
-        transform: rotate(180deg);
-    }
-}

@@ -320,9 +320,14 @@ input[type=radio] {
         transform: rotate(0deg);
     }
 
-    100% {
+    50% {
         transform: scale(3);
         transform: rotate(180deg);
+    }
+
+    100% {
+        transform: scale(1);
+        transform: rotate(0deg);
     }
 }
 </style>
