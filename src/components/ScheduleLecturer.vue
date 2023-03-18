@@ -102,14 +102,9 @@ const typesLesson = TYPES_LESSON;
 const nameDays = NAME_DAYS;
 const labels = LABELS;
 
-const getGroup = (group_id) => store.dispatch('timeTable/getGroup', group_id);
 const getCurrentSemester = () => store.dispatch('timeTable/getCurrentSemester');
-const getLessonSchedulesForDayWhereLecturer = (info) => store.dispatch('timeTable/getLessonSchedulesForDayWhereLecturer', info);
-const getLessonPlan = (lesson_plan_id) => store.dispatch('timeTable/getLessonPlan', lesson_plan_id);
+const getFullLessonSchedulesForDayWhereLecturer = (info) => store.dispatch('timeTable/getFullLessonSchedulesForDayWhereLecturer', info);
 const getLecturer = (lecturer_id) => store.dispatch('timeTable/getLecturer', lecturer_id);
-const getCabinet = (cabinet_id) => store.dispatch('timeTable/getCabinet', cabinet_id);
-const getSubject = (subject_id) => store.dispatch('timeTable/getSubject', subject_id);
-const getBuilding = (building_id) => store.dispatch('timeTable/getBuilding', building_id);
 const getToday = () => store.dispatch('timeTable/getToday');
 
 async function getSchedule() {
@@ -133,7 +128,7 @@ async function getSchedule() {
       day_of_week: selectDay.value,
     });
 
-    const response = await getLessonSchedulesForDayWhereLecturer(payload);
+    const response = await getFullLessonSchedulesForDayWhereLecturer(payload);
 
     if (response.data.result == null) {
       loading.value = false;
@@ -141,7 +136,7 @@ async function getSchedule() {
     }
 
     lessonSchedules.value = response.data.result;
-
+    console.log(response.data.result);
     await getPairs();
   } catch (error) {
     console.log(error);
@@ -154,24 +149,11 @@ async function getSchedule() {
 async function getPairs() {
   try {
     for (const schedule of lessonSchedules.value) {
-      const res_lesson_plan = await getLessonPlan(
-        schedule.lesson_plan_id
-      );
-      const res_subj = await getSubject(
-        res_lesson_plan.data.result.subject_id
-      );
-
-      const res_group = await getGroup(schedule.group_id);
-      const res_cab = await getCabinet(schedule.cabinet_id);
-      const res_building = await getBuilding(
-        res_cab.data.result.building_id
-      );
-
-      schedule.group_name = res_group.data.result.name;
-      schedule.subject_name = res_subj.data.result.name;
-      schedule.cabinet_number = res_cab.data.result.number;
-      schedule.building_street = res_building.data.result.street;
-      schedule.building_color = res_building.data.result.color;
+      schedule.group_name = schedule.group.name;
+      schedule.subject_name = schedule.lesson_plan.subject.name;
+      schedule.cabinet_number = schedule.cabinet.number;
+      schedule.building_street = schedule.cabinet.building.street;
+      schedule.building_color = schedule.cabinet.building.color;
 
       let isPush = true;
 
@@ -193,7 +175,6 @@ async function getPairs() {
       if (isPush) {
         newSchedule.value.push(schedule);
       }
-      // merging groups in one card
     }
 
     loading.value = false;

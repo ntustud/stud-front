@@ -111,12 +111,8 @@ const labels = LABELS;
 
 const getGroup = (group_id) => store.dispatch('timeTable/getGroup', group_id.value);
 const getCurrentSemester = () => store.dispatch('timeTable/getCurrentSemester');
-const getLessonSchedulesForDayWhereGroup = (info) => store.dispatch('timeTable/getLessonSchedulesForDayWhereGroup', info);
-const getLessonPlan = (lesson_plan_id) => store.dispatch('timeTable/getLessonPlan', lesson_plan_id);
+const getFullLessonSchedulesForDayWhereGroup = (info) => store.dispatch('timeTable/getFullLessonSchedulesForDayWhereGroup', info);
 const getLecturer = (lecturer_id) => store.dispatch('timeTable/getLecturer', lecturer_id);
-const getCabinet = (cabinet_id) => store.dispatch('timeTable/getCabinet', cabinet_id);
-const getSubject = (subject_id) => store.dispatch('timeTable/getSubject', subject_id);
-const getBuilding = (building_id) => store.dispatch('timeTable/getBuilding', building_id);
 const getToday = () => store.dispatch('timeTable/getToday');
 
 async function getSchedule() {
@@ -140,7 +136,7 @@ async function getSchedule() {
       day_of_week: selectDay.value,
     });
 
-    const response = await getLessonSchedulesForDayWhereGroup(payload);
+    const response = await getFullLessonSchedulesForDayWhereGroup(payload);
 
     if (response.data.result == null) {
       loading.value = false;
@@ -148,13 +144,10 @@ async function getSchedule() {
     }
 
     lessonSchedules.value = response.data.result;
-
     await getPairs();
   } catch (error) {
     console.log(error);
-
     error.value = true;
-
     loading.value = false;
   }
 }
@@ -162,18 +155,7 @@ async function getSchedule() {
 async function getPairs() {
   try {
     for (const schedule of lessonSchedules.value) {
-      const res_lesson_plan = await getLessonPlan(
-        schedule.lesson_plan_id
-      );
-      const res_subj = await getSubject(
-        res_lesson_plan.data.result.subject_id
-      );
-      const res_lecturer = await getLecturer(schedule.lecturer_id);
-      const res_cab = await getCabinet(schedule.cabinet_id);
-      const res_building = await getBuilding(
-        res_cab.data.result.building_id
-      );
-
+      // todo: refactor, rewrite for new method
       if (Object.keys(schedule.additional_lecturers).length !== 0) {
         schedule.additional_lecturers.forEach(async (e) => {
           const res = await getLecturer(e.id);
@@ -181,17 +163,12 @@ async function getPairs() {
         });
       }
 
-      schedule.lecturer_name =
-        res_lecturer.data.result.first_name +
-        " " +
-        res_lecturer.data.result.last_name +
-        " " +
-        res_lecturer.data.result.second_name;
-      schedule.type_lecturer = res_lecturer.data.result.type_lecturer;
-      schedule.subject_name = res_subj.data.result.name;
-      schedule.cabinet_number = res_cab.data.result.number;
-      schedule.building_street = res_building.data.result.street;
-      schedule.building_color = res_building.data.result.color;
+      schedule.lecturer_name = schedule.lecturer.first_name + " " + schedule.lecturer.last_name + " " + schedule.lecturer.second_name;
+      schedule.type_lecturer = schedule.lecturer.type_lecturer;
+      schedule.subject_name = schedule.lesson_plan.subject.name;
+      schedule.cabinet_number = schedule.cabinet.number;
+      schedule.building_street = schedule.cabinet.building.street;
+      schedule.building_color = schedule.cabinet.building.color;
 
       if (newSchedule.value.length > 0) {
         if (schedule.index - 2 === newSchedule.value.at(-1).index) {

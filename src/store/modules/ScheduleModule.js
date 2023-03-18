@@ -47,9 +47,9 @@ export const ScheduleModule = {
             }
         },
 
-        async getLessonSchedulesForDayWhereGroup({ }, { semester_id, group_id, even, day_of_week }) {
+        async getFullLessonSchedulesForDayWhereGroup({ }, { semester_id, group_id, even, day_of_week }) {
             try {
-                const res = await ax.post(`/semester/${semester_id}/group/${group_id}/lesson/schedules/day`, { even, day_of_week });
+                const res = await ax.post(`/semester/${semester_id}/group/${group_id}/lesson/schedules/day/full`, { even, day_of_week });
 
                 return res;
             } catch (error) {
@@ -57,9 +57,9 @@ export const ScheduleModule = {
             }
         },
 
-        async getLessonSchedulesForDayWhereLecturer({ }, { semester_id, lecturer_id, even, day_of_week }) {
+        async getFullLessonSchedulesForDayWhereLecturer({ }, { semester_id, lecturer_id, even, day_of_week }) {
             try {
-                const res = await ax.post(`/semester/${semester_id}/lecturer/${lecturer_id}/lesson/schedules/day`, { even, day_of_week });
+                const res = await ax.post(`/semester/${semester_id}/lecturer/${lecturer_id}/lesson/schedules/day/full`, { even, day_of_week });
 
                 return res;
             } catch (error) {
