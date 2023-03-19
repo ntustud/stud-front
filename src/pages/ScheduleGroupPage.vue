@@ -29,9 +29,9 @@
                 <MyButton color="transp" @click="router.push({ name: 'main' })">
                     Назад
                 </MyButton>
-                <MyButton 
-                    :disabled="selectGroup === ''" 
-                    @click="goSchedule" 
+                <MyButton
+                    :disabled="selectGroup === ''"
+                    @click="goSchedule"
                     :class="{ disabled: selectGroup === '' }"
                 >
                     Зберегти
@@ -39,8 +39,8 @@
             </div>
         </div>
     </section>
-</template> 
-  
+</template>
+
 <script setup>
 import MyButton from '../components/UI/MyButton.vue';
 import { ref, reactive, computed, onMounted } from 'vue';
@@ -77,12 +77,12 @@ async function changeSelect(type) {
     try {
         if (type === 'Faculty') {
             selectCourse.value = '';
-    
+
         }
-    
+
         selectGroup.value = '';
         groups.value = {};
-    
+
         if (type === 'Course') {
             await setGroup();
         }
@@ -104,7 +104,7 @@ onMounted(async() => {
     await getFaculties();
 });
 </script>
-  
+
 <style lang="scss">
 .wrapper-buttons {
     display: flex;

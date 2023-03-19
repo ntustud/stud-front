@@ -136,7 +136,6 @@ async function getSchedule() {
     }
 
     lessonSchedules.value = response.data.result;
-    console.log(response.data.result);
     await getPairs();
   } catch (error) {
     console.log(error);
