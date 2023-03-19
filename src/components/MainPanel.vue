@@ -20,17 +20,17 @@
             </div>
         </div>
         <div class="wrapper-week overflow-week" ref="tabs">
-            <div class="wrapper-days" v-for="(day, key, index) in nameDays" :key="key">
+            <div class="wrapper-days" v-for="(day, key) in nameDays" :key="key">
                 <input
                     type="radio"
                     :id="key"
                     :value="key"
-                    v-model="selectDay"
+                    v-on="selectDay"
                     @change="emitChangeDay($event.target.value)"
                 />
                 <label
                     :for="key" class="my-label"
-                    :class="{ 'currentDayColor': (selectDay !== currentDay && key == currentDay && currentEven === even) }"
+                    :class="{ 'currentDayColor': (selectDay !== currentDay && key === currentDay && currentEven === even) }"
                 >
                     {{ day }}
                 </label>
@@ -203,6 +203,7 @@ onMounted(() => {
             color: var(--tg-theme-button-text-color);
 
             transition: 0.4s;
+            cursor: pointer;
 
             &:active {
                 animation: rotation-arrows 0.3s;
@@ -327,7 +328,7 @@ input[type=radio] {
     }
 
     100% {
-        transform: rotate(0deg) ;
+        transform: rotate(0deg);
     }
 }
 </style>
