@@ -3,28 +3,28 @@
         <div class="wrapper-panel-name">
             <p class="title-sub-head">{{ titleName }}</p>
             <router-link :to="{ name: typeSchedule }" class="img-edit">
-                <IconEditGroup />
+                <IconEditGroup/>
             </router-link>
         </div>
         <div class="wrapper-even">
             <div class="wrapper-container-even">
                 <div class="circle-even-big" :class="{ 'current-even-big': currentEven === even }">
                     <div class="circle-even-small"
-                        :class="{ 'current-even-small': currentEven === even, 'disabled-even-small': currentEven !== even }">
+                         :class="{ 'current-even-small': currentEven === even, 'disabled-even-small': currentEven !== even }">
                     </div>
                 </div>
                 <span class="week-even">{{ titleEven }}</span>
             </div>
             <div class="wrapper-arrow" @click="emitChangeEven">
-                <IconArrows />
+                <IconArrows/>
             </div>
         </div>
         <div class="wrapper-week overflow-week" ref="tabs">
             <div class="wrapper-days" v-for="(day, key, index) in nameDays" :key="key">
-                <input 
-                    type="radio" 
-                    :id="key" 
-                    :value="key" 
+                <input
+                    type="radio"
+                    :id="key"
+                    :value="key"
                     v-model="selectDay"
                     @change="emitChangeDay($event.target.value)"
                 />
@@ -32,7 +32,7 @@
                     :for="key" class="my-label"
                     :class="{ 'currentDayColor': (selectDay !== currentDay && key == currentDay && currentEven === even) }"
                 >
-                    {{ day}}
+                    {{ day }}
                 </label>
             </div>
         </div>
@@ -41,11 +41,11 @@
         <div class="wrapper-even wrapper-content">
             <div class="wrapper-container-even">
                 <div class="wrapper-arrow" @click="emitChangeEven">
-                    <IconArrows />
+                    <IconArrows/>
                 </div>
                 <div class="circle-even-big" :class="{ 'current-even-big': currentEven === even }">
                     <div class="circle-even-small"
-                        :class="{ 'current-even-small': currentEven === even, 'disabled-even-small': currentEven !== even }">
+                         :class="{ 'current-even-small': currentEven === even, 'disabled-even-small': currentEven !== even }">
                     </div>
                 </div>
                 <span class="week-even">{{ titleEven }}</span>
@@ -53,21 +53,21 @@
             <div class="wrapper-panel-name">
                 <p class="title-sub-head">{{ titleName }}</p>
                 <router-link :to="{ name: typeSchedule }" class="img-edit">
-                    <IconEditGroup />
+                    <IconEditGroup/>
                 </router-link>
             </div>
         </div>
     </div>
-</template> 
-  
+</template>
+
 <script setup>
-import { computed, onMounted, ref } from 'vue';
-import { useStore } from "vuex";
+import {computed, nextTick, onMounted, ref} from 'vue';
+import {useStore} from "vuex";
 import IconEditGroup from './icons/IconEditGroup.vue';
 import IconArrows from './icons/IconArrows.vue';
-import { NAME_DAYS } from '../../constant';
+import {NAME_DAYS} from '../../constant';
 
-const { currentEven, even, titleEven, selectDay, titleName, currentDay } = defineProps([
+const {currentEven, even, titleEven, selectDay, titleName, currentDay} = defineProps([
     'currentEven',
     'even',
     'titleEven',
@@ -84,19 +84,21 @@ const tabs = ref(null);
 
 const nameDays = NAME_DAYS;
 
-function emitChangeDay(value) {
+async function emitChangeDay(value) {
     emit('changeDay', value);
+    await nextTick();
     scrollToActive();
 }
 
-function emitChangeEven() {
+async function emitChangeEven() {
     emit('changeEven');
+    await nextTick();
     scrollToActive();
 }
 
 function scrollToActive() {
-    const activeEl = tabs.value.querySelector(".wrapper-days input[type='radio']:checked+label");
-    activeEl.scrollIntoView({
+    const activeEl = tabs.value?.querySelector(".wrapper-days input[type='radio']:checked+label");
+    activeEl?.scrollIntoView({
         behavior: "smooth",
         block: "center",
         inline: "center",
@@ -107,10 +109,10 @@ onMounted(() => {
     setTimeout(() => scrollToActive(), 500)
 })
 </script>
-  
+
 <style scoped lang="scss">
 .wrapper-navigation {
-    padding: 0px 0px 24px 16px;
+    padding: 0 0 24px 16px;
 
     user-select: none;
 
@@ -213,11 +215,11 @@ onMounted(() => {
     display: flex;
     max-width: 100%;
 
-    margin: 16px 0px 0px;
+    margin: 16px 0 0;
     padding-bottom: 10px;
 
     .wrapper-days {
-        padding: 6px 0px;
+        padding: 6px 0;
         margin-right: 12px;
 
         .my-label {
@@ -263,7 +265,7 @@ input[type=radio] {
     display: none;
 }
 
-.wrapper-days input[type="radio"]:checked+label {
+.wrapper-days input[type="radio"]:checked + label {
     background: var(--tg-theme-button-color);
     color: var(--tg-theme-button-text-color) !important;
 }
@@ -321,14 +323,11 @@ input[type=radio] {
     }
 
     50% {
-        transform: scale(3);
         transform: rotate(180deg);
     }
 
     100% {
-        transform: scale(1);
-        transform: rotate(0deg);
+        transform: rotate(0deg) ;
     }
 }
 </style>
-  
