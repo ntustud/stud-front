@@ -25,12 +25,12 @@
                     type="radio"
                     :id="key"
                     :value="key"
-                    v-on="selectDay"
+                    v-model="selectDayLocal"
                     @change="emitChangeDay($event.target.value)"
                 />
                 <label
                     :for="key" class="my-label"
-                    :class="{ 'currentDayColor': (selectDay !== currentDay && key === currentDay && currentEven === even) }"
+                    :class="{ 'currentDayColor': (selectDay !== currentDay && key == currentDay && currentEven === even) }"
                 >
                     {{ day }}
                 </label>
@@ -75,6 +75,8 @@ const {currentEven, even, titleEven, selectDay, titleName, currentDay} = defineP
     'titleName',
     'currentDay'
 ]);
+
+const selectDayLocal = ref(selectDay);
 
 const emit = defineEmits(['changeEven', 'changeDay']);
 
