@@ -1,2 +1,2 @@
 build:
-	docker-compose up -d --no-deps --build
+	docker-compose --env-file .env up -d --no-deps --build
