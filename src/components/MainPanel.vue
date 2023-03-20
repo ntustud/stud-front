@@ -138,7 +138,7 @@ const handleTouchMove = (event) => {
     if (!isDragging) return
     event.preventDefault()
     const x = event.touches[0].clientX - tabs.value.offsetLeft
-    const walk = (x - startX) * 3
+    const walk = (x - startX)
     tabs.value.scrollLeft = scrollLeft - walk
 }
 
