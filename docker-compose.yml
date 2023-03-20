@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: stud-front
+    container_name: ${D_SERVICE_NAME}
     restart: always
     ports:
       - '${D_EXPOSE_PORT}:8080'
