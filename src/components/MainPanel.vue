@@ -169,7 +169,7 @@ watch(() => props.selectDay, (newValue) => {
 
 <style scoped lang="scss">
 .wrapper-navigation {
-    padding: 0 0 24px 16px;
+    padding: 8px 0 24px 16px;
 
     user-select: none;
 
