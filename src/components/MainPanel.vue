@@ -61,24 +61,27 @@
 </template>
 
 <script setup>
-import {computed, nextTick, onMounted, ref} from 'vue';
+import {computed, nextTick, onMounted, ref, watch} from 'vue';
 import {useStore} from "vuex";
 import IconEditGroup from './icons/IconEditGroup.vue';
 import IconArrows from './icons/IconArrows.vue';
 import {NAME_DAYS} from '../../constant';
 
-const {currentEven, even, titleEven, selectDay, titleName, currentDay} = defineProps([
-    'currentEven',
-    'even',
-    'titleEven',
-    'selectDay',
-    'titleName',
-    'currentDay'
+const props = defineProps({
+    currentEven: Boolean,
+    even: Boolean,
+    titleEven: String,
+    selectDay: Number,
+    titleName: String,
+    currentDay: Number
+});
+
+const emit = defineEmits([
+    'changeEven',
+    'changeDay'
 ]);
 
-const selectDayLocal = ref(selectDay);
-
-const emit = defineEmits(['changeEven', 'changeDay']);
+const selectDayLocal = ref(props.selectDay)
 
 const store = useStore();
 const typeSchedule = computed(() => store.state.auth.typeSchedule);
@@ -107,8 +110,60 @@ function scrollToActive() {
     });
 }
 
+let startX = 0
+let scrollLeft = 0
+let isDragging = false
+
+const handleMouseDown = (event) => {
+    isDragging = true
+    startX = event.pageX - tabs.value.offsetLeft
+    scrollLeft = tabs.value.scrollLeft
+}
+
+const handleMouseMove = (event) => {
+    if (!isDragging) return
+    event.preventDefault()
+    const x = event.pageX - tabs.value.offsetLeft
+    const walk = (x - startX)
+    tabs.value.scrollLeft = scrollLeft - walk
+}
+
+const handleTouchStart = (event) => {
+    isDragging = true
+    startX = event.touches[0].clientX - tabs.value.offsetLeft
+    scrollLeft = tabs.value.scrollLeft
+}
+
+const handleTouchMove = (event) => {
+    if (!isDragging) return
+    event.preventDefault()
+    const x = event.touches[0].clientX - tabs.value.offsetLeft
+    const walk = (x - startX) * 3
+    tabs.value.scrollLeft = scrollLeft - walk
+}
+
+const handleMouseLeave = () => {
+    isDragging = false
+}
+const handleMouseUpWindow = () => {
+    isDragging = false
+}
+
+window.addEventListener('mouseup', handleMouseUpWindow)
+window.addEventListener('mouseleave', handleMouseLeave)
+
 onMounted(() => {
     setTimeout(() => scrollToActive(), 500)
+
+    tabs.value?.addEventListener('mousedown', handleMouseDown)
+    tabs.value?.addEventListener('mousemove', handleMouseMove)
+
+    tabs.value?.addEventListener('touchstart', handleTouchStart)
+    tabs.value?.addEventListener('touchmove', handleTouchMove)
+})
+
+watch(() => props.selectDay, (newValue) => {
+    selectDayLocal.value = newValue
 })
 </script>
 
