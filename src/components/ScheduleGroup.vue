@@ -1,6 +1,6 @@
 <template>
   <MainPanel
-    v-bind="{ 
+    v-bind="{
       currentEven: currentEven,
       even: even,
       titleEven: titleEven, 
@@ -9,7 +9,7 @@
       currentDay: currentDay 
     }"
     @changeEven="changeEven"
-    @changeDay="changeDay" 
+    @changeDay="changeDay"
   />
   <section class="main-section" v-loading.fullscreen.lock="loading" element-loading-background="transparent">
     <div class="wrapper-main-section wrapper-content">
@@ -93,17 +93,17 @@ const typesLecturerAbbrev = TYPES_LECTURER_ABBREVIATION;
 const loading = ref(false);
 const error = ref(false);
 
-const currentEven = ref('');
-const currentDay = ref('');
+const currentEven = ref(false);
+const currentDay = ref(0);
 
-let group_id = computed(() => store.state.auth.select_id);
-let group = ref({});
-let even = ref(true);
-let titleEven = ref("Парний тиждень");
-let selectDay = ref("");
-let newSchedule = ref([]);
-let currentSemester = ref("");
-let lessonSchedules = ref("");
+const group_id = computed(() => store.state.auth.select_id);
+const group = ref({});
+const even = ref(false);
+const titleEven = ref('Парний тиждень');
+const selectDay = ref(0);
+const newSchedule = ref([]);
+const currentSemester = ref('');
+const lessonSchedules = ref('');
 
 const typesLesson = TYPES_LESSON;
 const nameDays = NAME_DAYS;
