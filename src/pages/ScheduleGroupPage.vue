@@ -9,19 +9,44 @@
         </div>
         <div class="wrapper-main-content">
             <div class="wrapper-select">
-                <el-select v-model.number="selectFaculty" class="custom-select" clearable placeholder="Факультет"
-                    size="large" @change="changeSelect('Faculty')">
+                <el-select 
+                    v-model.number="selectFaculty"
+                    class="custom-select"
+                    clearable placeholder="Факультет"
+                    size="large"
+                    loading-text="Завантаження..."
+                    no-data-text="Нічого не знайдено"
+                    @change="changeSelect('Faculty')"
+                >
                     <el-option v-for="faculty in faculties" :key="faculty.id" :value="faculty.id"
                         :label="faculty.name" />
                 </el-select>
                 <div class="horizontal-line"></div>
-                <el-select v-model.number="selectCourse" class="custom-select" :disabled="selectFaculty === ''"
-                    clearable placeholder="Курс" size="large" @change="changeSelect('Course')">
+                <el-select 
+                    v-model.number="selectCourse"
+                    class="custom-select"
+                    :disabled="selectFaculty === ''"
+                    clearable
+                    placeholder="Курс"
+                    size="large"
+                    loading-text="Завантаження..."
+                    no-data-text="Нічого не знайдено"
+                    @change="changeSelect('Course')"
+                >
                     <el-option v-for="option in arrCourses" :key="option.id" :value="option.id" :label="option.id" />
                 </el-select>
                 <div class="horizontal-line"></div>
-                <el-select v-model.number="selectGroup" class="custom-select" :disabled="selectCourse === ''"
-                    empty="Групи відсутні" clearable placeholder="Група" size="large">
+                <el-select 
+                    v-model.number="selectGroup"
+                    class="custom-select"
+                    :disabled="selectCourse === ''"
+                    empty="Групи відсутні"
+                    clearable
+                    placeholder="Група"
+                    size="large"
+                    loading-text="Завантаження..."
+                    no-data-text="Нічого не знайдено"
+                >
                     <el-option v-for="group in groups" :key="group.id" :value="group.id" :label="group.name" />
                 </el-select>
             </div>

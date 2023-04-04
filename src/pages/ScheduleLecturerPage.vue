@@ -17,10 +17,10 @@
                 reserve-keyword
                 placeholder="ПІБ"
                 remote-show-suffix
-                :remote-method="onSearch"
-                :loading="loading"
                 loading-text="Завантаження..."
                 no-data-text="Нічого не знайдено"
+                :remote-method="onSearch"
+                :loading="loading"
             >
                 <el-option
                     v-for="lecturer in optionsLecturer"
