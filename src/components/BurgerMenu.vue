@@ -18,6 +18,9 @@ const props = defineProps({
   
 <style scoped lang="scss">
 .burger-menu {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
   position: absolute;
   top: 0;
   left: 0;
@@ -26,11 +29,8 @@ const props = defineProps({
   height: calc(100vh - 80px);
   width: 100%;
   z-index: 1000;
-  background-color: rgba(var(--tg-theme-hint-color-rgb));
+  background-color: #1F1F1F;
   transition: ease 0.2s;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
   overflow: hidden;
 
   .burder-menu__content {

@@ -16,7 +16,7 @@
           <a href="https://t.me/ntustud_bot">Допомога</a>
         </nav>
         <div class="wrapper-burger">
-          <IconBurger @click="openBurger = !openBurger" />
+          <component :is="iconTabs[currentIcon]" @click="toggleBurger"/>
         </div>
         <BurgerMenu :open="openBurger" />
       </div>
@@ -27,10 +27,22 @@
 <script setup>
 import { ref } from 'vue';
 import IconLogo from './icons/IconLogo.vue';
+import IconClose from './icons/IconClose.vue';
 import IconBurger from './icons/IconBurger.vue';
 import BurgerMenu from '@/components/BurgerMenu.vue';
 
+const iconTabs = {
+  IconBurger,
+  IconClose,
+}
+const currentIcon = ref('IconBurger')
 const openBurger = ref(false);
+
+function toggleBurger() {
+  openBurger.value = !openBurger.value;
+  if (openBurger.value) currentIcon.value = 'IconClose';
+  else currentIcon.value = 'IconBurger'
+}
 </script>
 
 <style scoped lang="scss">
@@ -41,6 +53,7 @@ const openBurger = ref(false);
 }
 
 .wrapper-burger {
+  transition: 0.2s;
   svg {
     color: var(--tg-theme-text-color);
   }
