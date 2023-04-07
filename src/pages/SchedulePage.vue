@@ -1,5 +1,5 @@
 <template>
-    <component :is="tabs[currentTab]"></component>
+  <component :is="tabs[currentTab]"></component>
 </template>
   
 <script setup>
@@ -14,11 +14,10 @@ const typeSchedule = computed(() => store.state.auth.typeSchedule);
 const currentTab = typeSchedule.value === 'group' ? 'ScheduleGroup' : 'ScheduleLecturer';
 
 const tabs = {
-    ScheduleGroup,
-    ScheduleLecturer,
+  ScheduleGroup,
+  ScheduleLecturer,
 }
 </script>
   
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>
   

@@ -40,8 +40,7 @@ const openBurger = ref(false);
 
 function toggleBurger() {
   openBurger.value = !openBurger.value;
-  if (openBurger.value) currentIcon.value = 'IconClose';
-  else currentIcon.value = 'IconBurger'
+  currentIcon.value = openBurger.value ? 'IconClose' : 'IconBurger';
 }
 </script>
 
