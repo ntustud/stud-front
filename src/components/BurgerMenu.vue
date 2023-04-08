@@ -52,5 +52,11 @@ const props = defineProps({
 .burder-menu-open {
   transform: translateY(0);
 }
+
+@media screen and (min-width: 576px) {
+  .burger-menu {
+    display: none;
+  }
+}
 </style>
   
