@@ -1,7 +1,7 @@
 <template>
   <component :is="tabs[currentTab]"></component>
 </template>
-  
+
 <script setup>
 import ScheduleGroup from "../components/ScheduleGroup.vue";
 import ScheduleLecturer from "../components/ScheduleLecturer.vue";
@@ -18,6 +18,6 @@ const tabs = {
   ScheduleLecturer,
 }
 </script>
-  
+
 <style scoped lang="scss"></style>
   

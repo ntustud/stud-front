@@ -1,92 +1,92 @@
 body .el-select__popper.el-popper {
-    background: none !important;
+  background: none !important;
 }
 body .el-input .el-input--large .el-input--suffix .is-focus {
-    box-shadow: none !important;
+  box-shadow: none !important;
 }
 body .el-input__wrapper .is-focus {
-    box-shadow: none !important;
+  box-shadow: none !important;
 }
 body .el-select .el-input.is-focus .el-input__wrapper {
-    box-shadow: none !important;
+  box-shadow: none !important;
 }
 body .el-select .el-input__wrapper.is-focus {
-    box-shadow: none !important;
+  box-shadow: none !important;
 }
 body .el-select__popper.el-popper .el-popper__arrow::before {
-    border: 1px solid rgba(var(--tg-theme-hint-color-rgb), 0.5) !important;
+  border: 1px solid rgba(var(--tg-theme-hint-color-rgb), 0.5) !important;
 }
 body .el-popper[data-popper-placement^="bottom"] .el-popper__arrow::before {
-    border-bottom-color: 1px solid rgba(var(--tg-theme-hint-color-rgb), 0.5) !important;
-    border-right-color: 1px solid rgba(var(--tg-theme-hint-color-rgb), 0.5) !important;
+  border-bottom-color: 1px solid rgba(var(--tg-theme-hint-color-rgb), 0.5) !important;
+  border-right-color: 1px solid rgba(var(--tg-theme-hint-color-rgb), 0.5) !important;
 }
 body .el-popper.is-light .el-popper__arrow::before {
-    border: 1px solid rgba(var(--tg-theme-hint-color-rgb), 0.5) !important;
-    background: rgba(var(--tg-theme-hint-color-rgb), 0.5) !important;
+  border: 1px solid rgba(var(--tg-theme-hint-color-rgb), 0.5) !important;
+  background: rgba(var(--tg-theme-hint-color-rgb), 0.5) !important;
 }
 body .el-popper[data-popper-placement^="bottom"] .el-popper__arrow::before {
-    border-bottom-color: 1px solid rgba(var(--tg-theme-hint-color-rgb), 0.5) !important;
-    border-right-color: 1px solid rgba(var(--tg-theme-hint-color-rgb), 0.5) !important;
+  border-bottom-color: 1px solid rgba(var(--tg-theme-hint-color-rgb), 0.5) !important;
+  border-right-color: 1px solid rgba(var(--tg-theme-hint-color-rgb), 0.5) !important;
 }
 
 .custom-select {
-    .el-input__wrapper {
-        background: none !important;
+  .el-input__wrapper {
+    background: none !important;
 
-        box-shadow: none !important;
+    box-shadow: none !important;
 
-        padding: 24px 0px !important;
+    padding: 24px 0px !important;
 
-        .el-input__inner {
-            font-family: "Open Sans";
-            font-weight: 600;
-            font-size: 16px;
+    .el-input__inner {
+      font-family: "Open Sans";
+      font-weight: 600;
+      font-size: 16px;
 
-            color: var(--tg-theme-text-color);
+      color: var(--tg-theme-text-color);
 
-            text-align: center;
+      text-align: center;
 
-            user-select: none !important;
-            box-shadow: none !important;
-        }
+      user-select: none !important;
+      box-shadow: none !important;
     }
+  }
 }
 
 input.el-input__inner::placeholder {
-    color: var(--tg-theme-hint-color);
+  color: var(--tg-theme-hint-color);
 }
 
 .el-popper {
-    border: 1px solid var(--tg-theme-secondary-bg-color) !important;
+  border: 1px solid var(--tg-theme-secondary-bg-color) !important;
 }
 
 .el-select-dropdown__item {
-    color: var(--tg-theme-text-color) !important;
+  color: var(--tg-theme-text-color) !important;
 }
 
 .el-select-dropdown {
-    background: var(--tg-theme-bg-color);
+  background: var(--tg-theme-bg-color);
 
-    .selected {
-        color: var(--tg-theme-button-text-color) !important;
+  .selected {
+    color: var(--tg-theme-button-text-color) !important;
 
-        background-color: var(--tg-theme-button-color) !important;
-    }
+    background-color: var(--tg-theme-button-color) !important;
+  }
 
-    .hover {
-        color: var(--tg-theme-button-text-color) !important;
+  .hover {
+    color: var(--tg-theme-button-text-color) !important;
 
-        background-color: var(--tg-theme-button-color) !important;
-    }
+    background-color: var(--tg-theme-button-color) !important;
+  }
 }
 
 .wrapper-select {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
 
-    border: 1px solid rgba(var(--tg-theme-hint-color-rgb), 0.5);
-    border-radius: 8px;
+  border: 1px solid rgba(var(--tg-theme-hint-color-rgb), 0.5);
+  border-radius: 8px;
 
-    padding: 0 16px;
+  padding: 0 16px;
 }
