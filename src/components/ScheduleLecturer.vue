@@ -39,11 +39,18 @@
           </template>
           <template v-else>
             <div class="wrapper-pair">
-              {{ labels[schedule.index] }}
+              <span>
+                {{ labels[schedule.index] }}
+              </span>
+              <div v-if="schedule.lesson_plan.variable" class="type-lesson lesson-variable">
+                Виб
+              </div>
             </div>
             <div class="wrapper-lesson">
-              <span class="type-lesson">{{ typesLesson[schedule.type_lesson] }}</span>
-              {{ schedule.subject_name }}
+              <span class="type-lesson" :class="`type-lesson-border-${1}`">
+                {{ typesLesson[schedule.type_lesson] }}
+              </span>
+              <span>{{ schedule.subject_name }}</span>
             </div>
             <div class="wrapper-lecturer">
               <IconLecturer />

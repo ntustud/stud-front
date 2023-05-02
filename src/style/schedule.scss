@@ -102,6 +102,9 @@
 }
 
 .wrapper-pair {
+  display: flex;
+  align-items: center;
+
   font-weight: 700;
 
   color: var(--tg-theme-hint-color);
@@ -210,6 +213,32 @@ input[type="radio"] {
   border: 1px solid #64d0a6;
 
   border-radius: 5px;
+}
+
+.lesson-variable {
+  margin-left: 12px;
+  color: gray;
+  border: 1px solid gray;
+}
+
+.type-lesson-border-1 {
+  color: #31c68c;
+  border: 1px solid #64d0a6;
+}
+
+.type-lesson-border-2 {
+  color: #a03dee;
+  border: 1px solid #a03dee;
+}
+
+.type-lesson-border-3 {
+  color: #a03dee;
+  border: 1px solid #a03dee;
+}
+
+.type-lesson-border-4 {
+  color: #f16565;
+  border: 1px solid #f16565;
 }
 
 @media only screen and (max-width: 991px) {
