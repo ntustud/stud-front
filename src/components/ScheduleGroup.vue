@@ -190,7 +190,6 @@ async function getPairs() {
 
       newSchedule.value.push(schedule);
     }
-console.log('log1', newSchedule);
     loading.value = false;
   } catch (error) {
     console.log(error);
