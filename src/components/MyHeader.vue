@@ -41,6 +41,7 @@ const openBurger = ref(false);
 function toggleBurger() {
   openBurger.value = !openBurger.value;
   currentIcon.value = openBurger.value ? 'IconClose' : 'IconBurger';
+  document.body.style.overflow = openBurger.value ? 'hidden' : 'auto';
 }
 </script>
 

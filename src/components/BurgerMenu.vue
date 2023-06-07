@@ -24,7 +24,7 @@ const props = defineProps({
   position: absolute;
   top: 0;
   left: 0;
-  margin-top: 79px;
+  margin-top: 80px;
   transform: translateY(-120%);
   height: calc(100vh - 80px);
   width: 100%;
