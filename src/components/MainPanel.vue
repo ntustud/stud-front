@@ -114,7 +114,7 @@ watch(() => props.selectDay, (newValue) => {
 
 <style scoped lang="scss">
 .wrapper-navigation {
-  padding: 8px 0 24px 16px;
+  padding: 8px 0 24px;
 
   user-select: none;
 
@@ -127,7 +127,7 @@ watch(() => props.selectDay, (newValue) => {
 
     margin-bottom: 16px;
 
-    padding-right: 16px;
+    padding: 0 16px;
 
     .title-sub-head {
       font-weight: 600;
@@ -160,7 +160,7 @@ watch(() => props.selectDay, (newValue) => {
     justify-content: space-between;
     align-items: center;
 
-    padding-right: 16px;
+    padding: 0 16px;
 
     .wrapper-container-even {
       display: flex;
@@ -219,6 +219,7 @@ watch(() => props.selectDay, (newValue) => {
   max-width: 100%;
 
   margin: 16px 0 0;
+  padding-left: 12px;
   padding-bottom: 10px;
 
   .wrapper-days {
@@ -300,6 +301,7 @@ input[type=radio] {
 
     .wrapper-even {
       padding-right: 0 !important;
+      padding-left: 0 !important;
     }
   }
 
@@ -317,6 +319,7 @@ input[type=radio] {
 
   .wrapper-panel-name {
     padding-right: 0 !important;
+    padding-left: 0 !important;
   }
 }
 
