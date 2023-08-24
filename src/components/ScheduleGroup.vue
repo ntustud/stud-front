@@ -52,14 +52,17 @@
             </div>
             <div class="wrapper-lecturer">
               <IconLecturer />
-              <span>
-                {{ typesLecturerAbbrev[schedule.type_lecturer] }}&nbsp;{{ schedule.lecturer_name }}
+              <span v-if="!schedule.vacancy_lecturer">
+                {{ typesLecturerAbbrev[schedule?.type_lecturer] }}&nbsp;{{ schedule?.lecturer_name }}
+              </span>
+              <span class="wrapper-lecturer-vacancy" v-else>
+                Вакансія
               </span>
             </div>
             <template v-if="schedule.additional_lecturers">
               <div class="wrapper-lecturer" v-for="lecturer in schedule.additional_lecturers">
                 <IconLecturer />
-                {{ typesLecturerAbbrev[schedule.type_lecturer] }}&nbsp;{{ lecturer.lecturer_name }}
+                {{ typesLecturerAbbrev[schedule?.type_lecturer] }}&nbsp;{{ lecturer.lecturer_name }}
               </div>
             </template>
             <div class="wrapper-bottom">
@@ -123,18 +126,14 @@ const getLecturer = (lecturer_id) => store.dispatch('timeTable/getLecturer', lec
 const getToday = () => store.dispatch('timeTable/getToday');
 
 async function getSchedule() {
-  try {
-    newSchedule.value = [];
-    lessonSchedules.value = '';
-    loading.value = true;
+  loading.value = true;
+  newSchedule.value = [];
+  lessonSchedules.value = '';
 
+  try {
     if (selectDay.value == "") {
       return;
     }
-
-    const resp_semester = await getCurrentSemester();
-
-    currentSemester.value = resp_semester.data.result;
 
     const payload = reactive({
       semester_id: currentSemester.value.id,
@@ -155,6 +154,7 @@ async function getSchedule() {
   } catch (error) {
     console.log(error);
     error.value = true;
+  } finally {
     loading.value = false;
   }
 }
@@ -170,8 +170,11 @@ async function getPairs() {
         });
       }
 
-      schedule.lecturer_name = schedule.lecturer.first_name + " " + schedule.lecturer.last_name + " " + schedule.lecturer.second_name;
-      schedule.type_lecturer = schedule.lecturer.type_lecturer;
+      if (!schedule.vacancy_lecturer) {
+        schedule.lecturer_name = schedule.lecturer.first_name + " " + schedule.lecturer.last_name + " " + schedule.lecturer.second_name;
+        schedule.type_lecturer = schedule.lecturer.type_lecturer;
+      }
+
       schedule.subject_name = schedule.lesson_plan.subject.name;
       schedule.cabinet_number = schedule.cabinet.number;
       schedule.building_street = schedule.cabinet.building.street;
@@ -190,9 +193,10 @@ async function getPairs() {
 
       newSchedule.value.push(schedule);
     }
-    loading.value = false;
   } catch (error) {
     console.log(error);
+  } finally {
+    loading.value = false;
   }
 }
 
@@ -244,11 +248,23 @@ async function updateCurrentWeek() {
   }
 }
 
-onMounted(async () => {
+async function initData() {
   loading.value = true;
 
-  await getGroupName();
-  await updateCurrentWeek();
+  try {
+    const resp_semester = await getCurrentSemester();
+    currentSemester.value = resp_semester.data.result;
+    await getGroupName();
+    await updateCurrentWeek();
+  } catch (error) {
+    console.log(error);
+  } finally {
+    loading.value = false;
+  }
+}
+
+onMounted(() => {
+  initData();
 })
 </script>
 

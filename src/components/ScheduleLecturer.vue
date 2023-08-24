@@ -116,18 +116,14 @@ const getLecturer = (lecturer_id) => store.dispatch('timeTable/getLecturer', lec
 const getToday = () => store.dispatch('timeTable/getToday');
 
 async function getSchedule() {
-  try {
-    newSchedule.value = [];
-    lessonSchedules.value = '';
-    loading.value = true;
+  loading.value = true;
+  newSchedule.value = [];
+  lessonSchedules.value = '';
 
+  try {
     if (selectDay.value == "") {
       return;
     }
-
-    const resp_semester = await getCurrentSemester();
-
-    currentSemester.value = resp_semester.data.result;
 
     const payload = reactive({
       semester_id: currentSemester.value.id,
@@ -147,13 +143,15 @@ async function getSchedule() {
     await getPairs();
   } catch (error) {
     console.log(error);
-
     error.value = true;
+  } finally {
     loading.value = false;
   }
 }
 
 async function getPairs() {
+  loading.value = true;
+
   try {
     for (const schedule of lessonSchedules.value) {
       schedule.group_name = schedule.group.name;
@@ -183,10 +181,10 @@ async function getPairs() {
         newSchedule.value.push(schedule);
       }
     }
-
-    loading.value = false;
   } catch (error) {
     console.log(error);
+  } finally {
+    loading.value = false;
   }
 }
 
@@ -240,11 +238,23 @@ async function updateCurrentWeek() {
   }
 }
 
-onMounted(async () => {
+async function initData() {
   loading.value = true;
+  try {
+    const resp_semester = await getCurrentSemester();
+    currentSemester.value = resp_semester.data.result;
+    
+    await getLecturerName();
+    await updateCurrentWeek();
+  } catch (error) {
+    console.log(error);
+  } finally {
+    loading.value = false;
+  }
+}
 
-  await getLecturerName();
-  await updateCurrentWeek();
+onMounted(() => {
+  initData();
 })
 </script>
 

@@ -136,21 +136,24 @@
 .wrapper-lecturer {
   display: flex;
   align-items: center;
-
   margin-bottom: 12px;
-
   font-size: 14px;
-
   opacity: 0.85;
 
   svg {
     margin-right: 10px;
-
     width: 24px;
     height: 24px;
-
     color: var(--tg-theme-hint-color);
   }
+}
+
+.wrapper-lecturer-vacancy {
+  font-size: 14px;
+  padding: 4px 8px;
+  border-radius: 5px;
+  border: 1px solid #ef3c3c;
+  color: #ef3c3c;
 }
 
 .wrapper-building {
