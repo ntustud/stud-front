@@ -51,7 +51,7 @@
               <span>{{ schedule.subject_name }}</span>
             </div>
             <div class="wrapper-lecturer">
-              <IconLecturer />
+              <IconLecturer :class="{ 'red-lecturer': schedule.vacancy_lecturer }" />
               <span v-if="!schedule.vacancy_lecturer">
                 {{ typesLecturerAbbrev[schedule?.type_lecturer] }}&nbsp;{{ schedule?.lecturer_name }}
               </span>
@@ -270,4 +270,8 @@ onMounted(() => {
 
 <style scoped lang="scss">
 @import "@/style/schedule.scss";
+
+.red-lecturer {
+  color: #ef3c3c !important;
+}
 </style>
