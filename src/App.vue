@@ -3,7 +3,7 @@
   <router-view></router-view>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import MyHeader from "./components/MyHeader.vue";
 import { onBeforeMount } from 'vue'
 import { useStore } from "vuex";
