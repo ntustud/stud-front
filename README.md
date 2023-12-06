@@ -20,7 +20,7 @@ The first service at NTU for students and lecturers. The service helps to find q
     - With Docker: `make build`
     - Local with npm: 
       - `npm install`
-      - `npm run serve`
+      - `npm run dev`
 
 ## Images:
 ![Example Bot Image](https://raw.githubusercontent.com/ntustud/stud-front/main/images/app-preview.png)
